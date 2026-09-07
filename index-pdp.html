@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
 <title>Colchón New style 6 | Rosen</title>
 
 <style>
@@ -93,11 +95,14 @@
         grid-template-columns: 1.5fr 1fr;
         gap: 60px;
         margin-top: 30px;
+        align-items: start;
     }
 
     .pdp-gallery {
         display: flex;
         gap: 12px;
+        position: sticky;
+        top: 20px;
     }
 
     .pdp-thumbs-vertical {
@@ -129,6 +134,51 @@
         display: block;
     }
 
+    .almohada-add-on {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0;
+        padding: 10px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #222;
+        cursor: pointer;
+    }
+
+    .almohada-add-on img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .almohada-add-on .icon-badge {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background: #f2f2f2;
+    }
+
+    .almohada-add-on .icon-badge svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .almohada-add-on .mas-info {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        color: #555;
+        text-decoration: underline;
+    }
+
     .pdp-thumbs-row {
         display: flex;
         gap: 10px;
@@ -140,6 +190,21 @@
         width: auto;
         height: auto;
         aspect-ratio: 1 / 1;
+    }
+
+    .pdp-video {
+        margin-top: 12px;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+
+    .pdp-video iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
     }
 
     .pdp-thumb {
@@ -283,17 +348,8 @@
         color: #fff;
     }
 
-    .almohada-check-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin: 10px 0 20px;
-        font-size: 13px;
-        color: #333;
-        cursor: pointer;
-    }
-
     .valores {
+        max-width: 350px;
         margin: 20px 0;
         padding-top: 20px;
         border-top: 1px solid #eee;
@@ -349,6 +405,568 @@
         background: #444;
     }
 
+    .pdp-purchase {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .pdp-purchase-row {
+        display: flex;
+        flex: 1;
+        min-width: 220px;
+    }
+
+    .pdp-purchase-row .product-cta {
+        flex: 1;
+        width: auto;
+        margin-top: 0;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .pdp-qty {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-right: none;
+        flex-shrink: 0;
+    }
+
+    .pdp-qty-btn {
+        width: 36px;
+        height: 100%;
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: #222;
+        cursor: pointer;
+    }
+
+    .pdp-qty-value {
+        min-width: 28px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .pdp-purchase-info {
+        flex: 1;
+        min-width: 200px;
+        font-size: 13px;
+        color: #222;
+    }
+
+    .pdp-purchase-info p {
+        margin: 0 0 8px;
+    }
+
+    .pdp-cuotas {
+        font-weight: 600;
+    }
+
+    .pdp-calcula {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #444;
+    }
+
+    .pdp-calcula svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .pdp-stock {
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .pdp-delivery {
+        margin-top: 24px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .pdp-delivery-location {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        background: #f5f4f2;
+        border: none;
+        padding: 14px 16px;
+        font-size: 13px;
+        color: #222;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .pdp-delivery-location svg:first-child {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .pdp-delivery-location span {
+        flex: 1;
+    }
+
+    .pdp-delivery-location .chevron {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: #999;
+    }
+
+    .pdp-delivery-options {
+        display: flex;
+        padding: 18px 12px;
+    }
+
+    .pdp-delivery-option {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+        padding: 0 6px;
+    }
+
+    .pdp-delivery-icon {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pdp-delivery-icon svg:first-child {
+        width: 22px;
+        height: 22px;
+        color: #222;
+    }
+
+    .pdp-delivery-check {
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #222;
+        color: #fff;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+
+    .pdp-delivery-label {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .pdp-delivery-sub {
+        margin: 0;
+        font-size: 11px;
+        color: #777;
+    }
+
+    .pdp-delivery-option.disabled .pdp-delivery-icon {
+        border-color: #eee;
+        color: #ccc;
+    }
+
+    .pdp-delivery-option.disabled .pdp-delivery-icon svg {
+        color: #ccc;
+    }
+
+    .pdp-delivery-option.disabled .pdp-delivery-label {
+        color: #bbb;
+    }
+
+    .pdp-base {
+        margin-top: 24px;
+    }
+
+    .pdp-base-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+        font-size: 14px;
+    }
+
+    .pdp-base-label {
+        font-weight: 700;
+    }
+
+    .pdp-base-label span {
+        font-weight: 400;
+    }
+
+    .pdp-base-why-wrap {
+        position: relative;
+    }
+
+    .pdp-base-why {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: inherit;
+        color: #222;
+        text-decoration: underline;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .pdp-base-why-popover {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 260px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 14px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #444;
+        text-align: left;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+        z-index: 10;
+    }
+
+    .pdp-base-why-popover.open {
+        display: block;
+    }
+
+    .pdp-base-why-popover::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        right: 14px;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        transform: rotate(45deg);
+    }
+
+    .pdp-base-why svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .pdp-base-option {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 12px;
+        cursor: pointer;
+    }
+
+    .pdp-base-option.selected {
+        border: 2px solid #222;
+    }
+
+    .pdp-base-option input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .pdp-base-check {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #222;
+        color: #fff;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+    }
+
+    .pdp-base-option.selected .pdp-base-check {
+        opacity: 1;
+    }
+
+    .pdp-base-option img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .pdp-base-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .pdp-base-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .pdp-base-price {
+        font-size: 13px;
+        color: #555;
+    }
+
+    .pdp-base-details {
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: underline;
+        color: #222;
+        white-space: nowrap;
+    }
+
+    .pdp-help-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .pdp-help {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        min-width: 220px;
+        padding: 18px;
+        background: #222;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .pdp-help .icon-badge {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .pdp-help .icon-badge svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .pdp-help-text {
+        flex: 1;
+        font-weight: 600;
+    }
+
+    .pdp-help-text small {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .pdp-help .chevron {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pdp-store-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        min-width: 220px;
+        padding: 18px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        color: #222;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .pdp-store-link .icon-badge {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background: #f2f2f2;
+    }
+
+    .pdp-store-link .icon-badge svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .pdp-store-text {
+        flex: 1;
+    }
+
+    .pdp-store-link .chevron {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        color: #999;
+    }
+
+
+    .pdp-compare-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .pdp-compare-link span {
+        text-decoration: underline;
+    }
+
+    .pdp-compare-link svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .pdp-cross-sell {
+        margin: 40px 0;
+        padding-top: 30px;
+        border-top: 1px solid #eee;
+    }
+
+    .pdp-cross-sell h2 {
+        margin: 0 0 16px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #222;
+    }
+
+    .cross-sell-card {
+        position: relative;
+        display: flex;
+        gap: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 14px;
+    }
+
+    .cross-sell-card img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .cross-sell-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .cross-sell-name {
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .cross-sell-desc {
+        margin: 0 0 8px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .cross-sell-bottom-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 8px;
+    }
+
+    .cross-sell-price {
+        font-size: 13px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .cross-sell-details {
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: underline;
+        color: #222;
+        white-space: nowrap;
+    }
+
+    .cross-sell-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #a41f2b;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 10px;
+        border-radius: 0 8px 0 8px;
+    }
+
+    .cross-sell-swatches {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .cross-sell-swatches span {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
     .pdp-description {
         margin: 20px 0;
         padding-top: 20px;
@@ -364,9 +982,61 @@
         margin-bottom: 12px;
     }
 
+    .pdp-features {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        max-width: 350px;
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    .pdp-feature {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .pdp-feature svg {
+        width: 36px;
+        height: 36px;
+        color: #222;
+    }
+
+    .pdp-feature span {
+        font-size: 12px;
+        font-weight: 600;
+        color: #222;
+    }
+
     @media (max-width: 900px) {
         .pdp {
             grid-template-columns: 1fr;
+        }
+
+        .pdp-gallery {
+            flex-direction: column;
+            position: static;
+        }
+
+        .pdp-main-col {
+            order: -1;
+        }
+
+        .pdp-thumbs-vertical {
+            flex-direction: row;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .pdp-thumbs-vertical .pdp-thumb {
+            width: 72px;
+            height: 72px;
+        }
+
+        .pdp-purchase {
+            flex-direction: column;
         }
     }
 
@@ -568,16 +1238,70 @@
         font-weight: 600;
         cursor: pointer;
     }
+
+    .pdp-layers {
+        width: 100%;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .pdp-layers img {
+        max-width: 780px;
+        width: 100%;
+        height: auto;
+    }
+
+    .pdp-layers h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .pdp-layers-subtitle {
+        margin: 0 auto 30px;
+        max-width: 420px;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .pdp-layers-name {
+        margin: 24px 0 6px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .pdp-layers-desc {
+        margin: 0 auto;
+        max-width: 460px;
+        font-size: 13px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .pdp-ratings {
+        width: 100%;
+        padding: 0 20px 60px;
+        text-align: center;
+    }
+
+    .pdp-ratings img {
+        max-width: 1280px;
+        width: 100%;
+        height: auto;
+    }
 </style>
 </head>
 <body>
 
 <div class="header-container">
     <div class="full-width-image" id="headerImage">
-        <img src="./images/header.png" alt="">
+        <img src="./images/header.png" alt="" width="1920" height="183" decoding="async">
     </div>
     <div class="header-hover-image" id="headerMenu">
-        <img src="./images/header-hover.png" alt="">
+        <img src="./images/header-hover.png" alt="" width="1920" height="433" loading="lazy" decoding="async">
     </div>
 </div>
 
@@ -589,30 +1313,33 @@
         <div class="pdp-gallery">
             <div class="pdp-thumbs-vertical">
                 <button type="button" class="pdp-thumb selected" data-imagen="./images/productos/14017392-1.jpg">
-                    <img src="./images/productos/14017392-1.jpg" alt="Colchón New style 6 — vista 1">
+                    <img src="./images/productos/14017392-1.jpg" alt="Colchón New style 6 — vista 1" width="1200" height="1200" decoding="async">
                 </button>
                 <button type="button" class="pdp-thumb" data-imagen="./images/productos/14017393-3.jpg">
-                    <img src="./images/productos/14017393-3.jpg" alt="Colchón New style 6 — vista 3">
+                    <img src="./images/productos/14017393-3.jpg" alt="Colchón New style 6 — vista 3" width="1200" height="1200" loading="lazy" decoding="async">
                 </button>
                 <button type="button" class="pdp-thumb" data-imagen="./images/productos/14017393-4.jpg">
-                    <img src="./images/productos/14017393-4.jpg" alt="Colchón New style 6 — vista 4">
+                    <img src="./images/productos/14017393-4.jpg" alt="Colchón New style 6 — vista 4" width="1000" height="1000" loading="lazy" decoding="async">
                 </button>
                 <button type="button" class="pdp-thumb" data-imagen="./images/productos/14017393-5.jpg">
-                    <img src="./images/productos/14017393-5.jpg" alt="Colchón New style 6 — vista 5">
+                    <img src="./images/productos/14017393-5.jpg" alt="Colchón New style 6 — vista 5" width="1200" height="1200" loading="lazy" decoding="async">
                 </button>
             </div>
             <div class="pdp-main-col">
                 <div class="product-image">
-                    <img id="pdpImage" src="./images/productos/14017392-1.jpg" alt="Colchón New style 6">
+                    <img id="pdpImage" src="./images/productos/14017392-1.jpg" alt="Colchón New style 6" width="1200" height="1200" fetchpriority="high" decoding="async">
                     <span class="discount-badge" id="pdpDiscount">26%</span>
                 </div>
                 <div class="pdp-thumbs-row">
                     <button type="button" class="pdp-thumb" data-imagen="./images/productos/14017393-2.jpg">
-                        <img src="./images/productos/14017393-2.jpg" alt="Colchón New style 6 — vista 2">
+                        <img src="./images/productos/14017393-2.jpg" alt="Colchón New style 6 — vista 2" width="1000" height="1000" loading="lazy" decoding="async">
                     </button>
                     <button type="button" class="pdp-thumb" data-imagen="./images/productos/14017393-ft1.webp">
-                        <img src="./images/productos/14017393-ft1.webp" alt="Colchón New style 6 — detalle">
+                        <img src="./images/productos/14017393-ft1.webp" alt="Colchón New style 6 — detalle" width="1500" height="1500" loading="lazy" decoding="async">
                     </button>
+                </div>
+                <div class="pdp-video">
+                    <iframe src="https://player.vimeo.com/video/1012402342?autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Video Colchón New style 6"></iframe>
                 </div>
             </div>
         </div>
@@ -634,14 +1361,54 @@
                 <p class="firme selected" data-medida="150 x 200cm">150 x 200cm</p>
             </div>
 
-            <label class="almohada-check-row">
+            <label class="almohada-add-on">
                 <input type="checkbox" id="pdpAlmohada">
-                + Almohada Fibra Light
+                <img src="./images/productos/14012528-1new.jpg" alt="Almohada Fibra Light" width="1200" height="1200" loading="lazy" decoding="async">
+                <span>+ Almohada Fibra Light</span>
             </label>
 
             <div class="pdp-description">
                 <h2>Descripción</h2>
                 <p>El Colchón New style 6 de Línea Premium combina resortes pocket advance con espumas zonificadas para un soporte diferenciado por zonas del cuerpo. Firmeza intermedia y buena adaptabilidad, pensado para quienes buscan un descanso más tecnológico sin perder confort.</p>
+            </div>
+
+            <div class="pdp-features">
+                <div class="pdp-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 9a8 8 0 0 1 14.5-4.5"></path>
+                        <polyline points="18 2 18.5 4.5 21 4"></polyline>
+                        <path d="M20 15a8 8 0 0 1-14.5 4.5"></path>
+                        <polyline points="6 22 5.5 19.5 3 20"></polyline>
+                        <rect x="7" y="9" width="10" height="6" rx="1"></rect>
+                    </svg>
+                    <span>Two sides</span>
+                </div>
+                <div class="pdp-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="8" height="18"></rect>
+                        <path d="M3 5l6 3M3 8l6 3M3 11l6 3M3 14l6 3M3 17l6 3"></path>
+                        <rect x="14" y="3" width="8" height="18"></rect>
+                        <path d="M15 5l6 3M15 8l6 3M15 11l6 3M15 14l6 3M15 17l6 3"></path>
+                    </svg>
+                    <span>Resortes</span>
+                </div>
+                <div class="pdp-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18c-1.5-1.5-2-3-1.5-5 .3 1 1 1.5 1.5 1 .5-2-1-3.5-.5-6 2 .5 4 2.5 4.5 5 .5-1 .5-2 0-3 2 1 3 3 2.5 5-.3 1.7-1.5 3-3 3.5"></path>
+                        <circle cx="18" cy="6" r="3.2"></circle>
+                        <path d="M18 4.7v1.5l1 .8"></path>
+                    </svg>
+                    <span>Ignífugo</span>
+                </div>
+                <div class="pdp-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                        <circle cx="12" cy="12" r="2"></circle>
+                        <path d="M12 8V6M12 16v2M8 12H6M18 12h-2M9 9 7.5 7.5M15 9l1.5-1.5M9 15l-1.5 1.5M15 15l1.5 1.5"></path>
+                    </svg>
+                    <span>Sanitizado</span>
+                </div>
             </div>
 
             <div class="valores">
@@ -667,14 +1434,216 @@
                 </div>
             </div>
 
-            <button type="button" class="product-cta" id="pdpAddToCart">Agregar al carro</button>
+            <a class="almohada-add-on" href="#">
+                <span class="icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+                </span>
+                <span>Reciclaje de camas y colchones $29.990<span class="mas-info">Más información ›</span></span>
+            </a>
+
+            <div class="pdp-purchase">
+                <div class="pdp-purchase-row">
+                    <div class="pdp-qty">
+                        <button type="button" class="pdp-qty-btn" id="pdpQtyMinus" aria-label="Restar">−</button>
+                        <span class="pdp-qty-value" id="pdpQtyValue">1</span>
+                        <button type="button" class="pdp-qty-btn" id="pdpQtyPlus" aria-label="Sumar">+</button>
+                    </div>
+                    <button type="button" class="product-cta" id="pdpAddToCart">Comprar</button>
+                </div>
+                <div class="pdp-purchase-info">
+                    <p class="pdp-cuotas" id="pdpCuotas">12 cuotas sin interés de $20.833</p>
+                    <p class="pdp-calcula">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                        Calcula tus cuotas
+                    </p>
+                    <p class="pdp-stock">Stock disponible</p>
+                </div>
+            </div>
+
+            <div class="pdp-delivery">
+                <button type="button" class="pdp-delivery-location">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"></circle></svg>
+                    <span><strong>Ñuñoa</strong> Opciones de entrega disponibles:</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                </button>
+
+                <div class="pdp-delivery-options">
+                    <div class="pdp-delivery-option">
+                        <span class="pdp-delivery-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="15" height="10" rx="1"></rect><path d="M16 10h3l3 3v4h-6z"></path><circle cx="6" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg>
+                            <svg class="pdp-delivery-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <p class="pdp-delivery-label">Despacho a domicilio ›</p>
+                        <p class="pdp-delivery-sub">Ver fechas disponibles</p>
+                    </div>
+
+                    <div class="pdp-delivery-option disabled">
+                        <span class="pdp-delivery-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                        </span>
+                        <p class="pdp-delivery-label">Entrega express ›</p>
+                    </div>
+
+                    <div class="pdp-delivery-option">
+                        <span class="pdp-delivery-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l1-3h16l1 3"></path><path d="M4 7h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"></path><path d="M9 11a3 3 0 0 0 6 0"></path></svg>
+                            <svg class="pdp-delivery-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <p class="pdp-delivery-label">Retiro en tienda ›</p>
+                        <p class="pdp-delivery-sub">Ver tiendas disponibles</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pdp-base">
+                <div class="pdp-base-header">
+                    <p class="pdp-base-label">Base: <span id="pdpBaseSelected">Ninguna</span></p>
+                    <div class="pdp-base-why-wrap">
+                        <button type="button" class="pdp-base-why" id="pdpBaseWhyBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="11" x2="12" y2="16"></line><circle cx="12" cy="8" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+                            ¿Por qué agregar una base?
+                        </button>
+                        <div class="pdp-base-why-popover" id="pdpBaseWhyPopover">
+                            Usar base entrega el soporte y la altura adecuados, y mejora la ventilación para un descanso más duradero.
+                        </div>
+                    </div>
+                </div>
+
+                <label class="pdp-base-option selected" data-nombre="Ninguna">
+                    <input type="radio" name="pdpBase" checked>
+                    <span class="pdp-base-check">✓</span>
+                    <img src="./images/productos/14017392-1.jpg" alt="Solo colchón" width="1200" height="1200" loading="lazy" decoding="async">
+                    <span class="pdp-base-info">
+                        <span class="pdp-base-name">Solo colchón</span>
+                    </span>
+                </label>
+
+                <label class="pdp-base-option" data-nombre="Base">
+                    <input type="radio" name="pdpBase">
+                    <span class="pdp-base-check">✓</span>
+                    <img src="./images/productos/base.jpg" alt="Base" width="1200" height="1200" loading="lazy" decoding="async">
+                    <span class="pdp-base-info">
+                        <span class="pdp-base-name">Base</span>
+                        <span class="pdp-base-price">Precio por confirmar</span>
+                    </span>
+                    <a class="pdp-base-details" href="#">Detalles</a>
+                </label>
+
+                <label class="pdp-base-option" data-nombre="Base Boxet">
+                    <input type="radio" name="pdpBase">
+                    <span class="pdp-base-check">✓</span>
+                    <img src="./images/productos/base-2.jpg" alt="Base Boxet" width="1200" height="1200" loading="lazy" decoding="async">
+                    <span class="pdp-base-info">
+                        <span class="pdp-base-name">Base Boxet</span>
+                        <span class="pdp-base-price">Precio por confirmar</span>
+                    </span>
+                    <a class="pdp-base-details" href="#">Detalles</a>
+                </label>
+
+                <label class="pdp-base-option" data-nombre="Base + muebles">
+                    <input type="radio" name="pdpBase">
+                    <span class="pdp-base-check">✓</span>
+                    <img src="./images/productos/base-muebles.jpg" alt="Base + muebles" width="1200" height="1200" loading="lazy" decoding="async">
+                    <span class="pdp-base-info">
+                        <span class="pdp-base-name">Base + muebles</span>
+                        <span class="pdp-base-price">Precio por confirmar</span>
+                    </span>
+                    <a class="pdp-base-details" href="#">Detalles</a>
+                </label>
+            </div>
+
+            <div class="pdp-cross-sell">
+                <h2>También te puede interesar</h2>
+
+                <div class="cross-sell-card">
+                    <img src="./images/productos/14017393-4.jpg" alt="Protector de Colchón Total Protection" width="1000" height="1000" loading="lazy" decoding="async">
+                    <div class="cross-sell-info">
+                        <p class="cross-sell-name">Protector de Colchón Total Protection</p>
+                        <p class="cross-sell-desc">Garantía de 10 años contra manchas</p>
+                        <div class="cross-sell-bottom-row">
+                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <a class="cross-sell-details" href="#">Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cross-sell-card">
+                    <span class="cross-sell-badge">Compra 1 y la 2ª con 50% dcto</span>
+                    <img src="./images/productos/14012528-1new.jpg" alt="Almohada Comfortfit" width="1200" height="1200" loading="lazy" decoding="async">
+                    <div class="cross-sell-info">
+                        <p class="cross-sell-name">Almohada Comfortfit™</p>
+                        <div class="cross-sell-bottom-row">
+                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <a class="cross-sell-details" href="#">Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cross-sell-card">
+                    <span class="cross-sell-badge">Compra 1 y la 2ª con 50% dcto</span>
+                    <img src="./images/productos/14017393-4.jpg" alt="Set de Sábanas Essential Fit" width="1000" height="1000" loading="lazy" decoding="async">
+                    <div class="cross-sell-info">
+                        <p class="cross-sell-name">Set de Sábanas Essential Fit</p>
+                        <div class="cross-sell-swatches">
+                            <span style="background:#fff"></span>
+                            <span style="background:#c9a869"></span>
+                            <span style="background:#2b3a55"></span>
+                            <span style="background:#3f4b3d"></span>
+                            <span style="background:#5a5a5a"></span>
+                            <span style="background:#d8d8d8"></span>
+                            <span style="background:#eae4d8"></span>
+                        </div>
+                        <div class="cross-sell-bottom-row">
+                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <a class="cross-sell-details" href="#">Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pdp-help-row">
+                <a class="pdp-help" href="#">
+                    <span class="icon-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </span>
+                    <span class="pdp-help-text">¿Necesitas ayuda?<small>Llama o chatea con nuestro equipo</small></span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                </a>
+
+                <a class="pdp-store-link" href="#">
+                    <span class="icon-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l1-3h16l1 3"></path><path d="M4 7h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"></path><path d="M9 11a3 3 0 0 0 6 0"></path></svg>
+                    </span>
+                    <span class="pdp-store-text">Prueba este producto en tu tienda más cercana</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                </a>
+            </div>
+
+            <a class="pdp-compare-link" href="index-lineas.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h13M12 5l4 3-4 3"></path><path d="M21 16H8M12 19l-4-3 4-3"></path></svg>
+                <span>Comparar</span>
+            </a>
         </div>
     </div>
 
 </div>
 
+<section class="pdp-layers">
+    <h2>La innovación del descanso</h2>
+    <p class="pdp-layers-subtitle">Haz click y descubre las principales<br>capas de la tecnología interior de New Style 6.</p>
+
+    <img src="./images/slide-1-colchon.png" alt="La innovación del descanso" width="772" height="243" loading="lazy" decoding="async">
+
+    <p class="pdp-layers-name">Resortes Pocket enfundados</p>
+    <p class="pdp-layers-desc">Individualmente para dar independencia de movimiento y mayor adaptabilidad.</p>
+</section>
+
+<section class="pdp-ratings">
+    <img src="./images/valoraciones.jpg" alt="Valoraciones y comentarios de clientes" width="1284" height="1488" loading="lazy" decoding="async">
+</section>
+
 <div class="full-width-image">
-    <img src="./images/footer.png" alt="">
+    <img src="./images/footer.png" alt="" width="1920" height="658" loading="lazy" decoding="async">
 </div>
 
 <div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
@@ -703,11 +1672,14 @@ header.addEventListener("mouseenter", () => menu.classList.add("show"));
 header.addEventListener("mouseleave", () => menu.classList.remove("show"));
 
 // Galería de miniaturas
+let imagenSeleccionada = document.getElementById('pdpImage').src;
+
 document.querySelectorAll('.pdp-thumb').forEach(thumb => {
     thumb.addEventListener('click', () => {
         document.querySelectorAll('.pdp-thumb').forEach(t => t.classList.remove('selected'));
         thumb.classList.add('selected');
-        document.getElementById('pdpImage').src = thumb.dataset.imagen;
+        imagenSeleccionada = thumb.dataset.imagen;
+        document.getElementById('pdpImage').src = imagenSeleccionada;
     });
 });
 
@@ -715,7 +1687,7 @@ document.querySelectorAll('.pdp-thumb').forEach(thumb => {
 const PDP_DATA = {
     nombre: 'Colchón New style 6',
     imagen: './images/productos/14017392-1.jpg',
-    imagenAlmohada: './images/productos/14012528-1new.jpg',
+    imagenConAlmohada: './images/productos/16024222-1.jpg',
     tamanos: {
         '150 x 190cm': { precio: 239990, precioNormal: 319990 },
         '150 x 200cm': { precio: 249990, precioNormal: 339990 }
@@ -737,7 +1709,20 @@ function actualizarPrecio() {
     const descuento = Math.round((1 - v.precio / v.precioNormal) * 100);
     document.getElementById('pdpPrice').innerHTML = fmt(v.precio) + '<span class="price-old" id="pdpPriceOld">' + fmt(v.precioNormal) + '</span>';
     document.getElementById('pdpDiscount').textContent = descuento + '%';
+    document.getElementById('pdpCuotas').textContent = '12 cuotas sin interés de ' + fmt(Math.round(v.precio / 12));
 }
+
+let cantidadActual = 1;
+
+document.getElementById('pdpQtyMinus').addEventListener('click', () => {
+    cantidadActual = Math.max(1, cantidadActual - 1);
+    document.getElementById('pdpQtyValue').textContent = cantidadActual;
+});
+
+document.getElementById('pdpQtyPlus').addEventListener('click', () => {
+    cantidadActual += 1;
+    document.getElementById('pdpQtyValue').textContent = cantidadActual;
+});
 
 document.querySelectorAll('.tamano-colchon .firme').forEach(pill => {
     pill.addEventListener('click', () => {
@@ -748,7 +1733,35 @@ document.querySelectorAll('.tamano-colchon .firme').forEach(pill => {
     });
 });
 
-document.getElementById('pdpAlmohada').addEventListener('change', actualizarPrecio);
+document.querySelectorAll('.pdp-base-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+        document.querySelectorAll('.pdp-base-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        opt.querySelector('input').checked = true;
+        document.getElementById('pdpBaseSelected').textContent = opt.dataset.nombre;
+    });
+});
+
+const pdpBaseWhyBtn = document.getElementById('pdpBaseWhyBtn');
+const pdpBaseWhyPopover = document.getElementById('pdpBaseWhyPopover');
+
+pdpBaseWhyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    pdpBaseWhyPopover.classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!pdpBaseWhyBtn.contains(e.target) && !pdpBaseWhyPopover.contains(e.target)) {
+        pdpBaseWhyPopover.classList.remove('open');
+    }
+});
+
+document.getElementById('pdpAlmohada').addEventListener('change', () => {
+    actualizarPrecio();
+    document.getElementById('pdpImage').src = document.getElementById('pdpAlmohada').checked
+        ? PDP_DATA.imagenConAlmohada
+        : imagenSeleccionada;
+});
 
 // Carrito (mismo patrón que index-lineas.html; carrito propio de esta página)
 (() => {
@@ -804,12 +1817,12 @@ document.getElementById('pdpAlmohada').addEventListener('change', actualizarPrec
         subtotalEl.textContent = fmt(subtotal);
     }
 
-    function addToCart(detail) {
+    function addToCart(detail, qty = 1) {
         const existing = cartItems.find(it => it.nombre === detail.nombre);
         if (existing) {
-            existing.qty += 1;
+            existing.qty += qty;
         } else {
-            cartItems.push(Object.assign({ qty: 1 }, detail));
+            cartItems.push(Object.assign({ qty }, detail));
         }
         renderCart(detail.nombre);
     }
@@ -835,7 +1848,9 @@ document.getElementById('pdpAlmohada').addEventListener('change', actualizarPrec
         const fuente = conAlmohada ? PDP_DATA.tamanosConAlmohada : PDP_DATA.tamanos;
         const v = fuente[medidaActual];
         const nombre = PDP_DATA.nombre + ' — ' + medidaActual + (conAlmohada ? ' + Almohada' : '');
-        addToCart({ nombre, imagen: PDP_DATA.imagen, precio: v.precio, precioNormal: v.precioNormal });
+        addToCart({ nombre, imagen: PDP_DATA.imagen, precio: v.precio, precioNormal: v.precioNormal }, cantidadActual);
+        cantidadActual = 1;
+        document.getElementById('pdpQtyValue').textContent = cantidadActual;
         openDrawer();
     });
 
