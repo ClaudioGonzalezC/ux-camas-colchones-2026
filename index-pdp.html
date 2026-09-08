@@ -348,42 +348,147 @@
         color: #fff;
     }
 
-    .valores {
-        max-width: 350px;
+    .pdp-linea-info {
         margin: 20px 0;
         padding-top: 20px;
         border-top: 1px solid #eee;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #333;
     }
 
-    .valores-row {
+    .pdp-linea-info h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .pdp-valores-new {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        margin: 24px 0;
+        text-align: center;
+    }
+
+    .valor-icon {
+        width: 34px;
+        height: 34px;
+        color: #222;
+    }
+
+    .valor-title {
+        margin: 8px 0 4px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .valor-desc {
+        margin: 0;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.4;
+    }
+
+    .valor-scale {
+        margin-top: 16px;
+    }
+
+    .valor-scale-labels {
         display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: #999;
+    }
+
+    .valor-scale-labels-minmax {
+        font-size: 14px;
+        color: #bbb;
+    }
+
+    .valor-scale-track {
+        position: relative;
+        height: 1px;
+        background: #ddd;
+        margin: 12px 4px 0;
+    }
+
+    .valor-scale-tick {
+        position: absolute;
+        top: 50%;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ccc;
+        transform: translate(-50%, -50%);
+    }
+
+    .valor-scale-dot {
+        position: absolute;
+        top: 50%;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #222;
+        transform: translate(-50%, -50%);
+    }
+
+    .pdp-layer-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin: 24px 0 0;
+        padding-top: 32px;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+
+    .layer-card {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 10px;
-        font-size: 13px;
-        color: #333;
+    }
+
+    .layer-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        color: #222;
         margin-bottom: 10px;
     }
 
-    .valores-label {
-        width: 90px;
-        flex-shrink: 0;
+    .layer-info {
+        min-width: 0;
     }
 
-    .valores-bar {
-        display: flex;
-        gap: 3px;
-        flex: 1;
+    .layer-title {
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
     }
 
-    .valores-segment {
-        flex: 1;
-        height: 7px;
-        border-radius: 1px;
-        background: #dde1e8;
+    .layer-desc {
+        margin: 0;
+        font-size: 13px;
+        color: #666;
+        line-height: 1.5;
     }
 
-    .valores-segment.filled {
-        background: #0d1b3d;
+    @media (max-width: 700px) {
+        .pdp-layer-cards {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .pdp-valores-new {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
     }
 
     .product-cta {
@@ -893,6 +998,38 @@
         border-radius: 8px;
         padding: 16px;
         margin-bottom: 14px;
+        cursor: pointer;
+    }
+
+    .cross-sell-card.selected {
+        border: 2px solid #222;
+    }
+
+    .cross-sell-card input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .cross-sell-select-check {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #222;
+        color: #fff;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+    }
+
+    .cross-sell-card.selected .cross-sell-select-check {
+        opacity: 1;
     }
 
     .cross-sell-card img {
@@ -901,6 +1038,25 @@
         object-fit: cover;
         border-radius: 4px;
         flex-shrink: 0;
+    }
+
+    .cross-sell-thumb {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .cross-sell-discount {
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        background: #c12637;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        padding: 3px 5px;
+        border-radius: 2px;
+        z-index: 2;
     }
 
     .cross-sell-info {
@@ -914,11 +1070,6 @@
         font-weight: 600;
     }
 
-    .cross-sell-desc {
-        margin: 0 0 8px;
-        font-size: 12px;
-        color: #666;
-    }
 
     .cross-sell-bottom-row {
         display: flex;
@@ -934,6 +1085,13 @@
         color: #222;
     }
 
+    .cross-sell-price .price-old {
+        margin-left: 6px;
+        font-weight: 400;
+        color: #999;
+        text-decoration: line-through;
+    }
+
     .cross-sell-details {
         font-size: 12px;
         font-weight: 600;
@@ -942,17 +1100,6 @@
         white-space: nowrap;
     }
 
-    .cross-sell-badge {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: #a41f2b;
-        color: #fff;
-        font-size: 11px;
-        font-weight: 600;
-        padding: 5px 10px;
-        border-radius: 0 8px 0 8px;
-    }
 
     .cross-sell-swatches {
         display: flex;
@@ -1008,6 +1155,44 @@
         font-size: 12px;
         font-weight: 600;
         color: #222;
+    }
+
+    .valores {
+        max-width: 350px;
+        margin: 20px 0;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .valores-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .valores-label {
+        width: 90px;
+        flex-shrink: 0;
+    }
+
+    .valores-bar {
+        display: flex;
+        gap: 3px;
+        flex: 1;
+    }
+
+    .valores-segment {
+        flex: 1;
+        height: 7px;
+        border-radius: 1px;
+        background: #dde1e8;
+    }
+
+    .valores-segment.filled {
+        background: #0d1b3d;
     }
 
     @media (max-width: 900px) {
@@ -1245,6 +1430,12 @@
         text-align: center;
     }
 
+    .pdp-description-full {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
     .pdp-layers img {
         max-width: 780px;
         width: 100%;
@@ -1291,6 +1482,134 @@
         max-width: 1280px;
         width: 100%;
         height: auto;
+    }
+
+    .pdp-sticky-bar {
+        display: none;
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 1420px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, .1);
+        padding: 14px 24px;
+        z-index: 900;
+    }
+
+    .pdp-sticky-bar.visible {
+        display: flex;
+    }
+
+    .pdp-sticky-name {
+        margin: 0;
+        max-width: 320px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 15px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .pdp-sticky-right {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .pdp-sticky-price-block {
+        text-align: right;
+    }
+
+    .pdp-sticky-price-row {
+        margin: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .pdp-sticky-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+    }
+
+    .pdp-sticky-price-old {
+        font-size: 13px;
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .pdp-sticky-save {
+        font-size: 12px;
+        font-weight: 600;
+        color: #c12637;
+    }
+
+    .pdp-sticky-cuotas {
+        margin: 2px 0 0;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .pdp-sticky-cta {
+        background: #222;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        cursor: pointer;
+        white-space: nowrap;
+        border-radius: 4px;
+    }
+
+    .pdp-sticky-cta:hover {
+        background: #444;
+    }
+
+    @media (max-width: 700px) {
+        .pdp-sticky-bar {
+            flex-wrap: wrap;
+            padding: 12px 16px;
+        }
+
+        .pdp-sticky-name {
+            display: none;
+        }
+
+        .pdp-sticky-right {
+            width: 100%;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .pdp-sticky-price-block {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pdp-sticky-price-row {
+            flex-wrap: wrap;
+            row-gap: 2px;
+        }
+
+        .pdp-sticky-cta {
+            flex-shrink: 0;
+            padding: 10px 16px;
+            font-size: 12px;
+        }
     }
 </style>
 </head>
@@ -1509,7 +1828,7 @@
                     </div>
                 </div>
 
-                <label class="pdp-base-option selected" data-nombre="Ninguna">
+                <label class="pdp-base-option selected" data-nombre="Ninguna" data-precio="0">
                     <input type="radio" name="pdpBase" checked>
                     <span class="pdp-base-check">✓</span>
                     <img src="./images/productos/14017392-1.jpg" alt="Solo colchón" width="1200" height="1200" loading="lazy" decoding="async">
@@ -1518,34 +1837,34 @@
                     </span>
                 </label>
 
-                <label class="pdp-base-option" data-nombre="Base">
+                <label class="pdp-base-option" data-nombre="Base Black 2 Plazas 150 x 200 cm" data-precio="140000">
                     <input type="radio" name="pdpBase">
                     <span class="pdp-base-check">✓</span>
-                    <img src="./images/productos/base.jpg" alt="Base" width="1200" height="1200" loading="lazy" decoding="async">
+                    <img src="./images/productos/base.jpg" alt="Base Black 2 Plazas 150 x 200 cm" width="1200" height="1200" loading="lazy" decoding="async">
                     <span class="pdp-base-info">
-                        <span class="pdp-base-name">Base</span>
+                        <span class="pdp-base-name">Base Black 2 Plazas 150 x 200 cm</span>
                         <span class="pdp-base-price">+ $140.000</span>
                     </span>
                     <a class="pdp-base-details" href="#">Detalles</a>
                 </label>
 
-                <label class="pdp-base-option" data-nombre="Base Boxet">
+                <label class="pdp-base-option" data-nombre="Base Boxet Black 2 Plazas 150 x 200 cm" data-precio="210000">
                     <input type="radio" name="pdpBase">
                     <span class="pdp-base-check">✓</span>
-                    <img src="./images/productos/base-2.jpg" alt="Base Boxet" width="1200" height="1200" loading="lazy" decoding="async">
+                    <img src="./images/productos/base-2.jpg" alt="Base Boxet Black 2 Plazas 150 x 200 cm" width="1200" height="1200" loading="lazy" decoding="async">
                     <span class="pdp-base-info">
-                        <span class="pdp-base-name">Base Boxet</span>
+                        <span class="pdp-base-name">Base Boxet Black 2 Plazas 150 x 200 cm</span>
                         <span class="pdp-base-price">+ $210.000</span>
                     </span>
                     <a class="pdp-base-details" href="#">Detalles</a>
                 </label>
 
-                <label class="pdp-base-option" data-nombre="Base + muebles">
+                <label class="pdp-base-option" data-nombre="Base Black 2 Plazas 150 x 200 cm + Muebles Ferrara" data-precio="200000">
                     <input type="radio" name="pdpBase">
                     <span class="pdp-base-check">✓</span>
-                    <img src="./images/productos/base-muebles.jpg" alt="Base + muebles" width="1200" height="1200" loading="lazy" decoding="async">
+                    <img src="./images/productos/base-muebles.jpg" alt="Base Black 2 Plazas 150 x 200 cm + Muebles Ferrara" width="1200" height="1200" loading="lazy" decoding="async">
                     <span class="pdp-base-info">
-                        <span class="pdp-base-name">Base + muebles</span>
+                        <span class="pdp-base-name">Base Black 2 Plazas 150 x 200 cm + Muebles Ferrara</span>
                         <span class="pdp-base-price">Desde $200.000</span>
                     </span>
                     <a class="pdp-base-details" href="#">Detalles</a>
@@ -1555,35 +1874,44 @@
             <div class="pdp-cross-sell">
                 <h2>También te puede interesar</h2>
 
-                <div class="cross-sell-card">
-                    <img src="./images/productos/14017393-4.jpg" alt="Protector de Colchón Total Protection" width="1000" height="1000" loading="lazy" decoding="async">
+                <label class="cross-sell-card">
+                    <input type="checkbox" class="cross-sell-check" data-nombre="Cubrecolchón Copper Health Impermeable" data-precio="46990" data-normal="54990">
+                    <span class="cross-sell-select-check">✓</span>
+                    <div class="cross-sell-thumb">
+                        <img src="./images/protector-colchon.jpg" alt="Cubrecolchón Copper Health Impermeable" width="1200" height="1200" loading="lazy" decoding="async">
+                        <span class="cross-sell-discount">15%</span>
+                    </div>
                     <div class="cross-sell-info">
-                        <p class="cross-sell-name">Protector de Colchón Total Protection</p>
-                        <p class="cross-sell-desc">Garantía de 10 años contra manchas</p>
+                        <p class="cross-sell-name">Cubrecolchón Copper Health Impermeable</p>
                         <div class="cross-sell-bottom-row">
-                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <span class="cross-sell-price">$46.990<span class="price-old">$54.990</span></span>
                             <a class="cross-sell-details" href="#">Detalles</a>
                         </div>
                     </div>
-                </div>
+                </label>
 
-                <div class="cross-sell-card">
-                    <span class="cross-sell-badge">Compra 1 y la 2ª con 50% dcto</span>
-                    <img src="./images/productos/14012528-1new.jpg" alt="Almohada Comfortfit" width="1200" height="1200" loading="lazy" decoding="async">
+                <label class="cross-sell-card">
+                    <input type="checkbox" class="cross-sell-check" data-nombre="Funda de Cojín Lino Kids Pupe 50 x 50 cm" data-precio="24990">
+                    <span class="cross-sell-select-check">✓</span>
+                    <img src="./images/cojin.webp" alt="Funda de Cojín Lino Kids Pupe 50 x 50 cm" width="1200" height="1200" loading="lazy" decoding="async">
                     <div class="cross-sell-info">
-                        <p class="cross-sell-name">Almohada Comfortfit™</p>
+                        <p class="cross-sell-name">Funda de Cojín Lino Kids Pupe 50 x 50 cm</p>
                         <div class="cross-sell-bottom-row">
-                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <span class="cross-sell-price">$24.990</span>
                             <a class="cross-sell-details" href="#">Detalles</a>
                         </div>
                     </div>
-                </div>
+                </label>
 
-                <div class="cross-sell-card">
-                    <span class="cross-sell-badge">Compra 1 y la 2ª con 50% dcto</span>
-                    <img src="./images/productos/14017393-4.jpg" alt="Set de Sábanas Essential Fit" width="1000" height="1000" loading="lazy" decoding="async">
+                <label class="cross-sell-card">
+                    <input type="checkbox" class="cross-sell-check" data-nombre="Sábana 300 Hilos Algodón Lisa" data-precio="67990" data-normal="79990">
+                    <span class="cross-sell-select-check">✓</span>
+                    <div class="cross-sell-thumb">
+                        <img src="./images/sabanas.jpg" alt="Sábana 300 Hilos Algodón Lisa" width="1200" height="1200" loading="lazy" decoding="async">
+                        <span class="cross-sell-discount">15%</span>
+                    </div>
                     <div class="cross-sell-info">
-                        <p class="cross-sell-name">Set de Sábanas Essential Fit</p>
+                        <p class="cross-sell-name">Sábana 300 Hilos Algodón Lisa</p>
                         <div class="cross-sell-swatches">
                             <span style="background:#fff"></span>
                             <span style="background:#c9a869"></span>
@@ -1594,11 +1922,11 @@
                             <span style="background:#eae4d8"></span>
                         </div>
                         <div class="cross-sell-bottom-row">
-                            <span class="cross-sell-price">Precio por confirmar</span>
+                            <span class="cross-sell-price">$67.990<span class="price-old">$79.990</span></span>
                             <a class="cross-sell-details" href="#">Detalles</a>
                         </div>
                     </div>
-                </div>
+                </label>
             </div>
 
             <div class="pdp-help-row">
@@ -1638,12 +1966,124 @@
     <p class="pdp-layers-desc">Individualmente para dar independencia de movimiento y mayor adaptabilidad.</p>
 </section>
 
+<section class="pdp-description-full">
+    <div class="pdp-description">
+        <h2>¿Por qué elegirlo?</h2>
+        <p>El colchón New Style 6 tiene una estructura de resortes Floating System Pocket Advance enfundados individualmente, que hacen posible una gran adaptación del cuerpo y otorga independencia de movimientos. Su topper entrega mayor comodidad y adaptabilidad.</p>
+    </div>
+
+    <div class="pdp-linea-info">
+        <h2>Línea Premium</h2>
+        <p>La Línea Premium agrupa colchones que sobresalen por incorporar más tecnología como los resortes pocket advance, espumas zonificadas; diseños y propiedades que brindan mayor adaptabilidad al cuerpo, soporte y comodidad para un máximo descanso.</p>
+    </div>
+
+    <div class="pdp-valores-new">
+        <div class="valor-card">
+            <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v8"></path>
+                <path d="M8 7l4 4 4-4"></path>
+                <path d="M3 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
+                <path d="M3 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
+            </svg>
+            <p class="valor-title">Firmeza</p>
+            <p class="valor-desc">Este se relaciona con el soporte que entrega el colchón a tu cuerpo.</p>
+            <div class="valor-scale">
+                <div class="valor-scale-labels">
+                    <span>Suave</span>
+                    <span>Intermedio</span>
+                    <span>Firme</span>
+                </div>
+                <div class="valor-scale-track">
+                    <span class="valor-scale-tick" style="left:0%"></span>
+                    <span class="valor-scale-tick" style="left:50%"></span>
+                    <span class="valor-scale-tick" style="left:100%"></span>
+                    <span class="valor-scale-dot" style="left:75%"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="valor-card">
+            <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="9" rx="5" ry="3"></ellipse>
+                <path d="M2 16c2 0 3-3 5-3s3 3 5 3 3-3 5-3 3 3 5 3"></path>
+                <path d="M2 20h20"></path>
+            </svg>
+            <p class="valor-title">Adaptación</p>
+            <p class="valor-desc">Es la capacidad que tiene un colchón de ajustarse a tu cuerpo.</p>
+            <div class="valor-scale">
+                <div class="valor-scale-labels valor-scale-labels-minmax">
+                    <span>−</span>
+                    <span>+</span>
+                </div>
+                <div class="valor-scale-track">
+                    <span class="valor-scale-tick" style="left:0%"></span>
+                    <span class="valor-scale-tick" style="left:100%"></span>
+                    <span class="valor-scale-dot" style="left:50%"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdp-layer-cards">
+        <div class="layer-card">
+            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="8" height="18"></rect>
+                <path d="M3 5l6 3M3 8l6 3M3 11l6 3M3 14l6 3M3 17l6 3"></path>
+                <rect x="14" y="3" width="8" height="18"></rect>
+                <path d="M15 5l6 3M15 8l6 3M15 11l6 3M15 14l6 3M15 17l6 3"></path>
+            </svg>
+            <div class="layer-info">
+                <p class="layer-title">Floating System resortes Pocket Advance</p>
+                <p class="layer-desc">La estructura de resortes Pocket Advance enfundados (cada uno dentro de una funda) permite una perfecta adaptación del colchón al contorno y peso del cuerpo. Además, esta estructura evita que los movimientos producidos en un lado del colchón se transmitan y/o sientan al otro costado.</p>
+            </div>
+        </div>
+
+        <div class="layer-card">
+            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="14" width="18" height="5" rx="2"></rect>
+                <rect x="3" y="8" width="18" height="5" rx="2"></rect>
+                <path d="M3 5c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"></path>
+            </svg>
+            <div class="layer-info">
+                <p class="layer-title">Topper espuma firme</p>
+                <p class="layer-desc">Son capas de espumas unidas que van sobre los resortes cuya función es dar mayor comodidad, aportando más adaptabilidad al cuerpo. Sus espumas brindan el soporte y firmeza adecuado para tu descanso.</p>
+            </div>
+        </div>
+
+        <div class="layer-card">
+            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <path d="M3 8h18M3 13h18M8 3v18M13 3v18M18 3v18"></path>
+            </svg>
+            <div class="layer-info">
+                <p class="layer-title">Revestida en tela Jacquard</p>
+                <p class="layer-desc">Su cubierta de tela Jacquard no solo aporta un acabado elegante, sino que también ofrece una mayor resistencia al desgaste.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="pdp-ratings">
     <img src="./images/valoraciones.jpg" alt="Valoraciones y comentarios de clientes" width="1284" height="1488" loading="lazy" decoding="async">
 </section>
 
 <div class="full-width-image">
     <img src="./images/footer.png" alt="" width="1920" height="658" loading="lazy" decoding="async">
+</div>
+
+<div class="pdp-sticky-bar" id="pdpStickyBar">
+    <p class="pdp-sticky-name" id="pdpStickyName">Colchón New style 6</p>
+    <div class="pdp-sticky-right">
+        <div class="pdp-sticky-price-block">
+            <p class="pdp-sticky-price-row">
+                <span class="pdp-sticky-price" id="pdpStickyPrice">$249.990</span>
+                <span class="pdp-sticky-price-old" id="pdpStickyPriceOld">$339.990</span>
+                <span class="pdp-sticky-save" id="pdpStickySave">Ahorra $90.000</span>
+            </p>
+            <p class="pdp-sticky-cuotas" id="pdpStickyCuotas">12 cuotas sin interés de $20.833</p>
+        </div>
+        <button type="button" class="pdp-sticky-cta" id="pdpStickyCta">Agregar al carro</button>
+    </div>
 </div>
 
 <div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
@@ -1710,6 +2150,51 @@ function actualizarPrecio() {
     document.getElementById('pdpPrice').innerHTML = fmt(v.precio) + '<span class="price-old" id="pdpPriceOld">' + fmt(v.precioNormal) + '</span>';
     document.getElementById('pdpDiscount').textContent = descuento + '%';
     document.getElementById('pdpCuotas').textContent = '12 cuotas sin interés de ' + fmt(Math.round(v.precio / 12));
+    actualizarBarraSticky();
+}
+
+function actualizarBarraSticky() {
+    const conAlmohada = document.getElementById('pdpAlmohada').checked;
+    const fuente = conAlmohada ? PDP_DATA.tamanosConAlmohada : PDP_DATA.tamanos;
+    const v = fuente[medidaActual];
+    let precio = v.precio;
+    let normal = v.precioNormal;
+    let nombre = PDP_DATA.nombre;
+
+    const baseSel = document.querySelector('.pdp-base-option.selected');
+    if (baseSel) {
+        const extra = parseInt(baseSel.dataset.precio, 10) || 0;
+        precio += extra;
+        normal += extra;
+        if (baseSel.dataset.nombre !== 'Ninguna') {
+            nombre += ' + ' + baseSel.dataset.nombre;
+        }
+    }
+
+    document.querySelectorAll('.cross-sell-check:checked').forEach(chk => {
+        const chkPrecio = parseInt(chk.dataset.precio, 10) || 0;
+        const chkNormal = chk.dataset.normal ? parseInt(chk.dataset.normal, 10) : chkPrecio;
+        precio += chkPrecio;
+        normal += chkNormal;
+        nombre += ' + ' + chk.dataset.nombre;
+    });
+
+    document.getElementById('pdpStickyName').textContent = nombre;
+    document.getElementById('pdpStickyPrice').textContent = fmt(precio);
+
+    const oldEl = document.getElementById('pdpStickyPriceOld');
+    const saveEl = document.getElementById('pdpStickySave');
+    if (normal > precio) {
+        oldEl.textContent = fmt(normal);
+        oldEl.style.display = '';
+        saveEl.textContent = 'Ahorra ' + fmt(normal - precio);
+        saveEl.style.display = '';
+    } else {
+        oldEl.style.display = 'none';
+        saveEl.style.display = 'none';
+    }
+
+    document.getElementById('pdpStickyCuotas').textContent = '12 cuotas sin interés de ' + fmt(Math.round(precio / 12));
 }
 
 let cantidadActual = 1;
@@ -1739,8 +2224,26 @@ document.querySelectorAll('.pdp-base-option').forEach(opt => {
         opt.classList.add('selected');
         opt.querySelector('input').checked = true;
         document.getElementById('pdpBaseSelected').textContent = opt.dataset.nombre;
+        actualizarBarraSticky();
     });
 });
+
+document.querySelectorAll('.cross-sell-check').forEach(chk => {
+    chk.addEventListener('change', () => {
+        chk.closest('.cross-sell-card').classList.toggle('selected', chk.checked);
+        actualizarBarraSticky();
+    });
+});
+
+document.getElementById('pdpStickyCta').addEventListener('click', () => {
+    document.getElementById('pdpAddToCart').click();
+});
+
+window.addEventListener('scroll', () => {
+    document.getElementById('pdpStickyBar').classList.toggle('visible', window.scrollY > 40);
+}, { passive: true });
+
+actualizarBarraSticky();
 
 const pdpBaseWhyBtn = document.getElementById('pdpBaseWhyBtn');
 const pdpBaseWhyPopover = document.getElementById('pdpBaseWhyPopover');
@@ -1824,7 +2327,6 @@ document.getElementById('pdpAlmohada').addEventListener('change', () => {
         } else {
             cartItems.push(Object.assign({ qty }, detail));
         }
-        renderCart(detail.nombre);
     }
 
     itemsEl.addEventListener('click', (e) => {
@@ -1848,7 +2350,33 @@ document.getElementById('pdpAlmohada').addEventListener('change', () => {
         const fuente = conAlmohada ? PDP_DATA.tamanosConAlmohada : PDP_DATA.tamanos;
         const v = fuente[medidaActual];
         const nombre = PDP_DATA.nombre + ' — ' + medidaActual + (conAlmohada ? ' + Almohada' : '');
+        const agregados = [nombre];
         addToCart({ nombre, imagen: PDP_DATA.imagen, precio: v.precio, precioNormal: v.precioNormal }, cantidadActual);
+
+        const baseSel = document.querySelector('.pdp-base-option.selected');
+        if (baseSel && baseSel.dataset.nombre !== 'Ninguna') {
+            const extra = parseInt(baseSel.dataset.precio, 10) || 0;
+            agregados.push(baseSel.dataset.nombre);
+            addToCart({
+                nombre: baseSel.dataset.nombre,
+                imagen: baseSel.querySelector('img').src,
+                precio: extra
+            }, cantidadActual);
+        }
+
+        document.querySelectorAll('.cross-sell-check:checked').forEach(chk => {
+            const precio = parseInt(chk.dataset.precio, 10) || 0;
+            const precioNormal = chk.dataset.normal ? parseInt(chk.dataset.normal, 10) : undefined;
+            agregados.push(chk.dataset.nombre);
+            addToCart({
+                nombre: chk.dataset.nombre,
+                imagen: chk.closest('.cross-sell-card').querySelector('img').src,
+                precio,
+                precioNormal
+            }, cantidadActual);
+        });
+
+        renderCart(agregados.join(' + '));
         cantidadActual = 1;
         document.getElementById('pdpQtyValue').textContent = cantidadActual;
         openDrawer();
