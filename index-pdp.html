@@ -437,57 +437,98 @@
         transform: translate(-50%, -50%);
     }
 
-    .pdp-layer-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 32px;
-        margin: 24px 0 0;
-        padding-top: 32px;
-        border-top: 1px solid #eee;
-        text-align: center;
-    }
-
-    .layer-card {
+    .pdp-feature-rows {
         display: flex;
         flex-direction: column;
+        gap: 48px;
+        margin-top: 60px;
+        padding-top: 60px;
+        border-top: 1px solid #eee;
+    }
+
+    .pdp-feature-row {
+        display: flex;
         align-items: center;
+        justify-content: center;
+        gap: 230px;
     }
 
-    .layer-icon {
-        width: 36px;
-        height: 36px;
-        flex-shrink: 0;
-        color: #222;
-        margin-bottom: 10px;
+    .pdp-feature-row-text {
+        flex: 0 0 340px;
+        max-width: 340px;
     }
 
-    .layer-info {
-        min-width: 0;
+    .pdp-feature-icon {
+        display: block;
+        width: 65px;
+        height: 65px;
+        margin-bottom: 16px;
+        border: 1px solid #000;
+        border-radius: 50%;
+        overflow: hidden;
     }
 
-    .layer-title {
-        margin: 0 0 6px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #222;
+    .pdp-feature-row-text h3 {
+        margin: 0 0 14px;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: #1a1a1a;
     }
 
-    .layer-desc {
+    .pdp-feature-row-text p {
         margin: 0;
-        font-size: 13px;
-        color: #666;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #555;
+    }
+
+    .pdp-feature-row-media {
+        flex: 0 0 680px;
+        max-width: 680px;
+    }
+
+    .pdp-feature-row-media img {
+        display: block;
+        width: 100%;
+        max-width: 680px;
+        height: auto;
+        border-radius: 16px;
     }
 
     @media (max-width: 700px) {
-        .pdp-layer-cards {
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
         .pdp-valores-new {
             grid-template-columns: 1fr;
             gap: 32px;
+        }
+
+        .pdp-feature-rows {
+            gap: 48px;
+        }
+
+        .pdp-feature-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 20px;
+        }
+
+        .pdp-feature-row-text {
+            flex: 0 0 auto;
+            max-width: none;
+        }
+
+        .pdp-feature-row-media {
+            order: -1;
+            flex: 0 0 auto;
+            max-width: none;
+        }
+
+        .pdp-feature-row-media img {
+            max-width: none;
+        }
+
+        .pdp-feature-row-text {
+            max-width: none;
         }
     }
 
@@ -953,6 +994,82 @@
         color: #999;
     }
 
+    .pdp-faq-card {
+        margin-top: 24px;
+        padding: 24px;
+        border: 1px solid #ddd;
+        border-radius: 16px;
+    }
+
+    .pdp-faq-card h3 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .pdp-faq-subtitle {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .pdp-faq-card .pdp-help-row {
+        margin-top: 18px;
+    }
+
+    .pdp-faq-list {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .pdp-faq-item {
+        border-bottom: 1px solid #eee;
+    }
+
+    .pdp-faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 16px 4px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .pdp-faq-toggle {
+        flex-shrink: 0;
+        font-size: 18px;
+        font-weight: 400;
+        color: #666;
+        transition: transform .15s;
+    }
+
+    .pdp-faq-item.open .pdp-faq-toggle {
+        transform: rotate(45deg);
+    }
+
+    .pdp-faq-answer {
+        display: none;
+        padding: 0 4px 16px;
+    }
+
+    .pdp-faq-answer p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #666;
+    }
+
+    .pdp-faq-item.open .pdp-faq-answer {
+        display: block;
+    }
 
     .pdp-compare-link {
         display: flex;
@@ -1192,7 +1309,7 @@
     }
 
     .valores-segment.filled {
-        background: #0d1b3d;
+        background: #757575;
     }
 
     @media (max-width: 900px) {
@@ -1431,9 +1548,80 @@
     }
 
     .pdp-description-full {
-        max-width: 1000px;
+        max-width: 1500px;
         margin: 0 auto;
         padding: 0 20px 60px;
+    }
+
+    .pdp-why-band {
+        width: 100%;
+        max-width: 1730px;
+        margin: 0 auto;
+        background: #f5f1ea;
+    }
+
+    .pdp-why-inner {
+        max-width: 1730px;
+        margin: 0 auto;
+        padding: 0 0 0 120px;
+        display: flex;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .pdp-description-text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .pdp-description-text h2 {
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        line-height: 1.15;
+        margin: 0 0 18px;
+        color: #1a1a1a;
+    }
+
+    .pdp-description-text p {
+        max-width: 480px;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #444;
+    }
+
+    .pdp-description-img {
+        flex-shrink: 0;
+        width: 890px;
+        max-width: 55%;
+        height: auto;
+    }
+
+    @media (max-width: 700px) {
+        .pdp-why-band {
+            padding: 40px 20px;
+        }
+
+        .pdp-why-inner {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 32px;
+            padding: 0;
+        }
+
+        .pdp-description-text h2 {
+            font-size: 26px;
+        }
+
+        .pdp-description-text p {
+            max-width: none;
+        }
+
+        .pdp-description-img {
+            width: 100%;
+            max-width: 100%;
+            order: -1;
+        }
     }
 
     .pdp-layers img {
@@ -1929,22 +2117,69 @@
                 </label>
             </div>
 
-            <div class="pdp-help-row">
-                <a class="pdp-help" href="#">
-                    <span class="icon-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    </span>
-                    <span class="pdp-help-text">¿Necesitas ayuda?<small>Llama o chatea con nuestro equipo</small></span>
-                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
-                </a>
+            <div class="pdp-faq-card">
+                <h3>¿Tienes preguntas?</h3>
+                <p class="pdp-faq-subtitle">Nuestro equipo de Atención al Cliente te ayuda a elegir con confianza.</p>
 
-                <a class="pdp-store-link" href="#">
-                    <span class="icon-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l1-3h16l1 3"></path><path d="M4 7h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"></path><path d="M9 11a3 3 0 0 0 6 0"></path></svg>
-                    </span>
-                    <span class="pdp-store-text">Prueba este producto en tu tienda más cercana</span>
-                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
-                </a>
+                <div class="pdp-help-row">
+                    <a class="pdp-help" href="#">
+                        <span class="icon-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </span>
+                        <span class="pdp-help-text">¿Necesitas ayuda?<small>Llama o chatea con nuestro equipo</small></span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                    </a>
+
+                    <a class="pdp-store-link" href="#">
+                        <span class="icon-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l1-3h16l1 3"></path><path d="M4 7h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"></path><path d="M9 11a3 3 0 0 0 6 0"></path></svg>
+                        </span>
+                        <span class="pdp-store-text">Prueba este producto en tu tienda más cercana</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                    </a>
+                </div>
+
+                <div class="pdp-faq-list">
+                    <div class="pdp-faq-item">
+                        <button type="button" class="pdp-faq-question">
+                            ¿Cómo llega mi pedido?
+                            <span class="pdp-faq-toggle">+</span>
+                        </button>
+                        <div class="pdp-faq-answer">
+                            <p>Puedes elegir despacho a domicilio o retiro en tienda al momento de comprar, según las opciones de entrega disponibles para tu comuna.</p>
+                        </div>
+                    </div>
+
+                    <div class="pdp-faq-item">
+                        <button type="button" class="pdp-faq-question">
+                            ¿Puedo retirar mi colchón antiguo?
+                            <span class="pdp-faq-toggle">+</span>
+                        </button>
+                        <div class="pdp-faq-answer">
+                            <p>Sí, ofrecemos un servicio de reciclaje de camas y colchones por $29.990 al comprar tu cama o colchón nuevo.</p>
+                        </div>
+                    </div>
+
+                    <div class="pdp-faq-item">
+                        <button type="button" class="pdp-faq-question">
+                            ¿Puedo pagar en cuotas?
+                            <span class="pdp-faq-toggle">+</span>
+                        </button>
+                        <div class="pdp-faq-answer">
+                            <p>Sí, este producto está disponible hasta en 12 cuotas sin interés con las tarjetas participantes.</p>
+                        </div>
+                    </div>
+
+                    <div class="pdp-faq-item">
+                        <button type="button" class="pdp-faq-question">
+                            ¿Qué pasa si agrego una Base?
+                            <span class="pdp-faq-toggle">+</span>
+                        </button>
+                        <div class="pdp-faq-answer">
+                            <p>Puedes elegir entre Base, Base Boxet o Base + Muebles Ferrara desde la sección "Base" de esta misma página; el costo se suma automáticamente al total de tu compra.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <a class="pdp-compare-link" href="index-lineas.html">
@@ -1966,11 +2201,17 @@
     <p class="pdp-layers-desc">Individualmente para dar independencia de movimiento y mayor adaptabilidad.</p>
 </section>
 
-<section class="pdp-description-full">
-    <div class="pdp-description">
-        <h2>¿Por qué elegirlo?</h2>
-        <p>El colchón New Style 6 tiene una estructura de resortes Floating System Pocket Advance enfundados individualmente, que hacen posible una gran adaptación del cuerpo y otorga independencia de movimientos. Su topper entrega mayor comodidad y adaptabilidad.</p>
+<section class="pdp-why-band">
+    <div class="pdp-why-inner">
+        <div class="pdp-description-text">
+            <h2>¿Por qué elegirlo?</h2>
+            <p>Un descanso que se adapta a ti, no al revés. Cada resorte Pocket Advance responde de forma independiente a la forma y el peso de tu cuerpo, entregando el soporte justo donde lo necesitas. Con el topper de New Style 6, esa adaptabilidad se siente desde el primer segundo en que te acuestas.</p>
+        </div>
+        <img class="pdp-description-img" src="./images/porque-elegirla.png" alt="¿Por qué elegirlo?" width="751" height="610" loading="lazy" decoding="async">
     </div>
+</section>
+
+<section class="pdp-description-full">
 
     <div class="pdp-linea-info">
         <h2>Línea Premium</h2>
@@ -2024,40 +2265,37 @@
         </div>
     </div>
 
-    <div class="pdp-layer-cards">
-        <div class="layer-card">
-            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="8" height="18"></rect>
-                <path d="M3 5l6 3M3 8l6 3M3 11l6 3M3 14l6 3M3 17l6 3"></path>
-                <rect x="14" y="3" width="8" height="18"></rect>
-                <path d="M15 5l6 3M15 8l6 3M15 11l6 3M15 14l6 3M15 17l6 3"></path>
-            </svg>
-            <div class="layer-info">
-                <p class="layer-title">Floating System resortes Pocket Advance</p>
-                <p class="layer-desc">La estructura de resortes Pocket Advance enfundados (cada uno dentro de una funda) permite una perfecta adaptación del colchón al contorno y peso del cuerpo. Además, esta estructura evita que los movimientos producidos en un lado del colchón se transmitan y/o sientan al otro costado.</p>
+    <div class="pdp-feature-rows">
+        <div class="pdp-feature-row">
+            <div class="pdp-feature-row-text">
+                <img class="pdp-feature-icon" src="./images/floating-1.png" alt="" width="107" height="108" loading="lazy" decoding="async">
+                <h3>Floating System resortes Pocket Advance</h3>
+                <p>La estructura de resortes Pocket Advance enfundados (cada uno dentro de una funda) permite una perfecta adaptación del colchón al contorno y peso del cuerpo. Además, esta estructura evita que los movimientos producidos en un lado del colchón se transmitan y/o sientan al otro costado.</p>
+            </div>
+            <div class="pdp-feature-row-media">
+                <img src="./images/imagen-1.jpg" alt="Floating System resortes Pocket Advance" width="1800" height="1800" loading="lazy" decoding="async">
             </div>
         </div>
 
-        <div class="layer-card">
-            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="14" width="18" height="5" rx="2"></rect>
-                <rect x="3" y="8" width="18" height="5" rx="2"></rect>
-                <path d="M3 5c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"></path>
-            </svg>
-            <div class="layer-info">
-                <p class="layer-title">Topper espuma firme</p>
-                <p class="layer-desc">Son capas de espumas unidas que van sobre los resortes cuya función es dar mayor comodidad, aportando más adaptabilidad al cuerpo. Sus espumas brindan el soporte y firmeza adecuado para tu descanso.</p>
+        <div class="pdp-feature-row">
+            <div class="pdp-feature-row-media">
+                <img src="./images/imagen-2.webp" alt="Topper espuma firme" width="1200" height="1200" loading="lazy" decoding="async">
+            </div>
+            <div class="pdp-feature-row-text">
+                <img class="pdp-feature-icon" src="./images/topper-2.png" alt="" width="107" height="108" loading="lazy" decoding="async">
+                <h3>Topper espuma firme</h3>
+                <p>Son capas de espumas unidas que van sobre los resortes cuya función es dar mayor comodidad, aportando más adaptabilidad al cuerpo. Sus espumas brindan el soporte y firmeza adecuado para tu descanso.</p>
             </div>
         </div>
 
-        <div class="layer-card">
-            <svg class="layer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                <path d="M3 8h18M3 13h18M8 3v18M13 3v18M18 3v18"></path>
-            </svg>
-            <div class="layer-info">
-                <p class="layer-title">Revestida en tela Jacquard</p>
-                <p class="layer-desc">Su cubierta de tela Jacquard no solo aporta un acabado elegante, sino que también ofrece una mayor resistencia al desgaste.</p>
+        <div class="pdp-feature-row">
+            <div class="pdp-feature-row-text">
+                <img class="pdp-feature-icon" src="./images/revestida-3.png" alt="" width="107" height="108" loading="lazy" decoding="async">
+                <h3>Revestida en tela Jacquard</h3>
+                <p>Su cubierta de tela Jacquard no solo aporta un acabado elegante, sino que también ofrece una mayor resistencia al desgaste.</p>
+            </div>
+            <div class="pdp-feature-row-media">
+                <img src="./images/imagen-3.webp" alt="Revestida en tela Jacquard" width="1200" height="1200" loading="lazy" decoding="async">
             </div>
         </div>
     </div>
@@ -2257,6 +2495,12 @@ document.addEventListener('click', (e) => {
     if (!pdpBaseWhyBtn.contains(e.target) && !pdpBaseWhyPopover.contains(e.target)) {
         pdpBaseWhyPopover.classList.remove('open');
     }
+});
+
+document.querySelectorAll('.pdp-faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.pdp-faq-item').classList.toggle('open');
+    });
 });
 
 document.getElementById('pdpAlmohada').addEventListener('change', () => {
