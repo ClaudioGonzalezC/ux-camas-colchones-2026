@@ -349,9 +349,9 @@
     }
 
     .pdp-linea-info {
-        margin: 20px 0;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
+        max-width: 640px;
+        margin: 70px auto 20px;
+        text-align: center;
         font-size: 14px;
         line-height: 1.6;
         color: #333;
@@ -363,22 +363,114 @@
         margin-bottom: 12px;
     }
 
-    .pdp-valores-new {
+    .pdp-firmness-scale {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        max-width: 420px;
+        margin: 24px auto 56px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 999px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
+    }
+
+    .pdp-firmness-icon {
+        flex-shrink: 0;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #222;
+    }
+
+    .pdp-firmness-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .pdp-firmness-track {
+        position: relative;
+        flex: 1;
+        height: 8px;
+    }
+
+    .pdp-firmness-dot {
+        position: absolute;
+        top: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #d9d9d9;
+        transform: translate(-50%, -50%);
+    }
+
+    .pdp-firmness-dot.active {
+        width: 16px;
+        height: 16px;
+        background: #2952e3;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 1px #2952e3, 0 2px 6px rgba(0, 0, 0, .15);
+        z-index: 2;
+    }
+
+    .pdp-firmness-tooltip {
+        position: absolute;
+        top: calc(100% + 14px);
+        transform: translateX(-50%);
+        background: #14213d;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        white-space: nowrap;
+    }
+
+    .pdp-firmness-tooltip::before {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-bottom-color: #14213d;
+    }
+
+    .pdp-valores-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 48px;
-        margin: 24px 0;
+        gap: 24px;
+        margin: 32px 0;
+    }
+
+    .pdp-firmeza-img {
+        display: block;
+        width: 100%;
+        max-width: 970px;
+        height: auto;
+        margin: 32px auto;
+        border-radius: 16px;
+    }
+
+    .pdp-valor-block {
         text-align: center;
+        margin: 0;
     }
 
     .valor-icon {
         width: 34px;
         height: 34px;
+        margin-bottom: 8px;
         color: #222;
     }
 
     .valor-title {
-        margin: 8px 0 4px;
+        margin: 0 0 4px;
         font-size: 14px;
         font-weight: 600;
         color: #222;
@@ -391,59 +483,12 @@
         line-height: 1.4;
     }
 
-    .valor-scale {
-        margin-top: 16px;
-    }
-
-    .valor-scale-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-        text-transform: uppercase;
-        color: #999;
-    }
-
-    .valor-scale-labels-minmax {
-        font-size: 14px;
-        color: #bbb;
-    }
-
-    .valor-scale-track {
-        position: relative;
-        height: 1px;
-        background: #ddd;
-        margin: 12px 4px 0;
-    }
-
-    .valor-scale-tick {
-        position: absolute;
-        top: 50%;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: #ccc;
-        transform: translate(-50%, -50%);
-    }
-
-    .valor-scale-dot {
-        position: absolute;
-        top: 50%;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #222;
-        transform: translate(-50%, -50%);
-    }
-
     .pdp-feature-rows {
         display: flex;
         flex-direction: column;
         gap: 48px;
         margin-top: 60px;
         padding-top: 60px;
-        border-top: 1px solid #eee;
     }
 
     .pdp-feature-row {
@@ -460,8 +505,8 @@
 
     .pdp-feature-icon {
         display: block;
-        width: 65px;
-        height: 65px;
+        width: 55px;
+        height: 55px;
         margin-bottom: 16px;
         border: 1px solid #000;
         border-radius: 50%;
@@ -469,18 +514,17 @@
     }
 
     .pdp-feature-row-text h3 {
-        margin: 0 0 14px;
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 1.25;
-        color: #1a1a1a;
+        margin: 0 0 12px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #222;
     }
 
     .pdp-feature-row-text p {
         margin: 0;
         font-size: 14px;
         line-height: 1.6;
-        color: #555;
+        color: #333;
     }
 
     .pdp-feature-row-media {
@@ -497,9 +541,9 @@
     }
 
     @media (max-width: 700px) {
-        .pdp-valores-new {
+        .pdp-valores-row {
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 40px;
         }
 
         .pdp-feature-rows {
@@ -1557,7 +1601,8 @@
         width: 100%;
         max-width: 1730px;
         margin: 0 auto;
-        background: #f5f1ea;
+        padding: 90px 0;
+        background: #f5f1ea url('./images/fondo-porque-elegirla1.webp') center / cover no-repeat;
     }
 
     .pdp-why-inner {
@@ -1575,26 +1620,17 @@
     }
 
     .pdp-description-text h2 {
-        font-size: 34px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        line-height: 1.15;
-        margin: 0 0 18px;
-        color: #1a1a1a;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 12px;
+        color: #222;
     }
 
     .pdp-description-text p {
         max-width: 480px;
-        font-size: 17px;
-        line-height: 1.7;
-        color: #444;
-    }
-
-    .pdp-description-img {
-        flex-shrink: 0;
-        width: 890px;
-        max-width: 55%;
-        height: auto;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #333;
     }
 
     @media (max-width: 700px) {
@@ -1609,18 +1645,8 @@
             padding: 0;
         }
 
-        .pdp-description-text h2 {
-            font-size: 26px;
-        }
-
         .pdp-description-text p {
             max-width: none;
-        }
-
-        .pdp-description-img {
-            width: 100%;
-            max-width: 100%;
-            order: -1;
         }
     }
 
@@ -2207,7 +2233,6 @@
             <h2>¿Por qué elegirlo?</h2>
             <p>Un descanso que se adapta a ti, no al revés. Cada resorte Pocket Advance responde de forma independiente a la forma y el peso de tu cuerpo, entregando el soporte justo donde lo necesitas. Con el topper de New Style 6, esa adaptabilidad se siente desde el primer segundo en que te acuestas.</p>
         </div>
-        <img class="pdp-description-img" src="./images/porque-elegirla.png" alt="¿Por qué elegirlo?" width="751" height="610" loading="lazy" decoding="async">
     </div>
 </section>
 
@@ -2218,52 +2243,70 @@
         <p>La Línea Premium agrupa colchones que sobresalen por incorporar más tecnología como los resortes pocket advance, espumas zonificadas; diseños y propiedades que brindan mayor adaptabilidad al cuerpo, soporte y comodidad para un máximo descanso.</p>
     </div>
 
-    <div class="pdp-valores-new">
-        <div class="valor-card">
-            <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v8"></path>
-                <path d="M8 7l4 4 4-4"></path>
-                <path d="M3 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
-                <path d="M3 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
-            </svg>
-            <p class="valor-title">Firmeza</p>
-            <p class="valor-desc">Este se relaciona con el soporte que entrega el colchón a tu cuerpo.</p>
-            <div class="valor-scale">
-                <div class="valor-scale-labels">
-                    <span>Suave</span>
-                    <span>Intermedio</span>
-                    <span>Firme</span>
-                </div>
-                <div class="valor-scale-track">
-                    <span class="valor-scale-tick" style="left:0%"></span>
-                    <span class="valor-scale-tick" style="left:50%"></span>
-                    <span class="valor-scale-tick" style="left:100%"></span>
-                    <span class="valor-scale-dot" style="left:75%"></span>
-                </div>
+    <div class="pdp-valores-row">
+    <div class="pdp-valor-block">
+        <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v8"></path>
+            <path d="M8 7l4 4 4-4"></path>
+            <path d="M3 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
+            <path d="M3 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path>
+        </svg>
+        <p class="valor-title">Firmeza</p>
+        <p class="valor-desc">Este se relaciona con el soporte que entrega el colchón a tu cuerpo.</p>
+        <div class="pdp-firmness-scale">
+            <span class="pdp-firmness-icon">
+                <svg viewBox="0 0 32 20" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4Q16 10 28 4"></path><path d="M6.5 5.5Q16 10.5 25.5 5.5"></path><path d="M4 4v10q0 2 2 2h20q2 0 2-2V4"></path><line x1="4" y1="13" x2="28" y2="13"></line><line x1="9" y1="13.5" x2="9" y2="15.5"></line><line x1="16" y1="13.5" x2="16" y2="15.5"></line><line x1="23" y1="13.5" x2="23" y2="15.5"></line></svg>
+            </span>
+            <div class="pdp-firmness-track">
+                <span class="pdp-firmness-dot" style="left:6%"></span>
+                <span class="pdp-firmness-dot" style="left:17%"></span>
+                <span class="pdp-firmness-dot" style="left:28%"></span>
+                <span class="pdp-firmness-dot" style="left:39%"></span>
+                <span class="pdp-firmness-dot" style="left:50%"></span>
+                <span class="pdp-firmness-dot" style="left:61%"></span>
+                <span class="pdp-firmness-dot active" style="left:75%"></span>
+                <span class="pdp-firmness-dot" style="left:86%"></span>
+                <span class="pdp-firmness-dot" style="left:97%"></span>
+                <span class="pdp-firmness-tooltip" style="left:75%">Firme</span>
             </div>
-        </div>
-
-        <div class="valor-card">
-            <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                <ellipse cx="12" cy="9" rx="5" ry="3"></ellipse>
-                <path d="M2 16c2 0 3-3 5-3s3 3 5 3 3-3 5-3 3 3 5 3"></path>
-                <path d="M2 20h20"></path>
-            </svg>
-            <p class="valor-title">Adaptación</p>
-            <p class="valor-desc">Es la capacidad que tiene un colchón de ajustarse a tu cuerpo.</p>
-            <div class="valor-scale">
-                <div class="valor-scale-labels valor-scale-labels-minmax">
-                    <span>−</span>
-                    <span>+</span>
-                </div>
-                <div class="valor-scale-track">
-                    <span class="valor-scale-tick" style="left:0%"></span>
-                    <span class="valor-scale-tick" style="left:100%"></span>
-                    <span class="valor-scale-dot" style="left:50%"></span>
-                </div>
-            </div>
+            <span class="pdp-firmness-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"></rect><line x1="2" y1="12" x2="22" y2="12"></line><line x1="7" y1="8" x2="7" y2="10"></line><line x1="12" y1="8" x2="12" y2="10"></line><line x1="17" y1="8" x2="17" y2="10"></line><line x1="7" y1="14" x2="7" y2="16"></line><line x1="12" y1="14" x2="12" y2="16"></line><line x1="17" y1="14" x2="17" y2="16"></line></svg>
+            </span>
         </div>
     </div>
+
+    <div class="pdp-valor-block">
+        <svg class="valor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="9" rx="5" ry="3"></ellipse>
+            <path d="M2 16c2 0 3-3 5-3s3 3 5 3 3-3 5-3 3 3 5 3"></path>
+            <path d="M2 20h20"></path>
+        </svg>
+        <p class="valor-title">Adaptación</p>
+        <p class="valor-desc">Es la capacidad que tiene un colchón de ajustarse a tu cuerpo.</p>
+        <div class="pdp-firmness-scale">
+            <span class="pdp-firmness-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="1"></rect><line x1="8" y1="9" x2="8" y2="15"></line><line x1="16" y1="9" x2="16" y2="15"></line></svg>
+            </span>
+            <div class="pdp-firmness-track">
+                <span class="pdp-firmness-dot" style="left:6%"></span>
+                <span class="pdp-firmness-dot" style="left:17%"></span>
+                <span class="pdp-firmness-dot" style="left:28%"></span>
+                <span class="pdp-firmness-dot" style="left:39%"></span>
+                <span class="pdp-firmness-dot active" style="left:50%"></span>
+                <span class="pdp-firmness-dot" style="left:61%"></span>
+                <span class="pdp-firmness-dot" style="left:75%"></span>
+                <span class="pdp-firmness-dot" style="left:86%"></span>
+                <span class="pdp-firmness-dot" style="left:97%"></span>
+                <span class="pdp-firmness-tooltip" style="left:50%">Media</span>
+            </div>
+            <span class="pdp-firmness-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="7" rx="5" ry="2.5"></ellipse><path d="M3 14c2 0 3-2.5 5-2.5s3 2.5 5 2.5 3-2.5 5-2.5 3 2.5 5 2.5"></path><path d="M3 18h18"></path></svg>
+            </span>
+        </div>
+    </div>
+    </div>
+
+    <img class="pdp-firmeza-img" src="./images/imagen-firmeza.webp" alt="Firmeza New Style 6" width="1600" height="610" loading="lazy" decoding="async">
 
     <div class="pdp-feature-rows">
         <div class="pdp-feature-row">
