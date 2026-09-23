@@ -242,6 +242,10 @@
     height: 865px;
 }
 
+.quiz-widget.quiz-widget-size {
+    height: 700px;
+}
+
 .quiz-step[data-step="intro"] {
     justify-content: center;
 }
@@ -400,6 +404,22 @@
 
 .quiz-option.selected .quiz-option-radio::after {
     opacity: 1;
+}
+
+.quiz-option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.quiz-option-dims {
+    font-weight: 400;
+    color: #666;
+}
+
+.quiz-option-hint {
+    font-size: 12px;
+    color: #888;
 }
 
 .quiz-option:hover {
@@ -2130,8 +2150,8 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
 
                     <div class="quiz-step" data-step="1">
                         <div class="quiz-progress">
-                            <div class="quiz-progress-bar"><span style="width:20%"></span></div>
-                            <p class="quiz-progress-label">Paso 1 de 5 · Tipo de producto</p>
+                            <div class="quiz-progress-bar"><span style="width:16.67%"></span></div>
+                            <p class="quiz-progress-label">Paso 1 de 6 · Tipo de producto</p>
                         </div>
                         <h3 class="quiz-question">¿Qué buscas?</h3>
                         <div class="quiz-options">
@@ -2146,8 +2166,8 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
 
                     <div class="quiz-step" data-step="2">
                         <div class="quiz-progress">
-                            <div class="quiz-progress-bar"><span style="width:40%"></span></div>
-                            <p class="quiz-progress-label">Paso 2 de 5 · Nivel de firmeza</p>
+                            <div class="quiz-progress-bar"><span style="width:33.33%"></span></div>
+                            <p class="quiz-progress-label">Paso 2 de 6 · Nivel de firmeza</p>
                         </div>
                         <h3 class="quiz-question">¿Qué nivel de firmeza buscas a la hora de descansar?</h3>
                         <div class="quiz-options">
@@ -2162,10 +2182,28 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </div>
                     </div>
 
+                    <div class="quiz-step" data-step="posicion">
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar"><span style="width:50%"></span></div>
+                            <p class="quiz-progress-label">Paso 3 de 6 · Posición al dormir</p>
+                        </div>
+                        <h3 class="quiz-question">¿Cómo duermes habitualmente?</h3>
+                        <div class="quiz-options">
+                            <p class="quiz-option"><span class="quiz-option-radio"></span>De lado</p>
+                            <p class="quiz-option"><span class="quiz-option-radio"></span>De espalda</p>
+                            <p class="quiz-option"><span class="quiz-option-radio"></span>Boca abajo</p>
+                            <p class="quiz-option"><span class="quiz-option-radio"></span>Sin una posición fija</p>
+                        </div>
+                        <div class="quiz-nav">
+                            <button class="quiz-back" data-action="back">Atrás</button>
+                            <button class="quiz-next" data-action="next">Siguiente</button>
+                        </div>
+                    </div>
+
                     <div class="quiz-step" data-step="3">
                         <div class="quiz-progress">
-                            <div class="quiz-progress-bar"><span style="width:60%"></span></div>
-                            <p class="quiz-progress-label">Paso 3 de 5 · ¿Problemas?</p>
+                            <div class="quiz-progress-bar"><span style="width:66.67%"></span></div>
+                            <p class="quiz-progress-label">Paso 4 de 6 · ¿Problemas?</p>
                         </div>
                         <h3 class="quiz-question">¿Qué te impide dormir bien?</h3>
                         <div class="quiz-options">
@@ -2184,17 +2222,66 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
 
                     <div class="quiz-step" data-step="4">
                         <div class="quiz-progress">
-                            <div class="quiz-progress-bar"><span style="width:80%"></span></div>
-                            <p class="quiz-progress-label">Paso 4 de 5 · Tamaño</p>
+                            <div class="quiz-progress-bar"><span style="width:83.33%"></span></div>
+                            <p class="quiz-progress-label">Paso 5 de 6 · Tamaño</p>
                         </div>
                         <h3 class="quiz-question">¿Qué tamaño necesitas?</h3>
                         <div class="quiz-options">
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>1 Plaza</p>
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>1,5 Plazas</p>
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>2 Plazas</p>
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>Full</p>
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>King</p>
-                            <p class="quiz-option"><span class="quiz-option-radio"></span>Super King</p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">1 Plaza <span class="quiz-option-dims">(90 × 190/200 cm)</span></span>
+                                    <span class="quiz-option-hint">1 persona</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">1,5 Plazas</span>
+                                    <span class="quiz-option-hint">1 persona con más espacio</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">2 Plazas <span class="quiz-option-dims">(150 × 190/200 cm)</span></span>
+                                    <span class="quiz-option-hint">2 personas</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">Full</span>
+                                    <span class="quiz-option-hint">2 personas, espacio compacto</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">Queen</span>
+                                    <span class="quiz-option-hint">2 personas, más espacio personal</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">King <span class="quiz-option-dims">(180 × 200 cm)</span></span>
+                                    <span class="quiz-option-hint">2 personas, máximo espacio</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">Super King</span>
+                                    <span class="quiz-option-hint">2 personas + niños o mascotas</span>
+                                </span>
+                            </p>
+                            <p class="quiz-option">
+                                <span class="quiz-option-radio"></span>
+                                <span class="quiz-option-text">
+                                    <span class="quiz-option-label">No lo tengo claro</span>
+                                </span>
+                            </p>
                         </div>
                         <div class="quiz-nav">
                             <button class="quiz-back" data-action="back">Atrás</button>
@@ -2205,7 +2292,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                     <div class="quiz-step" data-step="5">
                         <div class="quiz-progress">
                             <div class="quiz-progress-bar"><span style="width:100%"></span></div>
-                            <p class="quiz-progress-label">Paso 5 de 5 · Presupuesto</p>
+                            <p class="quiz-progress-label">Paso 6 de 6 · Presupuesto</p>
                         </div>
                         <h3 class="quiz-question">¿Cuánto estarías dispuesto(a) a pagar?</h3>
                         <div class="quiz-options">
@@ -3116,15 +3203,15 @@ buttons.forEach(button => {
     const quizCard = document.getElementById("quizCard");
     if (!quizWidget) return;
 
-    const quizStepOrder = ["intro", "1", "2", "3", "4", "5", "lead", "results"];
-    const quizStepLabels = { "1": "Tipo", "2": "Firmeza", "3": "Problema", "4": "Tamaño", "5": "Presupuesto" };
+    const quizStepOrder = ["intro", "1", "2", "posicion", "3", "4", "5", "lead", "results"];
+    const quizStepLabels = { "1": "Tipo", "2": "Firmeza", "posicion": "Duermes", "3": "Problema", "4": "Tamaño", "5": "Presupuesto" };
     const quizSummary = document.getElementById("quizSummary");
     let currentIndex = 0;
     let quizAnswers = {};
 
     function renderQuizSummary() {
         if (!quizSummary) return;
-        quizSummary.innerHTML = Object.keys(quizAnswers).map(stepId => {
+        quizSummary.innerHTML = quizStepOrder.filter(stepId => quizAnswers[stepId] !== undefined).map(stepId => {
             const label = quizStepLabels[stepId] || stepId;
             return '<button type="button" class="quiz-summary-chip" data-jump="' + stepId + '"><strong>' + label + ':</strong> ' + quizAnswers[stepId] + '</button>';
         }).join("");
@@ -3138,6 +3225,7 @@ buttons.forEach(button => {
         });
         quizCard.classList.toggle("quiz-card-wide", stepId === "results");
         quizWidget.classList.toggle("quiz-widget-results", stepId === "results");
+        quizWidget.classList.toggle("quiz-widget-size", stepId === "4");
         if (stepId === "results") renderQuizSummary();
     }
 
@@ -3147,7 +3235,10 @@ buttons.forEach(button => {
             option.addEventListener("click", () => {
                 options.forEach(o => o.classList.remove("selected"));
                 option.classList.add("selected");
-                if (step.dataset.step) quizAnswers[step.dataset.step] = option.textContent.trim();
+                if (step.dataset.step) {
+                    const labelEl = option.querySelector(".quiz-option-label");
+                    quizAnswers[step.dataset.step] = (labelEl ? labelEl.textContent : option.textContent).trim();
+                }
             });
         });
     });
