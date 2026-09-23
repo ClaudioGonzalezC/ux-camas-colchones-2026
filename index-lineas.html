@@ -821,16 +821,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
+    gap: 8px;
+    width: auto;
     height: 36px;
+    padding: 0 16px;
     background: #222;
     color: #fff;
     border: none;
-    border-radius: 50%;
-    font-size: 16px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 600;
     line-height: 1;
     cursor: pointer;
     flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.compare-bar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .35);
+    z-index: 1999;
+}
+
+.compare-bar-backdrop.active {
+    display: block;
 }
 
 .compare-bar-items {
@@ -2216,14 +2232,18 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="section-subtitle" id="modelosSubtitle"></p>
             <div class="product-grid" id="modelosGrid"></div>
 
-            <div class="compare-bar" id="compareBarModelos">
+            <div class="compare-bar" id="compareBarModelos" data-backdrop-id="compareBarModelosBackdrop">
                 <div class="compare-bar-row">
                     <span class="compare-bar-label">Compara hasta tres productos</span>
                     <div class="compare-bar-items" id="compareBarModelosItems"></div>
-                    <button class="compare-bar-expand" type="button" aria-label="Expandir comparación"><span class="compare-bar-expand-icon"></span></button>
+                    <button class="compare-bar-expand" type="button" aria-label="Ver comparación completa">
+                        <span class="compare-bar-expand-icon"></span>
+                        <span class="compare-bar-expand-label">Ver comparación</span>
+                    </button>
                 </div>
                 <div class="compare-bar-expanded" id="compareBarModelosExpanded"></div>
             </div>
+            <div class="compare-bar-backdrop" id="compareBarModelosBackdrop"></div>
         </section>
 
         <h2 class="cat-banners-title">Ten en cuenta</h2>
@@ -2961,8 +2981,21 @@ const RosenCompare = (() => {
             if (bar.dataset.wired) return;
             bar.dataset.wired = "true";
             const expandBtn = bar.querySelector(".compare-bar-expand");
+            const expandLabel = expandBtn ? expandBtn.querySelector(".compare-bar-expand-label") : null;
+            const backdrop = bar.dataset.backdropId ? document.getElementById(bar.dataset.backdropId) : null;
+
+            function setExpanded(expanded) {
+                bar.classList.toggle("expanded", expanded);
+                if (backdrop) backdrop.classList.toggle("active", expanded);
+                if (expandBtn) expandBtn.setAttribute("aria-label", expanded ? "Cerrar comparación" : "Ver comparación completa");
+                if (expandLabel) expandLabel.textContent = expanded ? "Cerrar" : "Ver comparación";
+            }
+
             if (expandBtn) {
-                expandBtn.addEventListener("click", () => bar.classList.toggle("expanded"));
+                expandBtn.addEventListener("click", () => setExpanded(!bar.classList.contains("expanded")));
+            }
+            if (backdrop) {
+                backdrop.addEventListener("click", () => setExpanded(false));
             }
             bar.addEventListener("click", (e) => {
                 const removeBtn = e.target.closest(".compare-item-remove, .compare-detail-remove");

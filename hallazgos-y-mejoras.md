@@ -62,7 +62,7 @@ Estos se replicarían tal cual en producción.
 | 🧪 24 | ~~Al cambiar a King, Premium desaparece sin mensaje~~ — **reclasificado, ver nota del 23-09-2026 abajo: se resuelve con más data, no es un problema de diseño.** | C |
 | 🟡 25 | **"Compara por tamaño" promete modelos y entrega líneas.** El subtítulo lo aclara; el título genera otra expectativa. | C |
 | 🟡 26 | **No hay filtro de línea dentro del listado.** Para cambiar de línea hay que volver a la portada y entrar de nuevo. | C |
-| 🟡 27 | **El cajón de comparación expandido tapa el catálogo** y se colapsa con un botón circular sin etiqueta. | C |
+| ✅ 27 | ~~El cajón de comparación expandido tapa el catálogo y se colapsa con un botón circular sin etiqueta~~ — **resuelto 23-09-2026**: se agregó un backdrop semitransparente que cierra el cajón al hacer clic, y el botón pasó a ser una pastilla con texto ("Ver comparación" / "Cerrar") con `aria-label` sincronizado al estado. Aplicado en Guía y Líneas (mismo componente duplicado). | C |
 | ✅ 28 | ~~El panel `.view-toggle` tapa la cuarta tarjeta a 1440 px~~ — **resuelto 23-09-2026**: se agregó un botón para colapsar/expandir el panel (persiste con `localStorage`), en Guía y Líneas. Mismo bloque listo para reusar cuando se agregue a PDP. | C4 |
 | 🟡 29 | **Las imágenes no están optimizadas.** Miniaturas de 40–70 px servidas a 1000–1200 px (hasta 15× de exceso). En Líneas, 12 de 15 imágenes cargadas están sobredimensionadas. | [journey-propuesta.md](journey-propuesta.md) §5 |
 
