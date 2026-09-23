@@ -726,17 +726,33 @@
 
 .compare-overlay {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    top: 8px;
+    left: 8px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 4px 8px;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
+    font-weight: 600;
     color: #222;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+    z-index: 3;
+}
+
+.compare-overlay input {
+    width: 14px;
+    height: 14px;
+}
+
+.compare-hint {
+    margin: 0 0 16px;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
 }
 
 .compare-bar {
@@ -2315,6 +2331,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                     <div class="quiz-step" data-step="results">
                         <h3 class="quiz-title">Tu recomendación personalizada</h3>
                         <div class="quiz-summary" id="quizSummary"></div>
+                        <p class="compare-hint">Marca "Comparar" en los productos que quieras contrastar (hasta 3).</p>
                         <div class="product-grid quiz-results-grid">
                             <div class="product-card modelo-card">
                                 <div class="product-image">

@@ -629,17 +629,32 @@
 
 .compare-overlay {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    top: 8px;
+    left: 8px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 4px 8px;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
+    font-weight: 600;
     color: #222;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+    z-index: 3;
+}
+
+.compare-overlay input {
+    width: 14px;
+    height: 14px;
+}
+
+.compare-hint {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #888;
 }
 
 .lineas-banners {
@@ -2230,6 +2245,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         <section class="modelos-resultado" id="modelosResultado" style="display:none;">
             <h2>Modelos <span id="modelosLineaLabel"></span></h2>
             <p class="section-subtitle" id="modelosSubtitle"></p>
+            <p class="compare-hint" id="modelosCompareHint" hidden>Marca "Comparar" en los productos que quieras contrastar (hasta 3).</p>
             <div class="product-grid" id="modelosGrid"></div>
 
             <div class="compare-bar" id="compareBarModelos" data-backdrop-id="compareBarModelosBackdrop">
@@ -3137,6 +3153,7 @@ RosenCompare.wireOutboundLinks();
     const grid = document.getElementById('modelosGrid');
     const lineaLabel = document.getElementById('modelosLineaLabel');
     const subtitle = document.getElementById('modelosSubtitle');
+    const compareHint = document.getElementById('modelosCompareHint');
     if (!section) return;
 
     const tipoKeyMap = { 'cama-europea': 'camaEuropea', 'box-spring': 'boxSpring', 'colchon': 'colchon' };
@@ -3161,12 +3178,14 @@ RosenCompare.wireOutboundLinks();
 
     if (!match || modelos.length === 0) {
         subtitle.textContent = 'Todavía no hay modelos cargados para esta combinación en este prototipo.';
+        if (compareHint) compareHint.hidden = true;
         grid.innerHTML = '';
         return;
     }
 
     const tipoLabel = tipoLabelMap[tipo] || 'Camas Europeas';
     subtitle.innerHTML = 'Estos son los modelos disponibles en <strong>' + tipoLabel + '</strong> de <strong>' + match.tamanoLabel + '</strong>, firmeza <strong>' + firmeza + '</strong>.';
+    if (compareHint) compareHint.hidden = false;
 
     function valoresHtml(m) {
         if (m.firmeza == null || m.adaptacion == null) return '';
