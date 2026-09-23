@@ -1426,8 +1426,44 @@
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 10px;
     z-index: 2000;
+}
+
+.view-toggle-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+.view-toggle-handle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform .25s;
+}
+
+.view-toggle.collapsed .view-toggle-handle svg {
+    transform: rotate(180deg);
+}
+
+.view-toggle-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.view-toggle.collapsed .view-toggle-body {
+    display: none;
 }
 
 .view-btn {
@@ -2032,14 +2068,19 @@ body.show-references .reference {
     <span class="fold-line-label">Fuga de 42% de usuarios al 15% de scroll</span>
 </div>
 
-<div class="view-toggle">
-    <button id="btnWireframe" class="view-btn active">Wireframe</button>
-    <button id="btnDecisiones" class="view-btn">Decisiones del usuario</button>
-    <button id="btnDatosFuente" class="view-btn">Datos desde fuente</button>
-    <button id="btnAnotaciones" class="view-btn">Anotaciones</button>
-    <button id="btnReferencias" class="view-btn">Referencias</button>
-    <button id="btnNavegacion" class="view-btn">Navegación</button>
-    <p class="view-toggle-credit">Análisis de datos y propuesta UX<br>por Claudio González</p>
+<div class="view-toggle" id="viewToggle">
+    <button type="button" class="view-toggle-handle" id="viewToggleHandle" aria-expanded="true" aria-label="Ocultar panel de análisis">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+    <div class="view-toggle-body" id="viewToggleBody">
+        <button id="btnWireframe" class="view-btn active">Wireframe</button>
+        <button id="btnDecisiones" class="view-btn">Decisiones del usuario</button>
+        <button id="btnDatosFuente" class="view-btn">Datos desde fuente</button>
+        <button id="btnAnotaciones" class="view-btn">Anotaciones</button>
+        <button id="btnReferencias" class="view-btn">Referencias</button>
+        <button id="btnNavegacion" class="view-btn">Navegación</button>
+        <p class="view-toggle-credit">Análisis de datos y propuesta UX<br>por Claudio González</p>
+    </div>
 </div>
 
 <div class="header-container">
@@ -2418,6 +2459,28 @@ document.querySelectorAll(".faq-question").forEach(btn => {
         if (!isOpen) item.classList.add("open");
     });
 });
+
+// Colapsar / expandir el panel de análisis (view-toggle)
+(function () {
+    const VIEW_TOGGLE_COLLAPSED_KEY = 'rosenViewToggleCollapsed';
+    const viewToggle = document.getElementById('viewToggle');
+    const viewToggleHandle = document.getElementById('viewToggleHandle');
+
+    function setViewToggleCollapsed(collapsed) {
+        viewToggle.classList.toggle('collapsed', collapsed);
+        viewToggleHandle.setAttribute('aria-expanded', String(!collapsed));
+        viewToggleHandle.setAttribute('aria-label', collapsed ? 'Mostrar panel de análisis' : 'Ocultar panel de análisis');
+        try { localStorage.setItem(VIEW_TOGGLE_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch (e) {}
+    }
+
+    viewToggleHandle.addEventListener('click', () => {
+        setViewToggleCollapsed(!viewToggle.classList.contains('collapsed'));
+    });
+
+    try {
+        if (localStorage.getItem(VIEW_TOGGLE_COLLAPSED_KEY) === '1') setViewToggleCollapsed(true);
+    } catch (e) {}
+})();
 
 // Toggle Wireframe / Datos desde fuente / Anotaciones / Referencias
 
