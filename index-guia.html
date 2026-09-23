@@ -192,7 +192,7 @@
 
 .recommender-placeholder {
     width: 100%;
-    height: 1090px;
+    height: 1400px;
     box-sizing: border-box;
     border: 1px dashed #bbb;
     background: #f5f5f5 url("./images/productos/ylhiip84pbkbmhyo95ua.jpg") center / cover no-repeat;
@@ -239,7 +239,7 @@
 }
 
 .quiz-widget.quiz-widget-results {
-    height: 865px;
+    height: 1250px;
 }
 
 .quiz-widget.quiz-widget-size {
@@ -506,27 +506,31 @@
     margin-top: 3px;
 }
 
-.quiz-skip {
-    display: block;
-    margin-top: 14px;
-    font-size: 13px;
-    color: #888;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.quiz-step[data-step="lead"] {
-    align-items: center;
-    justify-content: center;
-}
-
-.quiz-step[data-step="lead"] .quiz-field,
-.quiz-step[data-step="lead"] .quiz-checkbox,
-.quiz-step[data-step="lead"] .quiz-cta {
+.quiz-lead-optional {
     max-width: 320px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 24px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.quiz-lead-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 6px;
+}
+
+.quiz-lead-text {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 14px;
+}
+
+.quiz-lead-confirm {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a7d3c;
 }
 
 /* Productos destacados */
@@ -2308,24 +2312,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </div>
                     </div>
 
-                    <div class="quiz-step" data-step="lead">
-                        <h3 class="quiz-title">Un último paso antes de continuar con la recomendación de productos</h3>
-                        <p class="quiz-text">Ingresa tus datos y recibe promociones exclusivas</p>
-                        <input class="quiz-field" type="text" placeholder="Nombre">
-                        <input class="quiz-field" type="email" placeholder="Correo electrónico">
-                        <input class="quiz-field" type="tel" placeholder="Teléfono">
-                        <label class="quiz-checkbox">
-                            <input type="checkbox">
-                            Acepto las políticas, entregando consentimiento para uso de datos en campañas publicitarias y automatizaciones de ROSEN y partners asociados.
-                        </label>
-                        <label class="quiz-checkbox">
-                            <input type="checkbox">
-                            Quiero que me contacte un asesor
-                        </label>
-                        <button class="quiz-cta" data-action="finish">Ver recomendación</button>
-                        <span class="quiz-skip" data-action="skip">Omitir</span>
-                    </div>
-
                     <div class="quiz-step" data-step="results">
                         <h3 class="quiz-title">Tu recomendación personalizada</h3>
                         <div class="quiz-summary" id="quizSummary"></div>
@@ -2451,6 +2437,25 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                                 <button class="product-cta">Ver producto</button>
                             </div>
                         </div>
+
+                        <div class="quiz-lead-optional" id="quizLeadOptional">
+                            <h4 class="quiz-lead-title">Guarda tu recomendación</h4>
+                            <p class="quiz-lead-text">Te la enviamos a tu correo para que la revises con calma.</p>
+                            <input class="quiz-field" type="text" placeholder="Nombre">
+                            <input class="quiz-field" type="email" placeholder="Correo electrónico">
+                            <input class="quiz-field" type="tel" placeholder="Teléfono">
+                            <label class="quiz-checkbox">
+                                <input type="checkbox">
+                                Acepto las políticas, entregando consentimiento para uso de datos en campañas publicitarias y automatizaciones de ROSEN y partners asociados.
+                            </label>
+                            <label class="quiz-checkbox">
+                                <input type="checkbox">
+                                Quiero que me contacte un asesor
+                            </label>
+                            <button type="button" class="quiz-cta" data-action="save-lead">Enviar</button>
+                            <p class="quiz-lead-confirm" hidden>¡Listo! Te enviamos la recomendación a tu correo.</p>
+                        </div>
+
                         <span class="quiz-restart" data-action="restart">Volver a empezar</span>
                     </div>
 
@@ -3203,7 +3208,7 @@ buttons.forEach(button => {
     const quizCard = document.getElementById("quizCard");
     if (!quizWidget) return;
 
-    const quizStepOrder = ["intro", "1", "2", "posicion", "3", "4", "5", "lead", "results"];
+    const quizStepOrder = ["intro", "1", "2", "posicion", "3", "4", "5", "results"];
     const quizStepLabels = { "1": "Tipo", "2": "Firmeza", "posicion": "Duermes", "3": "Problema", "4": "Tamaño", "5": "Presupuesto" };
     const quizSummary = document.getElementById("quizSummary");
     let currentIndex = 0;
@@ -3251,10 +3256,6 @@ buttons.forEach(button => {
         btn.addEventListener("click", () => showQuizStep(currentIndex - 1));
     });
 
-    quizWidget.querySelectorAll('[data-action="skip"], [data-action="finish"]').forEach(btn => {
-        btn.addEventListener("click", () => showQuizStep(quizStepOrder.length - 1));
-    });
-
     if (quizSummary) {
         quizSummary.addEventListener("click", (e) => {
             const chip = e.target.closest("[data-jump]");
@@ -3263,10 +3264,28 @@ buttons.forEach(button => {
         });
     }
 
+    quizWidget.querySelectorAll('[data-action="save-lead"]').forEach(btn => {
+        btn.addEventListener("click", () => {
+            const optional = btn.closest(".quiz-lead-optional");
+            if (!optional) return;
+            optional.querySelectorAll(".quiz-field, .quiz-checkbox, .quiz-cta").forEach(el => el.style.display = "none");
+            const confirmMsg = optional.querySelector(".quiz-lead-confirm");
+            if (confirmMsg) confirmMsg.hidden = false;
+        });
+    });
+
     quizWidget.querySelectorAll('[data-action="restart"]').forEach(btn => {
         btn.addEventListener("click", () => {
             quizAnswers = {};
             quizWidget.querySelectorAll(".quiz-option.selected").forEach(o => o.classList.remove("selected"));
+            const leadOptional = document.getElementById("quizLeadOptional");
+            if (leadOptional) {
+                leadOptional.querySelectorAll(".quiz-field").forEach(f => f.value = "");
+                leadOptional.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+                leadOptional.querySelectorAll(".quiz-field, .quiz-checkbox, .quiz-cta").forEach(el => el.style.display = "");
+                const confirmMsg = leadOptional.querySelector(".quiz-lead-confirm");
+                if (confirmMsg) confirmMsg.hidden = true;
+            }
             showQuizStep(0);
         });
     });
