@@ -58,7 +58,7 @@ Estos se replicarían tal cual en producción.
 | 🟠 20 | **Falta "Queen" en el paso de tamaño del quiz**, pero sí existe en el comparador de la misma página. | B3 |
 | 🟠 21 | **El quiz nunca pregunta cómo duerme el usuario.** Pregunta síntomas, pero no posición (lado/espalda/boca abajo) ni peso, que es lo que determina la firmeza. | B |
 | 🟠 22 | **El paso de tamaño no ayuda a decidir**: sin medidas en cm junto a cada opción, sin "no lo sé", sin referencia de para cuántas personas. | B |
-| 🟠 23 | **El resultado del quiz no se explica ni se puede corregir.** No hay "porque dijiste X te recomendamos Y", ni botón para editar respuestas o rehacer. | B |
+| ✅ 23 | ~~El resultado del quiz no se explica ni se puede corregir~~ — **resuelto 23-09-2026**: se agregó una franja de chips con cada respuesta sobre el resultado; cada chip lleva de vuelta a esa pregunta para corregirla, y un link "Volver a empezar" reinicia el quiz. No se agregó un atajo para saltar directo al resultado sin responder — no tendría sentido. | B |
 | 🧪 24 | ~~Al cambiar a King, Premium desaparece sin mensaje~~ — **reclasificado, ver nota del 23-09-2026 abajo: se resuelve con más data, no es un problema de diseño.** | C |
 | 🟡 25 | **"Compara por tamaño" promete modelos y entrega líneas.** El subtítulo lo aclara; el título genera otra expectativa. | C |
 | 🟡 26 | **No hay filtro de línea dentro del listado.** Para cambiar de línea hay que volver a la portada y entrar de nuevo. | C |
