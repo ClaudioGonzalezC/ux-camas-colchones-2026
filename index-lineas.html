@@ -2210,34 +2210,34 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <div class="linea-banner-item">
                 <img src="./images/esencial.jpg" alt="Línea Esencial">
                 <h3>Línea Esencial</h3>
-                <p><span class="desde">Desde</span> $250.000</p>
+                <p><span class="desde">Desde</span> $249.990</p>
                 <span>*Rango precio referencial cama 2 plazas.</span>
                 <p>Todo lo necesario para un descanso de calidad: adaptabilidad, resistencia y buenos materiales. Una gran y conveniente elección.</p>
-                <a class="product-cta" href="#shopBySize">Ver línea Esencial</a>
+                <a class="product-cta" href="index-lineas.html?tamano=2-plazas&linea=L%C3%ADnea%20Esencial&firmeza=intermedio&tipo=cama-europea&medida=150%20x%20200cm#modelosResultado">Ver línea Esencial</a>
             </div>
             <div class="linea-banner-item">
                 <img src="./images/premium.jpg" alt="Línea Premium">
                 <h3>Línea Premium</h3>
-                <p><span class="desde">Desde</span> $450.000</p>
+                <p><span class="desde">Desde</span> $359.990</p>
                 <span>*Rango precio referencial cama 2 plazas.</span>
                 <p>Más tecnología: resortes pocket advance y espumas zonificadas. Mayor adaptabilidad, soporte y comodidad para un descanso superior.</p>
-                <a class="product-cta" href="#shopBySize">Ver línea Premium</a>
+                <a class="product-cta" href="index-lineas.html?tamano=2-plazas&linea=L%C3%ADnea%20Premium&firmeza=intermedio&tipo=cama-europea&medida=150%20x%20200cm#modelosResultado">Ver línea Premium</a>
             </div>
             <div class="linea-banner-item">
                 <img src="./images/advantage.jpg" alt="Línea Advantage">
                 <h3>Línea Advantage</h3>
-                <p><span class="desde">Desde</span> $650.000</p>
+                <p><span class="desde">Desde</span> $799.990</p>
                 <span>*Rango precio referencial cama 2 plazas.</span>
                 <p>Materiales de altísima calidad e innovaciones tecnológicas únicas en cada modelo. Se adapta a tu cuerpo, con gran soporte y máximo confort.</p>
-                <a class="product-cta" href="#shopBySize">Ver línea Advantage</a>
+                <a class="product-cta" href="index-lineas.html?tamano=2-plazas&linea=L%C3%ADnea%20Advantage&firmeza=intermedio&tipo=cama-europea&medida=150%20x%20200cm#modelosResultado">Ver línea Advantage</a>
             </div>
             <div class="linea-banner-item">
                 <img src="./images/excelsior.jpg" alt="Línea Excelsior">
                 <h3>Selección Excelsior</h3>
-                <p><span class="desde">Desde</span> $850.000</p>
+                <p><span class="desde">Desde</span> $1.679.989</p>
                 <span>*Rango precio referencial cama 2 plazas.</span>
                 <p>Las mejores tecnologías y materiales premium del catálogo. Sensaciones únicas de descanso, con adaptabilidad, soporte y durabilidad sin precedentes.</p>
-                <a class="product-cta" href="#shopBySize">Ver Selección Excelsior</a>
+                <a class="product-cta" href="index-lineas.html?tamano=2-plazas&linea=Selecci%C3%B3n%20Excelsior&firmeza=intermedio&tipo=cama-europea&medida=150%20x%20200cm#modelosResultado">Ver Selección Excelsior</a>
             </div>
         </section>
 
@@ -3855,14 +3855,16 @@ RosenCompare.wireOutboundLinks();
     const tipoPrefijoMap = { camaEuropea: 'Cama Europea', boxSpring: 'Box Spring', colchon: 'Colchón' };
 
     const params = new URLSearchParams(location.search);
-    const tamano = params.get('tamano');
-    const linea = params.get('linea');
-    const firmeza = params.get('firmeza');
+    // Defaults: si se entra sin parámetros (link roto, URL editada a mano), se muestra
+    // 2 Plazas + Línea Premium + intermedio en vez de dejar la sección invisible.
+    // 2 Plazas es el filtro #1 del sitio real (1.558 clics); Premium es la línea con más
+    // modelos reales cargados; intermedio es el único bucket de firmeza poblado en las 4 líneas.
+    const tamano = params.get('tamano') || '2-plazas';
+    const linea = params.get('linea') || 'Línea Premium';
+    const firmeza = params.get('firmeza') || 'intermedio';
     const tipo = params.get('tipo') || 'cama-europea';
     const tipoKey = tipoKeyMap[tipo] || 'camaEuropea';
     const medida = params.get('medida') || '150 x 200cm';
-
-    if (!tamano || !linea) return;
 
     section.style.display = 'block';
     lineaLabel.textContent = linea;
