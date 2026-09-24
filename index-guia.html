@@ -663,6 +663,9 @@
 }
 
 .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 620px;
     text-align: left;
     border: 1px dashed #bbb;
     padding: 10px 10px 10px;
@@ -1190,7 +1193,13 @@
 .product-cta-group .product-cta {
     width: auto;
     flex: 1;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
     margin-top: 0;
+    padding: 8px;
     background: #fff;
     color: #222;
     border: 1px solid #bbb;
@@ -1209,7 +1218,7 @@
 }
 
 .product-cta-full {
-    margin-top: 8px;
+    margin-top: auto;
 }
 
 .product-cta {
@@ -2626,12 +2635,12 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
 
 <div class="size-filters">
     <button class="size-btn" data-size="1-plaza">1 Plaza</button>
-    <button class="size-btn">1,5 Plaza</button>
+    <button class="size-btn" data-size="1-5-plazas">1,5 Plaza</button>
+    <button class="size-btn" data-size="full">Full</button>
     <button class="size-btn active" data-size="2-plazas">2 Plazas</button>
-    <button class="size-btn">Full</button>
-    <button class="size-btn">Queen</button>
+    <button class="size-btn" data-size="queen">Queen</button>
     <button class="size-btn" data-size="king">King</button>
-    <button class="size-btn">Super King</button>
+    <button class="size-btn" data-size="super-king">Super King</button>
 </div>
 
 <div id="products-1-plaza" class="product-grid" style="display:none;">
@@ -2647,13 +2656,11 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
         <div class="firmeza">
             <p class="description">Firmeza</p>
-            <p class="firme" data-firmeza="suave" data-cama-price="$189.990">suave</p>
-            <p class="firme" data-firmeza="intermedio" data-cama-price="$209.990">intermedio</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$169.990" data-colchon-price190="$89.990">intermedio</p>
         </div>
-        <p class="price">Desde $189.990</p>
+        <p class="price">Desde $169.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
-            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
             <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
         </div>
         <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
@@ -2670,18 +2677,153 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
         <div class="firmeza">
             <p class="description">Firmeza</p>
-            <p class="firme" data-firmeza="suave" data-cama-price="$269.990">suave</p>
-            <p class="firme" data-firmeza="intermedio" data-cama-price="$289.990">intermedio</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$199.990" data-colchon-price200="$119.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$199.990" data-colchon-price200="$109.990">intermedio</p>
         </div>
-        <p class="price">Desde $269.990</p>
+        <p class="price">Desde $199.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
-            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
             <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
         </div>
         <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
     </div>
 
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/premium.jpg" alt="">
+        </div>
+        <p class="linea">Línea Premium</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="90 x 200cm">90 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$269.990" data-colchon-price200="$159.990">intermedio</p>
+        </div>
+        <p class="price">Desde $269.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+</div>
+
+<div id="products-1-5-plazas" class="product-grid" style="display:none;">
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/esencial.jpg" alt="">
+        </div>
+        <p class="linea">Línea Esencial</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="105 x 190cm">105 x 190cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$199.990" data-colchon-price190="$99.990">intermedio</p>
+        </div>
+        <p class="price">Desde $199.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/esencial.jpg" alt="">
+        </div>
+        <p class="linea">Línea Esencial</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="105 x 200cm">105 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$209.990" data-colchon-price200="$129.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$209.990" data-colchon-price200="$129.990">intermedio</p>
+        </div>
+        <p class="price">Desde $209.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/premium.jpg" alt="">
+        </div>
+        <p class="linea">Línea Premium</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="105 x 200cm">105 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$279.990" data-colchon-price200="$159.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$329.990" data-colchon-price200="$229.990">firme</p>
+        </div>
+        <p class="price">Desde $279.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+</div>
+
+<div id="products-full" class="product-grid" style="display:none;">
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/esencial.jpg" alt="">
+        </div>
+        <p class="linea">Línea Esencial</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="135 x 200cm">135 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$259.990" data-colchon-price200="$149.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$279.990">intermedio</p>
+        </div>
+        <p class="price">Desde $259.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/premium.jpg" alt="">
+        </div>
+        <p class="linea">Línea Premium</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="135 x 200cm">135 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$419.990" data-colchon-price200="$269.990">intermedio</p>
+        </div>
+        <p class="price">Desde $419.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
 
 </div>
 
@@ -2789,6 +2931,30 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
 
 </div>
 
+<div id="products-queen" class="product-grid" style="display:none;">
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/excelsior.jpg" alt="">
+        </div>
+        <p class="linea">Selección Excelsior</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="160 x 200cm">160 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$7.699.990" data-box-price="$7.699.990">intermedio</p>
+        </div>
+        <p class="price">Desde $7.699.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="box-spring">Box Spring</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+</div>
+
 <div id="products-king" class="product-grid" style="display:none;">
 
     <div class="product-card">
@@ -2802,14 +2968,34 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
         <div class="firmeza">
             <p class="description">Firmeza</p>
-            <p class="firme" data-firmeza="suave" data-cama-price="$349.990">suave</p>
-            <p class="firme" data-firmeza="intermedio" data-cama-price="$369.990">intermedio</p>
-            <p class="firme" data-firmeza="firme" data-cama-price="$389.990">firme</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$349.990" data-colchon-price200="$189.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$349.990" data-colchon-price200="$189.990">intermedio</p>
         </div>
         <p class="price">Desde $349.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
-            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/premium.jpg" alt="">
+        </div>
+        <p class="linea">Línea Premium</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="180 x 200cm">180 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$479.990" data-colchon-price200="$249.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$499.990" data-colchon-price200="$339.990">firme</p>
+        </div>
+        <p class="price">Desde $479.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
             <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
         </div>
         <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
@@ -2826,11 +3012,11 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
         <div class="firmeza">
             <p class="description">Firmeza</p>
-            <p class="firme" data-firmeza="suave" data-cama-price="$669.990">suave</p>
-            <p class="firme" data-firmeza="intermedio" data-cama-price="$689.990">intermedio</p>
-            <p class="firme" data-firmeza="firme" data-cama-price="$709.990">firme</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$1.499.990" data-box-price="$1.499.990" data-colchon-price200="$1.099.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$1.299.990" data-colchon-price200="$939.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$899.990" data-box-price="$979.990" data-colchon-price200="$749.990">firme</p>
         </div>
-        <p class="price">Desde $669.990</p>
+        <p class="price">Desde $1.499.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
             <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
@@ -2850,11 +3036,83 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
         <div class="firmeza">
             <p class="description">Firmeza</p>
-            <p class="firme" data-firmeza="suave" data-cama-price="$1.699.990">suave</p>
-            <p class="firme" data-firmeza="intermedio" data-cama-price="$1.719.990">intermedio</p>
-            <p class="firme" data-firmeza="firme" data-cama-price="$1.739.990">firme</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$1.999.990" data-colchon-price200="$1.499.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$2.699.990" data-box-price="$2.699.990" data-colchon-price200="$2.199.990">firme</p>
         </div>
-        <p class="price">Desde $1.699.990</p>
+        <p class="price">Desde $1.999.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+</div>
+
+<div id="products-super-king" class="product-grid" style="display:none;">
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/premium.jpg" alt="">
+        </div>
+        <p class="linea">Línea Premium</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="200 x 200cm">200 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$499.990" data-colchon-price200="$279.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$589.990" data-box-price="$639.990" data-colchon-price200="$369.990">firme</p>
+        </div>
+        <p class="price">Desde $499.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/advantage.jpg" alt="">
+        </div>
+        <p class="linea">Línea Advantage</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="200 x 200cm">200 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="suave" data-cama-price="$1.599.990" data-box-price="$1.599.990" data-colchon-price200="$1.189.990">suave</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$949.990" data-colchon-price200="$799.990">intermedio</p>
+        </div>
+        <p class="price">Desde $1.599.990</p>
+        <div class="product-cta-group">
+            <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
+            <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
+            <button type="button" class="product-cta" data-tipo="colchon">Colchones</button>
+        </div>
+        <a class="product-cta product-cta-full" data-tipo="producto" href="#">Ver productos</a>
+    </div>
+
+    <div class="product-card">
+        <div class="product-image">
+            <img src="./images/excelsior.jpg" alt="">
+        </div>
+        <p class="linea">Selección Excelsior</p>
+        <div class="tamano-colchon">
+            <p class="description">Tamaño</p>
+            <p class="firme selected" data-tamano="200 x 200cm">200 x 200cm</p>
+        </div>
+        <div class="firmeza">
+            <p class="description">Firmeza</p>
+            <p class="firme" data-firmeza="intermedio" data-cama-price="$2.079.990" data-colchon-price200="$1.599.990">intermedio</p>
+            <p class="firme" data-firmeza="firme" data-cama-price="$2.979.990" data-box-price="$2.979.990" data-colchon-price200="$2.469.990">firme</p>
+        </div>
+        <p class="price">Desde $2.079.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
             <button type="button" class="product-cta" data-tipo="box-spring">Box Spring</button>
@@ -3102,7 +3360,7 @@ document.querySelectorAll('.product-card').forEach(card => {
 
     ctaProducto.textContent = 'Ver modelos ' + linea.replace(/^(Línea|Selección)\s+/i, '');
 
-    let selectedTipo = 'cama-europea';
+    let selectedTipo = card.querySelector('.product-cta-group .product-cta.selected')?.dataset.tipo || 'cama-europea';
     let selectedPill = pills[0];
 
     function parsePrice(str) {
@@ -3219,8 +3477,12 @@ const buttons = document.querySelectorAll('.size-btn');
 
 const grids = {
     "1-plaza": document.getElementById("products-1-plaza"),
+    "1-5-plazas": document.getElementById("products-1-5-plazas"),
+    "full": document.getElementById("products-full"),
     "2-plazas": document.getElementById("products-2-plazas"),
-    "king": document.getElementById("products-king")
+    "queen": document.getElementById("products-queen"),
+    "king": document.getElementById("products-king"),
+    "super-king": document.getElementById("products-super-king")
 };
 
 buttons.forEach(button => {
