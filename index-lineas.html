@@ -673,6 +673,46 @@
 
 .linea-banner-item .product-cta {
     margin-top: auto;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.sin-modelos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 8px 0 24px;
+}
+
+.sin-modelos p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.sin-modelos-alt {
+    display: inline-block;
+    margin: 4px;
+    padding: 8px 14px;
+    border: 1px solid #bbb;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #222;
+    text-decoration: none;
+}
+
+.sin-modelos-alt:hover {
+    border-color: #222;
+}
+
+.linea-banner-item .product-cta.is-disabled {
+    background: #e4e4e4;
+    color: #888;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .linea-banner-item img {
@@ -3635,7 +3675,7 @@ RosenCompare.wireOutboundLinks();
                         3, 4),
                     modelo('New Sollievo',
                         variante(1499990, 2399990, './images/productos/16023146-1_1.jpg'),
-                        undefined,
+                        variante(1499990, 2599990, './images/productos/16023148-1_1_1.jpg'),
                         variante(1149990, 1799990, './images/productos/14016614-1_1.jpg'),
                         3, 4),
                     modelo('Somnus',
@@ -3645,12 +3685,12 @@ RosenCompare.wireOutboundLinks();
                         4, 4),
                     modelo('Novus',
                         variante(1999990, 2399990, './images/productos/16020804-1.jpg'),
-                        undefined,
+                        variante(2049990, 2599990, './images/productos/16020806-1.jpg'),
                         variante(1469990, 1799990, './images/productos/14015670-1.jpg'),
                         4, 4),
                     modelo('Bock',
                         variante(899990, 1149990, './images/productos/16016361-1_1.jpg'),
-                        undefined,
+                        variante(979990, 1249990, './images/productos/16014300-1new_1.jpg'),
                         variante(749990, 899990, './images/productos/14016617-1_1.jpg'),
                         4, 3)
                 ],
@@ -3665,17 +3705,17 @@ RosenCompare.wireOutboundLinks();
                 intermedio: [
                     modelo('Pearl',
                         variante(1999990, 2499990, './images/productos/16014974-1_2.jpg'),
-                        undefined,
+                        variante(1999990, 2599990, './images/productos/16014973-1_2.jpg'),
                         variante(1499990, 1899990, './images/productos/14012287-1_3.jpg'),
                         3, 5),
                     modelo('Orbix',
                         variante(2849990, 3199990, './images/productos/16020808-1.jpg'),
-                        undefined,
+                        variante(2899990, 3499990, './images/productos/16020809-1.jpg'),
                         variante(2349990, 2799990, './images/productos/14015673-1.jpg'),
                         4, 5),
                     modelo('Astrum',
                         variante(4499990, 4999990, './images/productos/16020811-1.jpg'),
-                        undefined,
+                        variante(4699990, 5199990, './images/productos/16020813-1.jpg'),
                         variante(4249990, 4699990, './images/productos/14015675-1.jpg'),
                         4, 5),
                     modelo('J. Rosenberg Successor',
@@ -3878,6 +3918,27 @@ RosenCompare.wireOutboundLinks();
     const tipoKey = tipoKeyMap[tipo] || 'camaEuropea';
     const medida = params.get('medida') || '150 x 200cm';
 
+    // Banners de línea: conservan tamaño, firmeza, tipo y medida de la URL y solo cambian la
+    // línea. Si esa línea no tiene modelos para la selección actual, el botón se deshabilita
+    // con un aviso en vez de llevar a un listado vacío o cambiar de tamaño sin avisar.
+    const medidaEnUrl = params.get('medida');
+    const tamanoLabel = (modelosData.find(d => d.tamano === tamano) || {}).tamanoLabel || tamano;
+    document.querySelectorAll('.lineas-banners .linea-banner-item').forEach(item => {
+        const a = item.querySelector('a.product-cta');
+        const lineaBanner = item.querySelector('h3').textContent.trim();
+        const bloque = modelosData.find(d => d.tamano === tamano && d.linea === lineaBanner);
+        const hayModelos = bloque && (bloque.porFirmeza[firmeza] || []).some(m => m[tipoKey] !== undefined);
+        if (!hayModelos) {
+            a.classList.add('is-disabled');
+            a.setAttribute('aria-disabled', 'true');
+            a.removeAttribute('href');
+            a.textContent = bloque ? 'Sin modelos con esta selección' : 'No disponible en ' + tamanoLabel;
+            return;
+        }
+        const destino = new URLSearchParams({ tamano, linea: lineaBanner, firmeza, tipo, medida: medidaEnUrl || bloque.dimensiones });
+        a.setAttribute('href', 'index-lineas.html?' + destino.toString() + '#modelosResultado');
+    });
+
     section.style.display = 'block';
     lineaLabel.textContent = linea;
 
@@ -3885,9 +3946,43 @@ RosenCompare.wireOutboundLinks();
     const modelos = match ? (match.porFirmeza[firmeza] || []).filter(m => m[tipoKey] !== undefined) : [];
 
     if (!match || modelos.length === 0) {
-        subtitle.textContent = 'Todavía no hay modelos cargados para esta combinación en este prototipo.';
+        // Estado vacío: se explica qué no existe y se ofrecen las opciones reales más cercanas.
+        const tipoNombre = (tipoLabelMap[tipo] || 'Camas Europeas').toLowerCase();
+        subtitle.textContent = match
+            ? 'No hay ' + tipoNombre + ' de firmeza ' + firmeza + ' en ' + linea + ' (' + tamanoLabel + ').'
+            : linea + ' no está disponible en ' + tamanoLabel + '.';
+
+        const tipoUrl = { camaEuropea: 'cama-europea', boxSpring: 'box-spring', colchon: 'colchon' };
+        const cuenta = (d, f, k) => (d.porFirmeza[f] || []).filter(m => m[k] !== undefined).length;
+        const alternativas = [];
+        const bloquesTamano = modelosData.filter(d => d.tamano === tamano);
+        if (match) {
+            // Misma línea y tamaño: todas las combinaciones de firmeza y tipo que sí tienen modelos.
+            ['suave', 'intermedio', 'firme'].forEach(f => {
+                [tipoKey, ...Object.keys(tipoUrl).filter(k => k !== tipoKey)].forEach(k => {
+                    const n = cuenta(match, f, k);
+                    if (n) alternativas.push({ d: match, f, k, n, texto: tipoLabelMap[tipoUrl[k]] + ' · ' + f + ' (' + n + ')' });
+                });
+            });
+        } else {
+            // La línea no existe en este tamaño: se ofrecen las líneas que sí existen en él.
+            bloquesTamano.forEach(d => {
+                const fs = [firmeza, 'intermedio', 'suave', 'firme'];
+                for (const f of fs) {
+                    const k = [tipoKey, 'camaEuropea', 'boxSpring', 'colchon'].find(kk => cuenta(d, f, kk));
+                    if (k) { alternativas.push({ d, f, k, n: cuenta(d, f, k), texto: d.linea + ' · ' + tipoLabelMap[tipoUrl[k]] + ' ' + f }); break; }
+                }
+            });
+        }
+
         if (compareHint) compareHint.hidden = true;
-        grid.innerHTML = '';
+        grid.innerHTML = alternativas.length
+            ? '<div class="sin-modelos"><p>Lo que sí hay' + (match ? ' en ' + linea : ' en ' + tamanoLabel) + ':</p>' +
+              alternativas.map(a => {
+                  const q = new URLSearchParams({ tamano, linea: a.d.linea, firmeza: a.f, tipo: tipoUrl[a.k], medida: medidaEnUrl || a.d.dimensiones });
+                  return '<a class="sin-modelos-alt" href="index-lineas.html?' + q.toString() + '#modelosResultado">' + a.texto + '</a>';
+              }).join('') + '</div>'
+            : '';
         return;
     }
 
