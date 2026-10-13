@@ -894,6 +894,29 @@
     display: grid;
 }
 
+.compare-shared {
+    grid-column: 1 / -1;
+    padding: 10px 14px;
+    background: #f4f4f4;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #444;
+}
+
+.compare-delta {
+    display: block;
+    width: fit-content;
+    margin-top: 8px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #fff1d6;
+    border-left: 3px solid #e08a00;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #7a4b00;
+}
+
 .compare-tips {
     grid-column: 4;
     background: #f7f7f7;
@@ -939,6 +962,17 @@
 
 .compare-detail-item {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.compare-detail-item .price {
+    margin-bottom: 16px;
+}
+
+.compare-detail-item .product-cta {
+    margin-top: auto;
 }
 
 .compare-detail-item .linea {
@@ -3781,11 +3815,47 @@ const RosenCompare = (() => {
                 if (parsePrecio(d.priceHtml) === precioMin) precioMinCount++;
                 if (parseRating(d.ratingHtml) === ratingMax) ratingMaxCount++;
             });
-            expandedEl.innerHTML = items.map(nombre => {
+            // Atributos comparables: si todos los productos coinciden en uno, se muestra una sola vez en
+            // la franja "Iguales en los N" y se quita de las tarjetas; si difieren, queda en cada tarjeta.
+            const textoDe = html => {
+                if (!html) return "";
+                const t = document.createElement("div");
+                t.innerHTML = html;
+                return t.textContent.replace(/\s+/g, " ").trim();
+            };
+            const sinEtiqueta = (html, etiqueta) => textoDe(html).replace(new RegExp("^" + etiqueta + "\\s*", "i"), "");
+            const barras = html => {
+                if (!html) return "";
+                const t = document.createElement("div");
+                t.innerHTML = html;
+                return [...t.querySelectorAll(".valores-row")].map(r => r.querySelector(".valores-label").textContent.trim() + " " + r.querySelectorAll(".valores-segment.filled").length + "/5").join(" · ");
+            };
+            const atributos = [
+                { key: "linea", valor: d => textoDe(d.lineaReco), texto: v => v },
+                { key: "tamano", valor: d => sinEtiqueta(d.tamanoHtml, "Tamaño"), texto: v => v },
+                { key: "firmeza", valor: d => sinEtiqueta(d.firmezaHtml, "Firmeza"), texto: v => v },
+                { key: "barras", valor: d => barras(d.valoresHtml), texto: v => v },
+                { key: "base", valor: d => sinEtiqueta(d.baseHtml, "Base") || "No corresponde", texto: v => "base " + v.toLowerCase() },
+                { key: "titulo", valor: d => textoDe(d.tituloHtml), texto: v => v }
+            ];
+            const conDetalle = items.filter(n => details[n]);
+            const compartidos = {};
+            if (conDetalle.length > 1) {
+                atributos.forEach(a => {
+                    const vals = conDetalle.map(n => a.valor(details[n]));
+                    if (vals[0] && vals.every(v => v === vals[0])) compartidos[a.key] = a.texto(vals[0]);
+                });
+            }
+            const franja = Object.keys(compartidos).length
+                ? `<div class="compare-shared"><strong>Iguales en los ${conDetalle.length}:</strong> ${atributos.filter(a => compartidos[a.key]).map(a => compartidos[a.key]).join(" · ")}</div>`
+                : "";
+            expandedEl.innerHTML = franja + items.map(nombre => {
                 const d = details[nombre];
                 if (!d) return "";
                 const precio = parsePrecio(d.priceHtml);
                 const rating = parseRating(d.ratingHtml);
+                const diferencia = (precioMin !== null && precio !== null && precio > precioMin)
+                    ? `<span class="compare-delta">+$${(precio - precioMin).toLocaleString("es-CL")} vs. el más económico</span>` : "";
                 const esMasEconomico = precioMin !== null && precioMinCount === 1 && precio === precioMin;
                 const esMejorEvaluado = ratingMax !== null && ratingMaxCount === 1 && rating === ratingMax;
                 const compareBadges = (esMasEconomico || esMejorEvaluado) ? `<div class="compare-badges">
@@ -3800,14 +3870,14 @@ const RosenCompare = (() => {
                         ${compareBadges}
                     </div>
                     ${d.ratingHtml}
-                    <p class="linea-reco">${d.lineaReco}</p>
+                    ${compartidos.linea ? "" : `<p class="linea-reco">${d.lineaReco}</p>`}
                     <p class="linea">${nombre}</p>
-                    ${d.baseHtml || '<div class="base-info"><p class="description">Base</p><p class="firme selected">No corresponde</p></div>'}
-                    ${d.tamanoHtml}
-                    ${d.firmezaHtml}
-                    ${d.tituloHtml}
-                    ${d.valoresHtml}
-                    <p class="price">${d.priceHtml}</p>
+                    ${compartidos.base ? "" : (d.baseHtml || '<div class="base-info"><p class="description">Base</p><p class="firme selected">No corresponde</p></div>')}
+                    ${compartidos.tamano ? "" : d.tamanoHtml}
+                    ${compartidos.firmeza ? "" : d.firmezaHtml}
+                    ${compartidos.titulo ? "" : d.tituloHtml}
+                    ${compartidos.barras ? "" : d.valoresHtml}
+                    <p class="price">${d.priceHtml}${diferencia}</p>
                     <a class="product-cta" href="#">Ver producto</a>
                 </div>`;
             }).join("") + `<div class="compare-tips">
