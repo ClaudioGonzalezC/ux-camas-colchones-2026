@@ -640,6 +640,23 @@
     margin-bottom: 50px;
 }
 
+.size-note {
+    max-width: 720px;
+    margin: -30px auto 40px;
+    padding: 0 16px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666;
+}
+.size-note[hidden] { display: none; }
+.size-note a {
+    color: #222;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .size-btn {
     padding: 10px 22px;
     background: #fff;
@@ -2682,6 +2699,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
     <button class="size-btn" data-size="king">King</button>
     <button class="size-btn" data-size="super-king">Super King</button>
 </div>
+<p class="size-note" id="sizeNote" aria-live="polite" hidden></p>
 
 <div id="products-1-plaza" class="product-grid" style="display:none;">
 
@@ -3561,9 +3579,63 @@ buttons.forEach(button => {
             grids[target].style.display = "grid";
         }
 
+        actualizarAvisoTamano(target);
+
     });
 
 });
+
+// Aviso cuando el tamaño elegido no tiene alguna de las 4 líneas. Se calcula leyendo las cards de cada grilla,
+// así que se mantiene correcto si se agrega o quita una línea.
+const LINEAS_GUIA = ['Línea Esencial', 'Línea Premium', 'Línea Advantage', 'Selección Excelsior'];
+const sizeNote = document.getElementById('sizeNote');
+
+function lineasEnGrilla(grid) {
+    // Sin repetidos: en 1 y 1,5 Plaza una misma línea puede tener una card por medida.
+    return grid ? Array.from(new Set(Array.from(grid.querySelectorAll('.product-card .linea')).map(el => el.textContent.trim()))) : [];
+}
+
+function unir(lista, conj) {
+    return lista.length < 2 ? lista.join('') : lista.slice(0, -1).join(', ') + ' ' + conj + ' ' + lista[lista.length - 1];
+}
+
+function actualizarAvisoTamano(target) {
+    if (!sizeNote) return;
+    const labelDe = key => document.querySelector('.size-btn[data-size="' + key + '"]').textContent.trim();
+    const presentes = lineasEnGrilla(grids[target]);
+    const faltan = LINEAS_GUIA.filter(l => !presentes.includes(l));
+    if (!faltan.length) { sizeNote.hidden = true; sizeNote.innerHTML = ''; return; }
+
+    // Alternativas: otros tamaños que sí tienen alguna de las líneas faltantes, priorizando los que cubren más
+    // líneas faltantes y, a igualdad, los que tienen más líneas en total.
+    const alternativas = Object.keys(grids).filter(k => k !== target).map(k => {
+        const l = lineasEnGrilla(grids[k]);
+        return { k, cubre: faltan.filter(f => l.includes(f)).length, total: l.length };
+    }).filter(a => a.cubre).sort((a, b) => b.cubre - a.cubre || b.total - a.total).slice(0, 3);
+    const enlaces = alternativas.map(a => '<a data-size-link="' + a.k + '">' + labelDe(a.k) + '</a>');
+
+    const tamano = labelDe(target);
+    let html;
+    if (presentes.length === 1) {
+        html = 'En ' + tamano + ' solo tenemos ' + presentes[0] + '. Para ver otras líneas, prueba ' + unir(enlaces, 'o') + '.';
+    } else {
+        html = 'En ' + tamano + ' no tenemos ' + unir(faltan, 'ni') + '. ' +
+            (faltan.length > 1 ? 'Las encuentras' : 'La encuentras') + ' en ' + unir(enlaces, 'y') + '.';
+    }
+    sizeNote.innerHTML = html;
+    sizeNote.hidden = false;
+}
+
+if (sizeNote) {
+    sizeNote.addEventListener('click', e => {
+        const a = e.target.closest('[data-size-link]');
+        if (!a) return;
+        const btn = document.querySelector('.size-btn[data-size="' + a.dataset.sizeLink + '"]');
+        if (btn) btn.click();
+    });
+}
+const tamanoActivo = document.querySelector('.size-btn.active');
+if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
 
 // Quiz Recomendador
 
