@@ -2298,7 +2298,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">1 Plaza</p>
-                    <p class="size-guide-dims">0,80 m × 1,90 m</p>
+                    <p class="size-guide-dims">90 × 190 cm<br>90 × 200 cm</p>
                     <p class="size-guide-desc">Ideal para durmientes individuales, dormitorios pequeños o camas nido.</p>
                 </div>
 
@@ -2313,7 +2313,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">1,5 Plazas</p>
-                    <p class="size-guide-dims">1,05 m × 1,90 m</p>
+                    <p class="size-guide-dims">105 × 190 cm<br>105 × 200 cm</p>
                     <p class="size-guide-desc">Para uso individual con más espacio o para adolescentes que crecen.</p>
                 </div>
 
@@ -2329,7 +2329,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">Full</p>
-                    <p class="size-guide-dims">1,35 m × 1,90 m</p>
+                    <p class="size-guide-dims">135 × 200 cm</p>
                     <p class="size-guide-desc">Ideal para parejas en espacios compactos o para quien disfruta de más espacio.</p>
                 </div>
 
@@ -2345,7 +2345,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">2 Plazas</p>
-                    <p class="size-guide-dims">1,40 m × 1,90 m</p>
+                    <p class="size-guide-dims">150 × 190 cm<br>150 × 200 cm</p>
                     <p class="size-guide-desc">Para parejas en espacios medianos, con buena amplitud sin ocupar demasiado.</p>
                 </div>
 
@@ -2361,7 +2361,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">Queen</p>
-                    <p class="size-guide-dims">1,50 m × 2,00 m</p>
+                    <p class="size-guide-dims">160 × 200 cm</p>
                     <p class="size-guide-desc">Para parejas que valoran el espacio personal o quienes duermen con mascotas.</p>
                 </div>
 
@@ -2377,7 +2377,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">King</p>
-                    <p class="size-guide-dims">1,60 m × 2,00 m</p>
+                    <p class="size-guide-dims">180 × 200 cm</p>
                     <p class="size-guide-desc">Para parejas que desean máximo espacio y libertad de movimiento.</p>
                 </div>
 
@@ -2393,7 +2393,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         </svg>
                     </div>
                     <p class="size-guide-name">Super King</p>
-                    <p class="size-guide-dims">1,80 m × 2,00 m</p>
+                    <p class="size-guide-dims">200 × 200 cm</p>
                     <p class="size-guide-desc">El mayor espacio disponible: ideal para quienes comparten cama con niños o mascotas.</p>
                 </div>
 
@@ -2480,7 +2480,9 @@ function seededRandom(seed) {
 }
 
 function calificacionFija(seed) {
-    return 3 + Math.floor(seededRandom(seed + '-calificacion') * 5) * 0.5;
+    // 21 valores posibles (3.0 a 5.0 en pasos de 0.1) en vez de 5 (pasos de 0.5),
+    // para que sea poco probable que 2-3 productos comparados empaten en el máximo.
+    return Math.round((3 + seededRandom(seed + '-calificacion') * 2) * 10) / 10;
 }
 
 function resenasFijas(seed) {
@@ -2846,13 +2848,23 @@ const RosenCompare = (() => {
                     if (rating !== null && (ratingMax === null || rating > ratingMax)) ratingMax = rating;
                 });
             }
+            // Si dos o más productos empatan en el mínimo/máximo, no se destaca a
+            // ninguno — el badge solo tiene sentido cuando hay un ganador único.
+            let precioMinCount = 0;
+            let ratingMaxCount = 0;
+            items.forEach(nombre => {
+                const d = details[nombre];
+                if (!d) return;
+                if (parsePrecio(d.priceHtml) === precioMin) precioMinCount++;
+                if (parseRating(d.ratingHtml) === ratingMax) ratingMaxCount++;
+            });
             expandedEl.innerHTML = items.map(nombre => {
                 const d = details[nombre];
                 if (!d) return "";
                 const precio = parsePrecio(d.priceHtml);
                 const rating = parseRating(d.ratingHtml);
-                const esMasEconomico = precioMin !== null && precio === precioMin;
-                const esMejorEvaluado = ratingMax !== null && rating === ratingMax;
+                const esMasEconomico = precioMin !== null && precioMinCount === 1 && precio === precioMin;
+                const esMejorEvaluado = ratingMax !== null && ratingMaxCount === 1 && rating === ratingMax;
                 const compareBadges = (esMasEconomico || esMejorEvaluado) ? `<div class="compare-badges">
                         ${esMasEconomico ? '<span class="compare-badge compare-badge-cheap">Más económico</span>' : ''}
                         ${esMejorEvaluado ? '<span class="compare-badge compare-badge-best">Mejor evaluado</span>' : ''}
