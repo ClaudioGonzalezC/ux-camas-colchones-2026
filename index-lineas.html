@@ -3222,6 +3222,22 @@ RosenCompare.wireOutboundLinks();
         const lineaBanner = item.querySelector('h3').textContent.trim();
         const bloque = modelosData.find(d => d.tamano === tamano && d.linea === lineaBanner);
         const hayModelos = bloque && (bloque.porFirmeza[firmeza] || []).some(m => m[tipoKey] !== undefined);
+
+        // "Desde": precio mínimo real de esa línea en el tamaño y tipo elegidos (todas las firmezas), no una referencia fija de 2 Plazas.
+        const precioEl = item.querySelector('h3 + p');
+        const notaEl = item.querySelector('h3 + p + span');
+        const preciosLinea = bloque
+            ? Object.values(bloque.porFirmeza).flat().filter(m => m[tipoKey] !== undefined).map(m => RosenModelos.precioDe(m, tipoKey, medida).precio)
+            : [];
+        const tipoNombreBanner = (tipoLabelMap[tipo] || 'Camas Europeas').toLowerCase();
+        if (preciosLinea.length) {
+            precioEl.innerHTML = '<span class="desde">Desde</span> $' + Math.min(...preciosLinea).toLocaleString('es-CL');
+            if (notaEl) { notaEl.hidden = false; notaEl.textContent = '*Precio mínimo de ' + tipoNombreBanner + ' en ' + tamanoLabel + '.'; }
+        } else {
+            precioEl.textContent = bloque ? 'Sin ' + tipoNombreBanner + ' en ' + tamanoLabel : 'No disponible en ' + tamanoLabel;
+            if (notaEl) notaEl.hidden = true;
+        }
+
         if (!hayModelos) {
             a.classList.add('is-disabled');
             a.setAttribute('aria-disabled', 'true');
@@ -3230,6 +3246,7 @@ RosenCompare.wireOutboundLinks();
             return;
         }
         const destino = new URLSearchParams({ tamano, linea: lineaBanner, firmeza, tipo, medida: medidaEnUrl || bloque.dimensiones });
+        if (params.get('orden')) destino.set('orden', params.get('orden'));
         a.setAttribute('href', 'index-lineas.html?' + destino.toString() + '#modelosResultado');
     });
 
@@ -3350,8 +3367,16 @@ RosenCompare.wireOutboundLinks();
     }
     if (ordenWrap && ordenSelect) {
         ordenWrap.hidden = false;
-        ordenSelect.value = 'relevancia';
-        ordenSelect.addEventListener('change', aplicarOrden);
+        // El orden elegido viaja en la URL (?orden=...) para poder compartir un listado ya ordenado; "relevancia" es el default y no se escribe.
+        const ordenEnUrl = params.get('orden');
+        ordenSelect.value = Object.prototype.hasOwnProperty.call(criterios, ordenEnUrl) ? ordenEnUrl : 'relevancia';
+        aplicarOrden();
+        ordenSelect.addEventListener('change', () => {
+            aplicarOrden();
+            const u = new URL(location.href);
+            if (ordenSelect.value === 'relevancia') u.searchParams.delete('orden'); else u.searchParams.set('orden', ordenSelect.value);
+            history.replaceState(null, '', u);
+        });
     }
 
     RosenCompare.wire(grid);

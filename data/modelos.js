@@ -77,7 +77,7 @@ const modelosData = [
                     variante(319990, 369990, './images/productos/14012257-1.jpg', { tamanos: { '150 x 190cm': { precio: 299990, precioNormal: 349990 }, '150 x 200cm': { precio: 319990, precioNormal: 369990 } } }),
                     3, 3,
                     { camaEuropea: { pata: ['madera'], base: { dividida: {} } }, boxSpring: { pata: ['madera'] } }),
-                modelo('Autonomy',
+                modelo('Autonomy Sky',
                     variante(449990, 649990, './images/productos/16020297-3new.jpg'),
                     undefined,
                     variante(319990, 459990, './images/productos/14014528-1.jpg', { tamanos: { '150 x 190cm': { precio: 309990, precioNormal: 449990 }, '150 x 200cm': { precio: 319990, precioNormal: 459990 } } }),
@@ -163,10 +163,11 @@ const modelosData = [
                     3, 3,
                     { camaEuropea: { base: { completa: { precio: 279990, precioNormal: 369990 }, dividida: { precio: 299990, precioNormal: 399990 } } } }),
                 modelo('New Style 2 Plus',
-                    variante(299990, 399990, './images/productos/16022961-1new_1.jpg'),
+                    variante(289990, 399990, './images/productos/16022961-1new_1.jpg'),
                     undefined,
                     variante(169990, 259990, './images/productos/14016578-1new.jpg'),
-                    3, 2),
+                    3, 2,
+                    { camaEuropea: { base: { completa: { precio: 289990, precioNormal: 399990 }, dividida: { precio: 309990, precioNormal: 449990 } } } }),
                 modelo('New Style 4 Plus',
                     variante(329990, 449990, './images/productos/16024151-1_1.jpg'),
                     undefined,
@@ -275,10 +276,11 @@ const modelosData = [
             ],
             intermedio: [
                 modelo('Wave',
-                    variante(169990, 209990, './images/productos/16023442-1.jpg'),
+                    variante(179990, 209990, './images/productos/16023442-1.jpg'),
                     undefined,
                     variante(89990, 139990, './images/productos/14016843-1.jpg', { tamanos: { '90 x 190cm': { precio: 89990, precioNormal: 139990 } } }),
-                    3, 2),
+                    3, 2,
+                    { camaEuropea: { base: { completa: {} } } }),
                 modelo('Ergo-T New',
                     variante(199990, 259990, './images/productos/16024402-1.jpg'),
                     undefined,
@@ -306,7 +308,7 @@ const modelosData = [
         porFirmeza: {
             suave: [],
             intermedio: [
-                modelo('Autonomy',
+                modelo('Autonomy Sky',
                     variante(299990, 479990, './images/productos/16022801-1new.jpg'),
                     undefined,
                     variante(189990, 359990, './images/productos/14014518-1_2.jpg', { tamanos: { '90 x 190cm': { precio: 179990, precioNormal: 349990 }, '90 x 200cm': { precio: 189990, precioNormal: 359990 } } }),
@@ -330,7 +332,7 @@ const modelosData = [
                     variante(229990, 299990, './images/productos/14016682-1.jpg', { tamanos: { '90 x 190cm': { precio: 219990, precioNormal: 289990 }, '90 x 200cm': { precio: 229990, precioNormal: 299990 } } }),
                     4, 3),
                 modelo('Indie',
-                    variante(289990, 389990, './images/productos/16018706-1.jpg'),
+                    variante(249990, 389990, './images/productos/16018706-1.jpg'),
                     undefined,
                     variante(159990, 249990, './images/productos/14014488-1.jpg', { tamanos: { '90 x 190cm': { precio: 149990, precioNormal: 229990 }, '90 x 200cm': { precio: 159990, precioNormal: 249990 } } }),
                     4, 3,
@@ -386,7 +388,7 @@ const modelosData = [
         porFirmeza: {
             suave: [],
             intermedio: [
-                modelo('Autonomy',
+                modelo('Autonomy Sky',
                     variante(309990, 499990, './images/productos/16020296-1new.jpg'),
                     undefined,
                     variante(219990, 379990, './images/productos/14014519-1.jpg', { tamanos: { '105 x 190cm': { precio: 199990, precioNormal: 369990 }, '105 x 200cm': { precio: 219990, precioNormal: 379990 } } }),
@@ -410,7 +412,7 @@ const modelosData = [
                     3, 3,
                     { camaEuropea: { base: { completa: {} } } }),
                 modelo('Indie',
-                    variante(299990, 429990, './images/productos/16018707-1.jpg'),
+                    variante(269990, 429990, './images/productos/16018707-1.jpg'),
                     undefined,
                     variante(169990, 299990, './images/productos/14014489-1.jpg', { tamanos: { '105 x 190cm': { precio: 159990, precioNormal: 279990 }, '105 x 200cm': { precio: 169990, precioNormal: 299990 } } }),
                     4, 3,
@@ -443,7 +445,8 @@ const modelosData = [
                     variante(429990, 519990, './images/productos/16022414-2n26.webp'),
                     undefined,
                     variante(299990, 399990, './images/productos/14016335-1.jpg', { tamanos: { '105 x 190cm': { precio: 289990, precioNormal: 379990 }, '105 x 200cm': { precio: 299990, precioNormal: 399990 } } }),
-                    5, 4)
+                    5, 4,
+                    { camaEuropea: { base: { dividida: {} } } })
             ]
         }
     },
@@ -552,7 +555,7 @@ const modelosData = [
         porFirmeza: {
             suave: [],
             intermedio: [
-                modelo('Autonomy',
+                modelo('Autonomy Sky',
                     variante(479990, 729990, './images/productos/16020298-1new.jpg'),
                     undefined,
                     variante(319990, 549990, './images/productos/14014528-1.jpg'),
@@ -610,7 +613,8 @@ const modelosData = [
                     variante(619990, 799990, './images/productos/16022416-2n26.webp'),
                     variante(669990, 899990, './images/productos/16022416-2n26.webp'),
                     variante(419990, 599990, './images/productos/14016338-1.jpg'),
-                    5, 4),
+                    5, 4,
+                    { camaEuropea: { base: { dividida: {} } } }),
                 modelo('Driven',
                     variante(699909, 859990, './images/productos/16013759-1newpata_1.jpg'),
                     variante(719990, 949990, './images/productos/16013767-1newpata_1.jpg'),
@@ -729,7 +733,7 @@ const modelosData = [
         porFirmeza: {
             suave: [],
             intermedio: [
-                modelo('Autonomy',
+                modelo('Autonomy Sky',
                     variante(569990, 829990, './images/productos/16020299-2new.jpg'),
                     undefined,
                     variante(349990, 599990, './images/productos/14014528-1.jpg'),
@@ -781,7 +785,8 @@ const modelosData = [
                     variante(699990, 899990, './images/productos/16022417-2n26.webp'),
                     variante(759990, 999990, './images/productos/16022417-2n26.webp'),
                     variante(499990, 649990, './images/productos/14016339-1.jpg'),
-                    5, 4),
+                    5, 4,
+                    { camaEuropea: { base: { dividida: {} } } }),
                 modelo('Driven',
                     variante(769990, 959990, './images/productos/16013759-1newpata_1.jpg'),
                     variante(819990, 1069990, './images/productos/16013767-1newpata_1.jpg'),
