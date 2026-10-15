@@ -63,17 +63,24 @@ En el prototipo, esas sesiones caen en el estado sin parámetros: 0 productos. U
 
 Mismo archivo, resultados opuestos: 1.457 px de producto vs 0 px. El usuario no puede saber qué puerta tomó — desde su punto de vista la página "a veces tiene productos". Y si llegó por la puerta ② y comparte esa URL, la guarda en favoritos o recarga, siempre verá la versión vacía.
 
-### 4.3 El clic se va al header y el prototipo no lo disputa
+### 4.3 El clic se va al header: el prototipo ahora lo disputa con contenido, en móvil también
 
-Clarity registró **310 clics**, concentrados en el header y las columnas principales, mayormente en móvil. La lectura: buena parte del clic en esta página se va al menú superior — la gente usa Líneas como trampolín para volver a navegar, no para avanzar hacia un producto. Coherente con el resto: 56 s leyendo, scroll hasta 89%, 0,32% de conversión.
+Clarity registró **310 filas de clics**, concentradas en el header y las columnas principales, mayormente en móvil. La lectura inicial fue que la gente usaba Líneas como trampolín para volver a navegar. Dos precauciones: el header está en todas las páginas, así que parte de esos clics es navegación normal (hay que compararlo con Guía y la PDP), y son filas agregadas, no sesiones.
 
-El prototipo mantiene el mismo header sin cambios; nada compite por ese clic. (El `.view-toggle` que aparece arriba es solo del wireframe para presentar el análisis, no iría a producción, pero en la demo ocupa ese espacio visual.)
+*Actualización 15-10-2026.* Esta sección decía que "el prototipo mantiene el mismo header y nada compite por ese clic". Eso dejó de ser cierto, y había un problema mayor: el prototipo estaba pensado solo para escritorio, aunque el tráfico es mayormente móvil. En una vista de 375 px los 4 banners se cortaban de lado y la primera card de modelo aparecía a 1,4 pantallas de scroll.
+
+Ahora, hasta 640 px, Líneas tiene su propio diseño móvil:
+- Los 4 banners son un selector compacto de una columna (miniatura, nombre, "Desde $X", cantidad de modelos y botón), con toda la fila tocable. Las 4 líneas caben en la primera pantalla.
+- La primera card de modelo queda a 1,1 pantallas (antes 1,4) y "Ordenar por" se queda fijo al hacer scroll.
+- El header no se toca: lo que se disputa el clic es contenido útil cerca del pulgar. Que eso funcione solo se comprueba con el indicador "clics en contenido vs. header" del [plan de medición](plan-medicion.md). El hallazgo queda como "diseñado, por medir".
+
+(El `.view-toggle` que aparece arriba es solo del wireframe para presentar el análisis, no iría a producción.)
 
 ### 4.4 Líneas sigue pudiendo ser final de sesión
 
-En las grabaciones de Clarity, Líneas aparece **101 veces como página de salida** y **44 como página de entrada** (2,3×). Es un punto donde las sesiones mueren.
+En las grabaciones de Clarity, Líneas aparece **101 veces como página de salida** y **44 como página de entrada** (2,3×). Es una señal de alerta, no una tasa de salida: una página intermedia siempre tiene más salidas que entradas y las grabaciones son una muestra. Lo que hay que medir es salidas ÷ vistas y el avance a la PDP (ver [plan-medicion.md](plan-medicion.md)).
 
-En el prototipo, si el usuario llegó sin parámetros el único camino hacia adelante son los 4 banners de línea, cuyo CTA es `href="#shopBySize"`: un ancla que hace scroll a una tabla estática de medidas. No filtra por línea, no muestra modelos, no lleva a ningún producto — y los 4 botones hacen exactamente lo mismo. Es el mismo callejón sin salida que el sitio actual.
+*Actualización 15-10-2026.* Esta sección describía que los 4 botones de los banners llevaban a `#shopBySize`, una tabla estática de medidas, "el mismo callejón sin salida que el sitio actual". Ya no es así: cada botón lleva a Líneas filtrada por esa línea, conservando tamaño, firmeza, tipo y medida; muestra cuántos modelos tiene la línea y su precio mínimo real, y avisa cuando no hay modelos para la selección.
 
 ---
 

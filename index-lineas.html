@@ -2221,6 +2221,142 @@ body.show-references .reference {
     border-radius: 2px;
     white-space: nowrap;
 }
+
+/* Móvil (≤ 640 px): la mayor parte del tráfico de Líneas es móvil y los clics se iban al header (#7).
+   Los 4 banners pasan a un selector compacto en la primera pantalla, la lista de modelos queda cerca
+   y "Ordenar por" se queda fijo al hacer scroll. El header no se toca. */
+@media (max-width: 640px) {
+    .breadcrumb {
+        padding: 12px 16px 0;
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        padding: 16px 16px 0;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin: 8px auto 16px;
+        padding: 0 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .content {
+        padding: 0 16px;
+        margin-bottom: 48px;
+    }
+
+    .lineas-banners {
+        flex-direction: column;
+        gap: 10px;
+        margin: 0 0 24px;
+    }
+
+    .linea-banner-item {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        column-gap: 12px;
+        align-content: start;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .linea-banner-item > img {
+        grid-column: 1;
+        grid-row: 1 / span 6;
+        width: 96px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .linea-banner-item > h3,
+    .linea-banner-item > p,
+    .linea-banner-item > span:not(.linea-mas-modelos),
+    .linea-banner-item > a {
+        grid-column: 2;
+    }
+
+    .linea-banner-item > h3 {
+        font-size: 16px;
+        margin: 0 0 2px;
+    }
+
+    .linea-banner-item > h3 + p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    /* La nota "Precio mínimo de … en …" se omite en móvil para que las 4 líneas entren en la primera pantalla;
+       el subtítulo de la lista de modelos ya dice el tipo y el tamaño. */
+    .linea-banner-item > span:not(.linea-mas-modelos) {
+        display: none;
+    }
+
+    .linea-banner-count {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    /* La descripción larga de cada línea no cabe en el selector compacto */
+    .linea-banner-item > span:not(.linea-mas-modelos) ~ p:not(.linea-banner-count) {
+        display: none;
+    }
+
+    .linea-banner-item .product-cta {
+        grid-column: 2;
+        justify-self: start;
+        min-height: 36px;
+        margin-top: 6px;
+        padding: 0 14px;
+        font-size: 13px;
+    }
+
+    /* Toda la fila es tocable, no solo el botón */
+    .linea-banner-item .product-cta::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+
+    .linea-banner-item .product-cta.is-disabled::after {
+        display: none;
+    }
+
+    .linea-mas-modelos {
+        top: 16px;
+        left: 16px;
+    }
+
+    .modelos-resultado {
+        margin-top: 8px;
+    }
+
+    .modelos-resultado h2 {
+        font-size: 1.4rem;
+    }
+
+    .modelos-resultado .section-subtitle {
+        margin-bottom: 16px;
+    }
+
+    .modelos-orden {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        margin: 0 -16px 12px;
+        padding: 8px 16px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+    }
+}
 </style>
 </head>
 <body>
