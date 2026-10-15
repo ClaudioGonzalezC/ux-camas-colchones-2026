@@ -225,6 +225,48 @@
     padding: 30px;
 }
 
+.quiz-result-note {
+    max-width: 640px;
+    margin: 0 auto 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666;
+    text-align: center;
+}
+
+.almohada-overlay {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 6px 10px 6px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #222;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.almohada-overlay img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.quiz-results-grid .product-image {
+    aspect-ratio: 3 / 2;
+    flex-shrink: 0;
+}
+
+.quiz-results-grid .product-cta {
+    margin-top: auto;
+}
+
 .product-grid.quiz-results-grid {
     grid-template-columns: repeat(3, var(--catalog-card-width));
     justify-content: center;
@@ -239,7 +281,7 @@
 }
 
 .quiz-widget.quiz-widget-results {
-    height: 1100px;
+    height: auto;
 }
 
 .quiz-widget.quiz-widget-size {
@@ -426,6 +468,15 @@
     border-color: #222;
 }
 
+.quiz-option:focus-visible {
+    outline: 2px solid #222;
+    outline-offset: 2px;
+}
+
+.quiz-question:focus {
+    outline: none;
+}
+
 .quiz-option.selected {
     border-color: #222;
 }
@@ -512,6 +563,56 @@
     padding-top: 14px;
     border-top: 1px solid #eee;
     text-align: center;
+}
+
+.quiz-cta-primary {
+    display: block;
+    max-width: 480px;
+    margin: 20px auto 0;
+    padding: 14px 20px;
+    text-align: center;
+    text-decoration: none;
+    background: #222;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.quiz-cta-primary:hover {
+    background: #000;
+}
+
+.quiz-lead-collapsed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.quiz-lead-collapsed[hidden] {
+    display: none;
+}
+
+.quiz-lead-prompt {
+    font-size: 13px;
+    color: #444;
+}
+
+.quiz-lead-toggle {
+    padding: 8px 14px;
+    background: #fff;
+    border: 1px solid #222;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    cursor: pointer;
+}
+
+.quiz-lead-toggle:hover {
+    background: #f5f5f5;
 }
 
 .quiz-lead-title {
@@ -2345,7 +2446,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                             <p class="quiz-option">
                                 <span class="quiz-option-radio"></span>
                                 <span class="quiz-option-text">
-                                    <span class="quiz-option-label">1,5 Plazas</span>
+                                    <span class="quiz-option-label">1,5 Plazas <span class="quiz-option-dims">(105 × 190/200 cm)</span></span>
                                     <span class="quiz-option-hint">1 persona con más espacio</span>
                                 </span>
                             </p>
@@ -2359,14 +2460,14 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                             <p class="quiz-option">
                                 <span class="quiz-option-radio"></span>
                                 <span class="quiz-option-text">
-                                    <span class="quiz-option-label">Full</span>
+                                    <span class="quiz-option-label">Full <span class="quiz-option-dims">(135 × 200 cm)</span></span>
                                     <span class="quiz-option-hint">2 personas, espacio compacto</span>
                                 </span>
                             </p>
                             <p class="quiz-option">
                                 <span class="quiz-option-radio"></span>
                                 <span class="quiz-option-text">
-                                    <span class="quiz-option-label">Queen</span>
+                                    <span class="quiz-option-label">Queen <span class="quiz-option-dims">(160 × 200 cm)</span></span>
                                     <span class="quiz-option-hint">2 personas, más espacio personal</span>
                                 </span>
                             </p>
@@ -2380,7 +2481,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                             <p class="quiz-option">
                                 <span class="quiz-option-radio"></span>
                                 <span class="quiz-option-text">
-                                    <span class="quiz-option-label">Super King</span>
+                                    <span class="quiz-option-label">Super King <span class="quiz-option-dims">(200 × 200 cm)</span></span>
                                     <span class="quiz-option-hint">2 personas + niños o mascotas</span>
                                 </span>
                             </p>
@@ -2420,151 +2521,36 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
                         <h3 class="quiz-title">Tu recomendación personalizada</h3>
                         <div class="quiz-summary" id="quizSummary"></div>
                         <p class="compare-hint">Marca "Comparar" en los productos que quieras contrastar (hasta 3).</p>
-                        <div class="product-grid quiz-results-grid">
-                            <div class="product-card modelo-card">
-                                <div class="product-image">
-                                    <img src="./images/productos/16022415-1.jpg" data-original="./images/productos/16022415-1.jpg" alt="Cama Europea Tempo Plus">
-                                    <span class="discount-badge">30%</span>
-                                    <label class="compare-overlay"><input type="checkbox"> Comparar</label>
-                                </div>
-                                <div class="rating"><span class="stars" style="--rating: 5;"></span><span class="rating-count">147 reseñas</span></div>
-                                <p class="linea-reco">Línea Premium</p>
-                                <p class="linea">Cama Europea Tempo Plus</p>
-                                <div class="base-info"><p class="description">Base</p><p class="firme selected">dividida</p></div>
-                                <div class="tamano-colchon"><p class="description">Tamaño</p><p class="firme selected">150 x 200cm</p></div>
-                                <div class="firmeza">
-                                    <p class="description">Firmeza</p>
-                                    <p class="firme selected">firme</p>
-                                </div>
-                                <div class="valores">
-                                    <div class="valores-row">
-                                        <span class="valores-label">Firmeza</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                        </div>
-                                    </div>
-                                    <div class="valores-row">
-                                        <span class="valores-label">Adaptación</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="price">$489.990<span class="price-old">$699.990</span></p>
-                                <button class="product-cta">Ver producto</button>
-                            </div>
-                            <div class="product-card modelo-card">
-                                <div class="product-image">
-                                    <img src="./images/productos/16020297-3new.jpg" data-original="./images/productos/16020297-3new.jpg" alt="Cama Autonomy">
-                                    <span class="discount-badge">31%</span>
-                                    <label class="compare-overlay"><input type="checkbox"> Comparar</label>
-                                </div>
-                                <div class="rating"><span class="stars" style="--rating: 4.5;"></span><span class="rating-count">123 reseñas</span></div>
-                                <p class="linea-reco">Línea Premium</p>
-                                <p class="linea">Cama Autonomy Sky</p>
-                                <div class="base-info"><p class="description">Base</p><p class="firme selected">dividida</p></div>
-                                <div class="tamano-colchon"><p class="description">Tamaño</p><p class="firme selected">150 x 200cm</p></div>
-                                <div class="firmeza">
-                                    <p class="description">Firmeza</p>
-                                    <p class="firme selected">intermedio</p>
-                                </div>
-                                <div class="valores">
-                                    <div class="valores-row">
-                                        <span class="valores-label">Firmeza</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment"></span>
-                                            <span class="valores-segment"></span>
-                                        </div>
-                                    </div>
-                                    <div class="valores-row">
-                                        <span class="valores-label">Adaptación</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment"></span>
-                                            <span class="valores-segment"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="price">$449.990<span class="price-old">$649.990</span></p>
-                                <button class="product-cta">Ver producto</button>
-                            </div>
-                            <div class="product-card modelo-card">
-                                <div class="product-image">
-                                    <img src="./images/productos/16025221-1.jpg" data-original="./images/productos/16025221-1.jpg" alt="Cama Europea Indie">
-                                    <span class="discount-badge">28%</span>
-                                    <label class="compare-overlay"><input type="checkbox"> Comparar</label>
-                                </div>
-                                <div class="rating"><span class="stars" style="--rating: 3.5;"></span><span class="rating-count">109 reseñas</span></div>
-                                <p class="linea-reco">Línea Premium</p>
-                                <p class="linea">Cama Europea Indie</p>
-                                <div class="base-info"><p class="description">Base</p><p class="firme selected">dividida</p></div>
-                                <div class="tamano-colchon"><p class="description">Tamaño</p><p class="firme selected">150 x 200cm</p></div>
-                                <div class="firmeza">
-                                    <p class="description">Firmeza</p>
-                                    <p class="firme selected">intermedio</p>
-                                </div>
-                                <div class="valores">
-                                    <div class="valores-row">
-                                        <span class="valores-label">Firmeza</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment"></span>
-                                        </div>
-                                    </div>
-                                    <div class="valores-row">
-                                        <span class="valores-label">Adaptación</span>
-                                        <div class="valores-bar">
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment filled"></span>
-                                            <span class="valores-segment"></span>
-                                            <span class="valores-segment"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="price">$359.990<span class="price-old">$499.990</span></p>
-                                <button class="product-cta">Ver producto</button>
-                            </div>
-                        </div>
-
+                        <p class="quiz-result-note" id="quizResultNote" hidden></p>
+                        <div class="product-grid quiz-results-grid" id="quizResultsGrid"></div>
+                        <a class="quiz-cta quiz-cta-primary" id="quizVerModelos" href="index-lineas.html#modelosResultado">Ver todos los modelos con mi selección</a>
                         <div class="quiz-lead-optional" id="quizLeadOptional">
-                            <h4 class="quiz-lead-title">Guarda tu recomendación</h4>
-                            <p class="quiz-lead-text">Te la enviamos a tu correo para que la revises con calma.</p>
-                            <div class="quiz-lead-fields">
-                                <input class="quiz-field" type="text" placeholder="Nombre">
-                                <input class="quiz-field" type="email" placeholder="Correo electrónico">
-                                <input class="quiz-field" type="tel" placeholder="Teléfono">
+                            <div class="quiz-lead-collapsed" id="quizLeadCollapsed">
+                                <span class="quiz-lead-prompt">¿Quieres guardar tu selección?</span>
+                                <button type="button" class="quiz-lead-toggle" id="quizLeadToggle" aria-expanded="false" aria-controls="quizLeadBody">Enviármela por correo</button>
                             </div>
-                            <div class="quiz-lead-checkboxes">
-                                <label class="quiz-checkbox">
-                                    <input type="checkbox">
-                                    Acepto las políticas, entregando consentimiento para uso de datos en campañas publicitarias y automatizaciones de ROSEN y partners asociados.
-                                </label>
-                                <label class="quiz-checkbox">
-                                    <input type="checkbox">
-                                    Quiero que me contacte un asesor
-                                </label>
+                            <div class="quiz-lead-body" id="quizLeadBody" hidden>
+                                <h4 class="quiz-lead-title">Te enviamos el enlace a tu selección</h4>
+                                <p class="quiz-lead-text">Para que la revises con calma.</p>
+                                <div class="quiz-lead-fields">
+                                    <input class="quiz-field" type="text" placeholder="Nombre">
+                                    <input class="quiz-field" type="email" placeholder="Correo electrónico">
+                                    <input class="quiz-field" type="tel" placeholder="Teléfono">
+                                </div>
+                                <div class="quiz-lead-checkboxes">
+                                    <label class="quiz-checkbox">
+                                        <input type="checkbox">
+                                        Acepto las políticas, entregando consentimiento para uso de datos en campañas publicitarias y automatizaciones de ROSEN y partners asociados.
+                                    </label>
+                                    <label class="quiz-checkbox">
+                                        <input type="checkbox">
+                                        Quiero que me contacte un asesor
+                                    </label>
+                                </div>
+                                <button type="button" class="quiz-cta" data-action="save-lead">Enviar</button>
+                                <p class="quiz-lead-confirm" hidden>¡Listo! Te enviamos el enlace a tu selección a tu correo.</p>
                             </div>
-                            <button type="button" class="quiz-cta" data-action="save-lead">Enviar</button>
-                            <p class="quiz-lead-confirm" hidden>¡Listo! Te enviamos la recomendación a tu correo.</p>
                         </div>
-
                         <span class="quiz-restart" data-action="restart">Volver a empezar</span>
                     </div>
 
@@ -3300,6 +3286,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
         </div>
     </div>
 
+<script src="./data/modelos.js"></script>
 <script>
 // Colapsar / expandir el panel de análisis (view-toggle)
 (function () {
@@ -3649,6 +3636,7 @@ if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
     const quizSummary = document.getElementById("quizSummary");
     let currentIndex = 0;
     let quizAnswers = {};
+    let quizStarted = false;
 
     function renderQuizSummary() {
         if (!quizSummary) return;
@@ -3656,6 +3644,118 @@ if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
             const label = quizStepLabels[stepId] || stepId;
             return '<button type="button" class="quiz-summary-chip" data-jump="' + stepId + '"><strong>' + label + ':</strong> ' + quizAnswers[stepId] + '</button>';
         }).join("");
+    }
+
+    // Traduce las respuestas de tipo, firmeza y tamaño a los filtros que ya entiende Líneas. No hay lógica de matching:
+    // la PLP filtra igual que cuando se llega desde las cards de Guía. Lo no respondido o "No lo tengo claro" usa el default de Líneas.
+    const QUIZ_TAMANOS = {
+        "1 Plaza": ["1-plaza", "90 x 200cm"], "1,5 Plazas": ["1-5-plazas", "105 x 200cm"], "2 Plazas": ["2-plazas", "150 x 200cm"],
+        "Full": ["full", "135 x 200cm"], "Queen": ["queen", "160 x 200cm"], "King": ["king", "180 x 200cm"], "Super King": ["super-king", "200 x 200cm"]
+    };
+
+    // Resultado a partir del catálogo real (data/modelos.js). Reglas, en orden:
+    // 1) Filtro duro: tamaño, tipo y firmeza. "Cama" incluye cama europea y box spring. Si esa combinación no existe se
+    //    relaja primero la firmeza (a la más cercana), luego el tipo, y se avisa. "No lo tengo claro" usa intermedio / 2 Plazas.
+    // 2) Presupuesto: se prefieren los modelos dentro del rango; si ninguno entra, los más cercanos (con aviso).
+    // 3) Desempate con cómo duerme y qué le molesta: criterio de la maqueta, no una regla del negocio. Firmeza y adaptación
+    //    del catálogo son estimadas (rosen.cl no publica una escala).
+    // 4) Se toman 3, de líneas distintas cuando se puede. El enlace del botón principal apunta a la misma combinación.
+    const QUIZ_FIRMEZAS = ["suave", "intermedio", "firme"];
+    const QUIZ_PRESUPUESTO = {
+        "Menos de $500.000": [0, 500000],
+        "Entre $500.000 y $1.000.000": [500000, 1000000],
+        "Entre $1.000.000 y $2.000.000": [1000000, 2000000],
+        "Más de $2.000.000": [2000000, Infinity]
+    };
+    const QUIZ_TIPO_URL = { camaEuropea: "cama-europea", boxSpring: "box-spring", colchon: "colchon" };
+    const QUIZ_TIPO_NOMBRE = { camaEuropea: "camas europeas", boxSpring: "box spring", colchon: "colchones" };
+
+    function calcularResultado() {
+        const pideColchon = quizAnswers["1"] === "Colchón";
+        const tiposPedidos = pideColchon ? ["colchon"] : ["camaEuropea", "boxSpring"];
+        const tiposResto = ["camaEuropea", "boxSpring", "colchon"].filter(t => !tiposPedidos.includes(t));
+        const firmezaResp = (quizAnswers["2"] || "").toLowerCase();
+        const firmeza = QUIZ_FIRMEZAS.includes(firmezaResp) ? firmezaResp : "intermedio";
+        const tamanoResp = (quizAnswers["4"] || "").split(" (")[0];
+        const [tamano, medida] = QUIZ_TAMANOS[tamanoResp] || QUIZ_TAMANOS["2 Plazas"];
+        const bloques = modelosData.filter(d => d.tamano === tamano);
+        const tamanoLabel = bloques.length ? bloques[0].tamanoLabel : tamanoResp;
+        const idx = f => QUIZ_FIRMEZAS.indexOf(f);
+        const firmezasPorCercania = QUIZ_FIRMEZAS.slice().sort((a, b) => Math.abs(idx(a) - idx(firmeza)) - Math.abs(idx(b) - idx(firmeza)));
+        const reunir = (tipoKey, f) => bloques.flatMap(d => (d.porFirmeza[f] || [])
+            .filter(m => m[tipoKey] !== undefined).map(m => ({ m, d, tipoKey, firmeza: f })));
+
+        let pool = [], elegido = null, relajoTipo = false;
+        buscar:
+        for (const [grupo, esPedido] of [[tiposPedidos, true], [tiposResto, false]]) {
+            for (const tipoKey of grupo) {
+                for (const f of firmezasPorCercania) {
+                    const r = reunir(tipoKey, f);
+                    if (r.length) { pool = r; elegido = { tipoKey, firmeza: f }; relajoTipo = !esPedido; break buscar; }
+                }
+            }
+        }
+        if (!pool.length) return { tamano, medida, pool, picks: [], tamanoLabel };
+
+        const [min, max] = QUIZ_PRESUPUESTO[quizAnswers["5"]] || [0, Infinity];
+        const precio = it => RosenModelos.precioDe(it.m, it.tipoKey, medida).precio;
+        const distPres = it => { const p = precio(it); return p < min ? min - p : (p > max ? p - max : 0); };
+
+        let pesoFirmeza = 0, pesoAdaptacion = 0;
+        if (quizAnswers["posicion"] === "De lado") pesoAdaptacion += 1;
+        if (quizAnswers["posicion"] === "Boca abajo") pesoFirmeza += 1;
+        const problema = quizAnswers["3"] || "";
+        if (problema.startsWith("Noto que al acostarme me hundo")) pesoFirmeza += 1;
+        if (problema.startsWith("Siento que al acostarme, el colchón es muy duro")) { pesoFirmeza -= 1; pesoAdaptacion += 1; }
+        if (problema.startsWith("Movimientos de mi pareja")) pesoAdaptacion += 1;
+        const afinidad = it => (it.m.firmeza || 0) * pesoFirmeza + (it.m.adaptacion || 0) * pesoAdaptacion;
+
+        const ordenados = pool.slice().sort((a, b) => distPres(a) - distPres(b) || afinidad(b) - afinidad(a) || precio(a) - precio(b));
+        const mejorDist = distPres(ordenados[0]);
+        const mejores = ordenados.filter(it => distPres(it) === mejorDist);
+        const picks = [];
+        const lineasUsadas = new Set();
+        mejores.forEach(it => {
+            if (picks.length < 3 && !lineasUsadas.has(it.d.linea)) { picks.push(it); lineasUsadas.add(it.d.linea); }
+        });
+        mejores.concat(ordenados).forEach(it => { if (picks.length < 3 && !picks.includes(it)) picks.push(it); });
+
+        const notas = [];
+        const nombreTipoPedido = QUIZ_TIPO_NOMBRE[tiposPedidos[0]];
+        if (relajoTipo) {
+            notas.push("No tenemos " + (pideColchon ? "colchones" : "camas") + " en " + tamanoLabel + "; te mostramos " + QUIZ_TIPO_NOMBRE[elegido.tipoKey] + " como lo más cercano.");
+        } else if (elegido.firmeza !== firmeza) {
+            notas.push("No tenemos " + QUIZ_TIPO_NOMBRE[elegido.tipoKey] + " de firmeza " + firmeza + " en " + tamanoLabel + "; te mostramos firmeza " + elegido.firmeza + ", la más cercana.");
+        }
+        if (mejorDist > 0) {
+            notas.push("Ningún modelo de esta combinación entra en tu presupuesto; te mostramos los más cercanos.");
+        } else if (picks.some(it => distPres(it) > 0)) {
+            const dentro = picks.filter(it => distPres(it) === 0).length;
+            notas.push("Solo " + (dentro === 1 ? "1 modelo entra" : dentro + " modelos entran") + " en tu presupuesto; completamos con " + (3 - dentro === 1 ? "el más cercano" : "los más cercanos") + ".");
+        }
+
+        const linea = pool.some(it => it.d.linea === "Línea Premium") ? "Línea Premium" : picks[0].d.linea;
+        return { tamano, medida, pool, picks, elegido, linea, nota: notas.join(" "), tamanoLabel };
+    }
+
+    function actualizarResultado() {
+        const grid = document.getElementById("quizResultsGrid");
+        const nota = document.getElementById("quizResultNote");
+        const enlace = document.getElementById("quizVerModelos");
+        if (!grid) return;
+        const r = calcularResultado();
+        if (nota) { nota.textContent = r.nota || ""; nota.hidden = !r.nota; }
+        RosenModelos.renderCards(grid, r.picks.map(it => ({
+            m: it.m, linea: it.d.linea, dimensiones: it.d.dimensiones, tipoKey: it.tipoKey, firmeza: it.firmeza
+        })), { medida: r.medida });
+        RosenCompare.wire(grid);
+        RosenCompare.refresh(grid);
+        if (enlace) {
+            const q = r.elegido
+                ? new URLSearchParams({ tamano: r.tamano, linea: r.linea, firmeza: r.elegido.firmeza, tipo: QUIZ_TIPO_URL[r.elegido.tipoKey], medida: r.medida })
+                : new URLSearchParams({ tamano: r.tamano, medida: r.medida });
+            enlace.href = "index-lineas.html?" + q.toString() + "#modelosResultado";
+        }
     }
 
     function showQuizStep(index) {
@@ -3667,25 +3767,67 @@ if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
         quizCard.classList.toggle("quiz-card-wide", stepId === "results");
         quizWidget.classList.toggle("quiz-widget-results", stepId === "results");
         quizWidget.classList.toggle("quiz-widget-size", stepId === "4");
-        if (stepId === "results") renderQuizSummary();
+        if (stepId === "results") { renderQuizSummary(); actualizarResultado(); }
+        // Al cambiar de paso, el foco va a la pregunta para que teclado y lector de pantalla no se queden en el paso anterior.
+        const activo = quizWidget.querySelector('.quiz-step.active .quiz-question, .quiz-step.active .quiz-title');
+        if (activo && quizStarted) { activo.tabIndex = -1; activo.focus({ preventScroll: true }); }
+    }
+
+    // Las opciones son un grupo de radio (ARIA): se alcanzan con Tab, se eligen con Enter/Espacio y se recorren con las flechas.
+    // Solo la opción elegida (o la primera, si no hay ninguna) entra en el orden de Tab.
+    function sincronizarOpciones(step) {
+        const options = Array.from(step.querySelectorAll(".quiz-option"));
+        const elegida = options.find(o => o.classList.contains("selected"));
+        options.forEach(o => {
+            o.setAttribute("aria-checked", o === elegida ? "true" : "false");
+            o.tabIndex = (o === elegida || (!elegida && o === options[0])) ? 0 : -1;
+        });
     }
 
     quizWidget.querySelectorAll(".quiz-step").forEach(step => {
-        const options = step.querySelectorAll(".quiz-option");
-        options.forEach(option => {
-            option.addEventListener("click", () => {
-                options.forEach(o => o.classList.remove("selected"));
-                option.classList.add("selected");
-                if (step.dataset.step) {
-                    const labelEl = option.querySelector(".quiz-option-label");
-                    quizAnswers[step.dataset.step] = (labelEl ? labelEl.textContent : option.textContent).trim();
+        const options = Array.from(step.querySelectorAll(".quiz-option"));
+        const group = step.querySelector(".quiz-options");
+        const question = step.querySelector(".quiz-question");
+        if (question) {
+            question.id = "quizQ-" + step.dataset.step;
+            question.tabIndex = -1;
+        }
+        if (group) {
+            group.setAttribute("role", "radiogroup");
+            if (question) group.setAttribute("aria-labelledby", question.id);
+        }
+
+        function elegir(option) {
+            options.forEach(o => o.classList.remove("selected"));
+            option.classList.add("selected");
+            if (step.dataset.step) {
+                const labelEl = option.querySelector(".quiz-option-label");
+                quizAnswers[step.dataset.step] = (labelEl ? labelEl.textContent : option.textContent).trim();
+            }
+            sincronizarOpciones(step);
+        }
+
+        options.forEach((option, i) => {
+            option.setAttribute("role", "radio");
+            option.addEventListener("click", () => elegir(option));
+            option.addEventListener("keydown", e => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    elegir(option);
+                } else if (["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"].includes(e.key)) {
+                    e.preventDefault();
+                    const paso = (e.key === "ArrowDown" || e.key === "ArrowRight") ? 1 : -1;
+                    const siguiente = options[(i + paso + options.length) % options.length];
+                    elegir(siguiente);
+                    siguiente.focus();
                 }
             });
         });
+        sincronizarOpciones(step);
     });
 
     quizWidget.querySelectorAll('[data-action="start"], [data-action="next"]').forEach(btn => {
-        btn.addEventListener("click", () => showQuizStep(currentIndex + 1));
+        btn.addEventListener("click", () => { quizStarted = true; showQuizStep(currentIndex + 1); });
     });
 
     quizWidget.querySelectorAll('[data-action="back"]').forEach(btn => {
@@ -3697,6 +3839,19 @@ if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
             const chip = e.target.closest("[data-jump]");
             if (!chip) return;
             showQuizStep(quizStepOrder.indexOf(chip.dataset.jump));
+        });
+    }
+
+    const leadToggle = document.getElementById("quizLeadToggle");
+    const leadBody = document.getElementById("quizLeadBody");
+    const leadCollapsed = document.getElementById("quizLeadCollapsed");
+    if (leadToggle && leadBody && leadCollapsed) {
+        leadToggle.addEventListener("click", () => {
+            leadBody.hidden = false;
+            leadCollapsed.hidden = true;
+            leadToggle.setAttribute("aria-expanded", "true");
+            const primerCampo = leadBody.querySelector(".quiz-field");
+            if (primerCampo) primerCampo.focus();
         });
     }
 
@@ -3714,8 +3869,14 @@ if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
         btn.addEventListener("click", () => {
             quizAnswers = {};
             quizWidget.querySelectorAll(".quiz-option.selected").forEach(o => o.classList.remove("selected"));
+            quizWidget.querySelectorAll(".quiz-step").forEach(sincronizarOpciones);
             const leadOptional = document.getElementById("quizLeadOptional");
             if (leadOptional) {
+                if (leadBody && leadCollapsed && leadToggle) {
+                    leadBody.hidden = true;
+                    leadCollapsed.hidden = false;
+                    leadToggle.setAttribute("aria-expanded", "false");
+                }
                 leadOptional.querySelectorAll(".quiz-field").forEach(f => f.value = "");
                 leadOptional.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
                 leadOptional.querySelectorAll(".quiz-field, .quiz-checkbox, .quiz-cta").forEach(el => el.style.display = "");
