@@ -33,6 +33,7 @@ Datos del sitio actual (90 días, [journey-actual.md §5](journey-actual.md)):
 | #1 No se puede calibrar el precio | Precio real por modelo, orden por precio, "+$X vs. el más económico" | Con el precio a la vista, el usuario decide sin salir de la página. | Avance a PDP desde Líneas ↑; tiempo hasta la primera interacción útil ↓ |
 | #2 "Ver más" reabre la decisión | Guía arrastra tamaño, tipo y firmeza; Líneas lista solo esa combinación | Menos pasos de re-decisión. | Avance a PDP ↑; vuelta de PDP a la lista ↓ |
 | #5 Premium concentra el catálogo | Cantidad de modelos por línea y "Más modelos" | El usuario encuentra antes dónde hay más opciones. | Reparto de clics entre líneas; scroll hasta Premium |
+| #3 Comparar tipo obliga a volver atrás | Selector de tipo y "También como…" en cada card | Se cambia de tipo sin salir de la lista. | Clics en `tipo_tab_click` y `tambien_como_click`; vuelta a Guía desde Líneas ↓ |
 | #6 Líneas cierra más de lo que abre | Todo lo anterior | Si las causas se resuelven, la tasa de salida baja. | Tasa de salida de Líneas ↓ |
 | #7 El clic va al header | Banners de línea con contexto, "Ordenar por", comparador, botón del quiz | Más clics dentro del contenido. | % de clics en contenido vs. header ↑ |
 | Quiz → PLP | "Ver todos los modelos con mi selección" | El quiz termina en una lista filtrada, no en un callejón. | Clics en el botón del resultado; avance a PDP desde el quiz |
@@ -70,6 +71,8 @@ Uno por cada interacción relevante del prototipo. Nombres sugeridos (en minúsc
 | `orden_cambio` | Cambio en "Ordenar por" | `orden` (menor, mayor, descuento, vendidos, az, za), `cantidad_modelos` |
 | `comparar_marcar` | Se marca "Comparar" en una card | `modelo`, `linea`, `n_seleccionados` |
 | `comparar_ver` | Se abre el cajón de comparación | `n_seleccionados`, `n_atributos_distintos` |
+| `tipo_tab_click` | Clic en una pestaña de tipo (cama europea, box spring, colchón) de la lista | `desde_tipo`, `hacia_tipo`, `cantidad_modelos` |
+| `tambien_como_click` | Clic en "También como…" de una card | `modelo`, `desde_tipo`, `hacia_tipo` |
 | `base_cambio` | Se cambia entre base completa y dividida | `modelo`, `base` |
 | `ver_producto_click` | Clic en "Ver producto" de una card | `modelo`, `linea`, `tipo`, `posicion_en_lista`, `orden_activo` |
 | `combinacion_sin_modelos` | Se muestra el aviso de que no existe esa combinación | `tamano`, `tipo`, `firmeza`, `linea` |

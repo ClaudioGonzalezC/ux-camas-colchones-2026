@@ -2357,6 +2357,82 @@ body.show-references .reference {
         border-bottom: 1px solid #eee;
     }
 }
+
+/* Selector de tipo y puente "También como…" (#3) */
+.modelos-tipos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+}
+
+.modelos-tipos[hidden] {
+    display: none;
+}
+
+.tipo-tab {
+    padding: 9px 18px;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    background: #fff;
+    color: #222;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.tipo-tab:hover {
+    border-color: #222;
+}
+
+.tipo-tab.active {
+    background: #222;
+    border-color: #222;
+    color: #fff;
+    font-weight: 600;
+    cursor: default;
+}
+
+.tambien-como {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #666;
+    text-align: center;
+}
+
+.tambien-como a {
+    color: #222;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.modelo-destacado {
+    outline: 3px solid #222;
+    outline-offset: 4px;
+    animation: modelo-destacado-pulso 3.5s ease-out forwards;
+}
+
+@keyframes modelo-destacado-pulso {
+    0%, 70% { outline-color: #222; }
+    100% { outline-color: transparent; }
+}
+
+@media (max-width: 640px) {
+    .modelos-tipos {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+    }
+
+    .tipo-tab {
+        flex: 0 0 auto;
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+}
 </style>
 </head>
 <body>
@@ -2512,6 +2588,7 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <h2>Modelos <span id="modelosLineaLabel"></span></h2>
             <p class="section-subtitle" id="modelosSubtitle"></p>
             <p class="compare-hint" id="modelosCompareHint" hidden>Marca "Comparar" en los productos que quieras contrastar (hasta 3).</p>
+            <div class="modelos-tipos" id="modelosTipos" role="group" aria-label="Tipo de producto" hidden></div>
             <div class="modelos-orden" id="modelosOrden" hidden>
                 <label for="modelosOrdenSelect">↕ Ordenar por</label>
                 <select id="modelosOrdenSelect">
@@ -3458,6 +3535,7 @@ RosenCompare.wireOutboundLinks();
 
         if (compareHint) compareHint.hidden = true;
         const ordenEmpty = document.getElementById('modelosOrden'); if (ordenEmpty) ordenEmpty.hidden = true;
+        const tiposEmpty = document.getElementById('modelosTipos'); if (tiposEmpty) tiposEmpty.hidden = true;
         grid.innerHTML = alternativas.length
             ? '<div class="sin-modelos"><p>Lo que sí hay' + (match ? ' en ' + linea : ' en ' + tamanoLabel) + ':</p>' +
               alternativas.map(a => {
@@ -3472,9 +3550,56 @@ RosenCompare.wireOutboundLinks();
     subtitle.innerHTML = 'Estos son los modelos disponibles en <strong>' + tipoLabel + '</strong> de <strong>' + match.tamanoLabel + '</strong>, firmeza <strong>' + firmeza + '</strong>.';
     if (compareHint) compareHint.hidden = false;
 
+    // Selector de tipo: cambia entre cama europea, box spring y colchón sin perder línea, tamaño, firmeza ni orden (#3).
+    // Solo aparecen los tipos que tienen modelos en esta combinación, para no dejar callejones.
+    const tiposEl = document.getElementById('modelosTipos');
+    if (tiposEl) {
+        const tiposInfo = [['cama-europea', 'camaEuropea'], ['box-spring', 'boxSpring'], ['colchon', 'colchon']].map(([url, key]) => ({
+            url, key, n: (match.porFirmeza[firmeza] || []).filter(m => m[key] !== undefined).length
+        })).filter(t => t.n > 0);
+        tiposEl.innerHTML = '';
+        if (tiposInfo.length > 1) {
+            tiposInfo.forEach(t => {
+                const q = new URLSearchParams({ tamano, linea, firmeza, tipo: t.url, medida: medidaEnUrl || match.dimensiones });
+                if (params.get('orden')) q.set('orden', params.get('orden'));
+                const el = document.createElement(t.key === tipoKey ? 'span' : 'a');
+                el.className = 'tipo-tab' + (t.key === tipoKey ? ' active' : '');
+                el.textContent = tipoLabelMap[t.url] + ' (' + t.n + ')';
+                if (t.key === tipoKey) el.setAttribute('aria-current', 'true');
+                else el.href = 'index-lineas.html?' + q.toString() + '#modelosResultado';
+                tiposEl.appendChild(el);
+            });
+            tiposEl.hidden = false;
+        } else {
+            tiposEl.hidden = true;
+        }
+    }
+
     RosenModelos.renderCards(grid, modelos.map(m => ({ m, linea, dimensiones: match.dimensiones })), {
         medida, tipoKey, firmeza,
         onPriceChange: actualizarDeltas
+    });
+
+    // "También como…": puente entre las versiones del mismo modelo en otro tipo (colchón, cama europea, box spring) (#3).
+    // Lleva a la lista de ese tipo y deja resaltado el mismo modelo.
+    const tipoNombreCorto = { camaEuropea: 'Cama europea', boxSpring: 'Box spring', colchon: 'Colchón' };
+    const tipoUrlDe = { camaEuropea: 'cama-europea', boxSpring: 'box-spring', colchon: 'colchon' };
+    Array.from(grid.querySelectorAll('.modelo-card')).forEach((card, i) => {
+        const m = modelos[i];
+        const otros = ['camaEuropea', 'boxSpring', 'colchon'].filter(k => k !== tipoKey && m[k] !== undefined);
+        if (!otros.length) return;
+        const p = document.createElement('p');
+        p.className = 'tambien-como';
+        p.append('También como: ');
+        otros.forEach((k, j) => {
+            const q = new URLSearchParams({ tamano, linea, firmeza, tipo: tipoUrlDe[k], medida: medidaEnUrl || match.dimensiones, modelo: m.nombre });
+            const a = document.createElement('a');
+            a.href = 'index-lineas.html?' + q.toString() + '#modelosResultado';
+            a.textContent = tipoNombreCorto[k] + ' $' + RosenModelos.precioDe(m, k, medida).precio.toLocaleString('es-CL');
+            if (j) p.append(' · ');
+            p.appendChild(a);
+        });
+        card.appendChild(p);
     });
 
     // Etiqueta de diferencia de precio vs. el más económico (desde 3 modelos; se recalcula si cambia base o almohada).
@@ -3551,6 +3676,17 @@ RosenCompare.wireOutboundLinks();
 
     RosenCompare.wire(grid);
     RosenCompare.refresh(grid);
+
+    const modeloDestacado = params.get('modelo');
+    if (modeloDestacado) {
+        const objetivo = Array.from(grid.querySelectorAll('.modelo-card')).find(c => c.dataset.nombre === modeloDestacado);
+        if (objetivo) {
+            objetivo.classList.add('modelo-destacado');
+            // Después de la carga, para que el salto a #modelosResultado del navegador no pise el desplazamiento.
+            window.addEventListener('load', () => setTimeout(() => objetivo.scrollIntoView({ block: 'center', behavior: 'smooth' }), 150));
+            setTimeout(() => objetivo.classList.remove('modelo-destacado'), 3500);
+        }
+    }
 
 })();
 
