@@ -898,6 +898,25 @@
     text-align: center;
 }
 
+.linea-count {
+    margin: -4px 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+}
+
+.linea-mas-modelos {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    background: #222;
+}
+
+.linea-mas-modelos[hidden] {
+    display: none;
+}
+
 .firmeza-hint {
     margin: -4px 0 10px 80px;
     font-size: 11px;
@@ -3420,6 +3439,26 @@ document.querySelectorAll('.product-card').forEach(card => {
 
     ctaProducto.textContent = 'Ver modelos ' + linea.replace(/^(Línea|Selección)\s+/i, '');
 
+    // Cantidad de modelos reales de la línea en este tamaño y tipo, y distintivo en la que tiene más (dato del catálogo).
+    const tipoKeyGuia = { 'cama-europea': 'camaEuropea', 'box-spring': 'boxSpring', 'colchon': 'colchon' };
+    const cuentaEl = document.createElement('p');
+    cuentaEl.className = 'linea-count';
+    card.querySelector('.linea').insertAdjacentElement('afterend', cuentaEl);
+    const masModelosEl = document.createElement('span');
+    masModelosEl.className = 'compare-badge linea-mas-modelos';
+    masModelosEl.textContent = 'Más modelos';
+    masModelosEl.hidden = true;
+    const imagenCard = card.querySelector('.product-image');
+    if (imagenCard) imagenCard.appendChild(masModelosEl);
+
+    function updateCount() {
+        const conteo = RosenModelos.conteoPorLinea(tamano, tipoKeyGuia[selectedTipo]);
+        const n = conteo[linea] || 0;
+        cuentaEl.textContent = n ? RosenModelos.textoCantidad(n) : '';
+        cuentaEl.hidden = !n;
+        masModelosEl.hidden = !(n && RosenModelos.lineasConMasModelos(conteo).includes(linea));
+    }
+
     let selectedTipo = card.querySelector('.product-cta-group .product-cta.selected')?.dataset.tipo || 'cama-europea';
     let selectedPill = pills[0];
 
@@ -3521,6 +3560,7 @@ document.querySelectorAll('.product-card').forEach(card => {
             updateTamanoVisibility();
             updatePrice();
             updateCta();
+            updateCount();
         });
     });
 
@@ -3533,6 +3573,7 @@ document.querySelectorAll('.product-card').forEach(card => {
     updateTamanoVisibility();
     updatePrice();
     updateCta();
+    updateCount();
 });
 
 // Botones productos destacados

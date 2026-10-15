@@ -9,10 +9,14 @@ Wireframe interactivo de alta fidelidad para el rediseño de las secciones **Gu�
 ```
 index-guia.html      Página "Guía" — punto de entrada, recomendador y comparador por tamaño
 index-lineas.html     Página "Líneas" — detalle de las 4 líneas y listado de modelos filtrados
-images/                Capturas de referencia, screenshots de secciones estáticas y assets del quiz
+index-pdp.html        Página de producto de ejemplo (New Style 6 Colchón)
+data/modelos.js       Catálogo real de modelos (precio, imagen, firmeza, base) y construcción de las cards, compartido por Guía y Líneas
+images/                Capturas de referencia, screenshots de secciones estáticas, imágenes de productos y assets del quiz
+hallazgos-y-mejoras.md  Lista consolidada de problemas y su estado
+plan-medicion.md      Cómo medir si el rediseño funciona (indicadores, eventos, línea base y prueba A/B)
 ```
 
-Ambos HTML son autocontenidos (CSS y JS inline, sin dependencias ni build step). Se pueden abrir directo con doble clic o servir con cualquier servidor estático.
+Las páginas no tienen dependencias ni build step: CSS y JS van inline, salvo `data/modelos.js`, que se carga con un `<script src>`. Para abrirlas basta servir la carpeta con cualquier servidor estático (por ejemplo `python3 -m http.server`).
 
 ## Cómo leer el wireframe
 

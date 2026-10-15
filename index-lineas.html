@@ -690,6 +690,22 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.linea-banner-count {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.linea-mas-modelos {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    background: #222;
 }
 
 .linea-banner-item .product-cta {
@@ -3217,6 +3233,8 @@ RosenCompare.wireOutboundLinks();
     // con un aviso en vez de llevar a un listado vacío o cambiar de tamaño sin avisar.
     const medidaEnUrl = params.get('medida');
     const tamanoLabel = (modelosData.find(d => d.tamano === tamano) || {}).tamanoLabel || tamano;
+    const conteoBanners = RosenModelos.conteoPorLinea(tamano, tipoKey);
+    const lineasMasModelos = RosenModelos.lineasConMasModelos(conteoBanners);
     document.querySelectorAll('.lineas-banners .linea-banner-item').forEach(item => {
         const a = item.querySelector('a.product-cta');
         const lineaBanner = item.querySelector('h3').textContent.trim();
@@ -3236,6 +3254,22 @@ RosenCompare.wireOutboundLinks();
         } else {
             precioEl.textContent = bloque ? 'Sin ' + tipoNombreBanner + ' en ' + tamanoLabel : 'No disponible en ' + tamanoLabel;
             if (notaEl) notaEl.hidden = true;
+        }
+
+        // Cantidad de modelos de la línea en este tamaño y tipo, y distintivo en la que tiene más (dato real del catálogo).
+        item.querySelectorAll('.linea-banner-count, .linea-mas-modelos').forEach(e => e.remove());
+        const nModelos = conteoBanners[lineaBanner] || 0;
+        if (nModelos) {
+            const cuenta = document.createElement('p');
+            cuenta.className = 'linea-banner-count';
+            cuenta.textContent = RosenModelos.textoCantidad(nModelos);
+            (notaEl && !notaEl.hidden ? notaEl : precioEl).insertAdjacentElement('afterend', cuenta);
+            if (lineasMasModelos.includes(lineaBanner)) {
+                const badge = document.createElement('span');
+                badge.className = 'compare-badge linea-mas-modelos';
+                badge.textContent = 'Más modelos';
+                item.insertBefore(badge, item.firstChild);
+            }
         }
 
         if (!hayModelos) {

@@ -1072,5 +1072,27 @@ const RosenModelos = (() => {
         });
     }
 
-    return { renderCards, precioDe, tipoPrefijoMap };
+    // Cantidad de modelos reales de cada línea para un tamaño y tipo (todas las firmezas), p. ej. { 'Línea Premium': 13, ... }.
+    function conteoPorLinea(tamano, tipoKey) {
+        const r = {};
+        modelosData.filter(d => d.tamano === tamano).forEach(d => {
+            r[d.linea] = Object.values(d.porFirmeza).flat().filter(m => m[tipoKey] !== undefined).length;
+        });
+        return r;
+    }
+
+    // Líneas con más modelos que las demás. No marca nada si hay una sola línea con modelos o si todas empatan.
+    function lineasConMasModelos(conteo) {
+        const con = Object.entries(conteo).filter(([, n]) => n > 0);
+        if (con.length < 2) return [];
+        const max = Math.max(...con.map(([, n]) => n));
+        if (con.every(([, n]) => n === max)) return [];
+        return con.filter(([, n]) => n === max).map(([l]) => l);
+    }
+
+    function textoCantidad(n) {
+        return n + (n === 1 ? ' modelo' : ' modelos');
+    }
+
+    return { renderCards, precioDe, tipoPrefijoMap, conteoPorLinea, lineasConMasModelos, textoCantidad };
 })();
