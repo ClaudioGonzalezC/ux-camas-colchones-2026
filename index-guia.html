@@ -3860,7 +3860,7 @@ window.addEventListener('resize', () => { clearTimeout(reservaAvisoTimer); reser
         const r = calcularResultado();
         if (nota) { nota.textContent = r.nota || ""; nota.hidden = !r.nota; }
         RosenModelos.renderCards(grid, r.picks.map(it => ({
-            m: it.m, linea: it.d.linea, dimensiones: it.d.dimensiones, tipoKey: it.tipoKey, firmeza: it.firmeza
+            m: it.m, linea: it.d.linea, dimensiones: it.d.dimensiones, tipoKey: it.tipoKey, firmeza: it.firmeza, tamano: it.d.tamano
         })), { medida: r.medida });
         RosenCompare.wire(grid);
         RosenCompare.refresh(grid);
@@ -4104,7 +4104,9 @@ const RosenCompare = (() => {
             // comparación no se vea incompleta sin tocar la card original del recomendador.
             tituloHtml: (!tamanoEl && !firmezaEl && tituloEl) ? `<p class="linea-reco">${tituloEl.textContent}</p>` : "",
             valoresHtml: valoresEl ? valoresEl.outerHTML : "",
-            priceHtml: priceEl ? priceEl.innerHTML : ""
+            priceHtml: priceEl ? priceEl.innerHTML : "",
+            // Enlace a la ficha del producto (si la card lo tiene)
+            pdpHref: (card.querySelector("a.product-cta") || {}).getAttribute ? (card.querySelector("a.product-cta").getAttribute("href") || "#") : "#"
         };
     }
 
@@ -4225,7 +4227,7 @@ const RosenCompare = (() => {
                     ${compartidos.titulo ? "" : d.tituloHtml}
                     ${compartidos.barras ? "" : d.valoresHtml}
                     <p class="price">${d.priceHtml}${diferencia}</p>
-                    <a class="product-cta" href="#">Ver producto</a>
+                    <a class="product-cta" href="${d.pdpHref || '#'}">Ver producto</a>
                 </div>`;
             }).join("") + `<div class="compare-tips">
                 <h4>Tips para elegir tu mejor cama, box o colchón</h4>

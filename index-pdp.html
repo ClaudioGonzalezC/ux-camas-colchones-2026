@@ -2197,6 +2197,58 @@
             font-size: 12px;
         }
     }
+
+/* Ficha parametrizada (#30): puente entre tipos (#3) y aviso de producto no encontrado */
+.pdp-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 14px;
+    font-size: 13px;
+}
+
+.pdp-tipos-label {
+    color: #555;
+    margin-right: 2px;
+}
+
+.pdp-tipo-chip {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    background: #fff;
+    color: #222;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+a.pdp-tipo-chip:hover {
+    border-color: #222;
+}
+
+.pdp-tipo-chip.active {
+    background: #222;
+    border-color: #222;
+    color: #fff;
+    font-weight: 600;
+}
+
+.pdp-error {
+    max-width: 640px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.pdp-error h1 {
+    padding: 0 0 12px;
+    font-size: 1.6rem;
+}
+
+.pdp-error p {
+    margin: 0 0 14px;
+    color: #444;
+}
 </style>
 </head>
 <body>
@@ -3174,5 +3226,7 @@ document.getElementById('pdpAlmohada').addEventListener('change', () => {
     drawer.querySelector('.cart-drawer-close').addEventListener('click', closeDrawer);
 })();
 </script>
+<script src="./data/modelos.js"></script>
+<script src="./data/pdp.js"></script>
 </body>
 </html>

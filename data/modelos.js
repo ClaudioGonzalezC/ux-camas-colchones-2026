@@ -60,11 +60,11 @@ const modelosData = [
                     4, 3,
                     { camaEuropea: { base: { dividida: {} } } }),
                 modelo('New style 6',
-                    variante(399990, 499990, './images/productos/16023873-1.webp', { pata: 'madera', almohadas: true }),
+                    variante(369990, 499990, './images/productos/cama-ns6-completa-1.webp', { pata: 'madera', almohadas: true }),
                     undefined,
                     variante(249990, 339990, './images/productos/14017392-1.webp', { almohadas: true, tamanos: { '150 x 190cm': { precio: 239990, precioNormal: 319990 }, '150 x 200cm': { precio: 249990, precioNormal: 339990 } }, tamanosConAlmohada: { '150 x 190cm': { precio: 239990, precioNormal: 329990 }, '150 x 200cm': { precio: 249990, precioNormal: 349990 } } }),
                     4, 3,
-                    { camaEuropea: { base: { completa: { precio: 399990, precioNormal: 499990, imagen: './images/productos/16023848-1.webp' }, dividida: { precio: 419990, precioNormal: 529990 } } } }),
+                    { camaEuropea: { base: { completa: { precio: 369990, precioNormal: 499990, imagen: './images/productos/cama-ns6-completa-1.webp' }, dividida: { precio: 389990, precioNormal: 529990, imagen: './images/productos/cama-ns6-dividida-1.webp' } } } }),
                 modelo('Indie',
                     variante(359990, 499990, './images/productos/16025221-1.webp'),
                     undefined,
@@ -903,6 +903,7 @@ const modelosData = [
 // para que la estructura sea idéntica en ambos lugares.
 const RosenModelos = (() => {
     const tipoPrefijoMap = { camaEuropea: 'Cama Europea', boxSpring: 'Box Spring', colchon: 'Colchón' };
+    const tipoUrlDe = { camaEuropea: 'cama-europea', boxSpring: 'box-spring', colchon: 'colchon' };
 
     function valoresHtml(m) {
         if (m.firmeza == null || m.adaptacion == null) return '';
@@ -981,6 +982,11 @@ const RosenModelos = (() => {
                 ? (v.tamanosConAlmohada[medida] || v.tamanosConAlmohada['150 x 200cm'])
                 : null;
             const esNewStyle6Colchon = tipoKey === 'colchon' && m.nombre === 'New style 6';
+            // Ficha del producto (#30): una sola página que se llena según la URL con los datos del catálogo
+            const tamanoKey = it.tamano || ctx.tamano;
+            const pdpHref = 'index-pdp.html?' + new URLSearchParams({
+                modelo: m.nombre, tipo: tipoUrlDe[tipoKey], tamano: tamanoKey, linea: it.linea, firmeza, medida
+            }).toString().replace(/&/g, '&amp;');
             const ratingSeed = tipoKey + '-' + m.nombre;
             const calificacion = esNewStyle6Colchon ? 4.5 : calificacionFija(ratingSeed);
             const resenas = esNewStyle6Colchon ? 150 : resenasFijas(ratingSeed);
@@ -1003,7 +1009,7 @@ const RosenModelos = (() => {
             </div>
             ${valoresHtml(m)}
             <p class="price" data-precio="${precioInicial}" data-precio-normal="${precioNormalInicial || ''}"${precioConAlmohada ? ` data-precio-almohada="${precioConAlmohada.precio}" data-precio-normal-almohada="${precioConAlmohada.precioNormal}"` : ''}>$${precioInicial.toLocaleString('es-CL')}${precioNormalInicial ? `<span class="price-old">$${precioNormalInicial.toLocaleString('es-CL')}</span>` : ''}</p>
-            <a class="product-cta" href="${esNewStyle6Colchon ? 'index-pdp.html' : '#'}">Ver producto</a>
+            <a class="product-cta" href="${pdpHref}">Ver producto</a>
         </div>
     `;
         }).join('');
@@ -1064,6 +1070,13 @@ const RosenModelos = (() => {
 
                     if (imgEl) {
                         imgEl.src = pill.dataset.imagen || imgEl.dataset.original;
+                    }
+
+                    const ctaFicha = card.querySelector('a.product-cta');
+                    if (ctaFicha && pill.dataset.base) {
+                        const q = new URLSearchParams(ctaFicha.getAttribute('href').split('?')[1] || '');
+                        q.set('base', pill.dataset.base);
+                        ctaFicha.setAttribute('href', 'index-pdp.html?' + q.toString());
                     }
 
                     alCambiarPrecio(card);

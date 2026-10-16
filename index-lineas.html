@@ -3134,7 +3134,9 @@ const RosenCompare = (() => {
             // comparación no se vea incompleta sin tocar la card original del recomendador.
             tituloHtml: (!tamanoEl && !firmezaEl && tituloEl) ? `<p class="linea-reco">${tituloEl.textContent}</p>` : "",
             valoresHtml: valoresEl ? valoresEl.outerHTML : "",
-            priceHtml: priceEl ? priceEl.innerHTML : ""
+            priceHtml: priceEl ? priceEl.innerHTML : "",
+            // Enlace a la ficha del producto (si la card lo tiene)
+            pdpHref: (card.querySelector("a.product-cta") || {}).getAttribute ? (card.querySelector("a.product-cta").getAttribute("href") || "#") : "#"
         };
     }
 
@@ -3255,7 +3257,7 @@ const RosenCompare = (() => {
                     ${compartidos.titulo ? "" : d.tituloHtml}
                     ${compartidos.barras ? "" : d.valoresHtml}
                     <p class="price">${d.priceHtml}${diferencia}</p>
-                    <a class="product-cta" href="#">Ver producto</a>
+                    <a class="product-cta" href="${d.pdpHref || '#'}">Ver producto</a>
                 </div>`;
             }).join("") + `<div class="compare-tips">
                 <h4>Tips para elegir tu mejor cama, box o colchón</h4>
@@ -3575,7 +3577,7 @@ RosenCompare.wireOutboundLinks();
         }
     }
 
-    RosenModelos.renderCards(grid, modelos.map(m => ({ m, linea, dimensiones: match.dimensiones })), {
+    RosenModelos.renderCards(grid, modelos.map(m => ({ m, linea, dimensiones: match.dimensiones, tamano })), {
         medida, tipoKey, firmeza,
         onPriceChange: actualizarDeltas
     });

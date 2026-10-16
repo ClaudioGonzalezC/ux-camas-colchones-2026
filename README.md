@@ -9,8 +9,9 @@ Wireframe interactivo de alta fidelidad para el rediseño de las secciones **Gu�
 ```
 index-guia.html      Página "Guía" — punto de entrada, recomendador y comparador por tamaño
 index-lineas.html     Página "Líneas" — detalle de las 4 líneas y listado de modelos filtrados
-index-pdp.html        Página de producto de ejemplo (New Style 6 Colchón)
+index-pdp.html        Ficha de producto parametrizada: se llena según la URL con los datos del catálogo (New style 6 conserva su contenido completo)
 data/modelos.js       Catálogo real de modelos (precio, imagen, firmeza, base) y construcción de las cards, compartido por Guía y Líneas
+data/pdp.js           Lógica de la ficha parametrizada (busca el modelo, completa la ficha y oculta lo que no tiene dato)
 images/                Capturas de referencia, screenshots de secciones estáticas, imágenes de productos y assets del quiz
 hallazgos-y-mejoras.md  Lista consolidada de problemas y su estado
 plan-medicion.md      Cómo medir si el rediseño funciona (indicadores, eventos, línea base y prueba A/B)

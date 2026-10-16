@@ -73,6 +73,7 @@ Uno por cada interacción relevante del prototipo. Nombres sugeridos (en minúsc
 | `comparar_ver` | Se abre el cajón de comparación | `n_seleccionados`, `n_atributos_distintos` |
 | `tipo_tab_click` | Clic en una pestaña de tipo (cama europea, box spring, colchón) de la lista | `desde_tipo`, `hacia_tipo`, `cantidad_modelos` |
 | `tambien_como_click` | Clic en "También como…" de una card | `modelo`, `desde_tipo`, `hacia_tipo` |
+| `ficha_tipo_click` | Clic en "Ver este modelo como…" de la ficha | `modelo`, `desde_tipo`, `hacia_tipo` |
 | `base_cambio` | Se cambia entre base completa y dividida | `modelo`, `base` |
 | `ver_producto_click` | Clic en "Ver producto" de una card | `modelo`, `linea`, `tipo`, `posicion_en_lista`, `orden_activo` |
 | `combinacion_sin_modelos` | Se muestra el aviso de que no existe esa combinación | `tamano`, `tipo`, `firmeza`, `linea` |
