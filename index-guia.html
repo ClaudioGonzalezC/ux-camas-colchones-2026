@@ -750,7 +750,8 @@
     line-height: 1.5;
     color: #666;
 }
-.size-note[hidden] { display: none; }
+/* Oculto no quita el espacio: la sección de cards no debe subir ni bajar según el tamaño. La altura la fija el JS. */
+.size-note[hidden] { display: block; visibility: hidden; }
 .size-note a {
     color: #222;
     font-weight: 600;
@@ -917,10 +918,43 @@
     display: none;
 }
 
-.firmeza-hint {
-    margin: -4px 0 10px 80px;
-    font-size: 11px;
-    color: #888;
+.firmeza-segmentos {
+    display: inline-flex;
+    border: 1px solid #bbb;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.firmeza-segmentos .firme {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    max-width: none;
+    padding: 6px 14px;
+    background: transparent;
+}
+
+.firmeza-segmentos .firme:not(.seg-first) {
+    border-left: 1px solid #ddd;
+}
+
+.firmeza-segmentos .firme:hover {
+    border-color: #ddd;
+}
+
+.firmeza-segmentos .firme:hover:not(.selected) {
+    background: #f2f2f2;
+}
+
+.firmeza-segmentos .firme.selected {
+    background: #222;
+    color: #fff;
+}
+
+.firmeza-segmentos .firme:focus-visible {
+    outline: 2px solid #222;
+    outline-offset: -2px;
 }
 
 .compare-bar {
@@ -2721,7 +2755,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="description">Firmeza</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$179.990" data-colchon-price190="$89.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $179.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2744,7 +2777,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$199.990" data-colchon-price200="$119.990" data-disponible="cama-europea,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$199.990" data-colchon-price200="$109.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $199.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2766,7 +2798,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="description">Firmeza</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$249.990" data-colchon-price200="$159.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $249.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2792,7 +2823,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="description">Firmeza</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$199.990" data-colchon-price190="$99.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $199.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2815,7 +2845,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$209.990" data-colchon-price200="$129.990" data-disponible="cama-europea,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$209.990" data-colchon-price200="$129.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $209.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2838,7 +2867,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$269.990" data-colchon-price200="$159.990" data-disponible="cama-europea,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$329.990" data-colchon-price200="$229.990" data-disponible="cama-europea,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $269.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2865,7 +2893,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$259.990" data-colchon-price200="$149.990" data-disponible="cama-europea,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$279.990" data-disponible="cama-europea">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $259.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2887,7 +2914,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="description">Firmeza</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$419.990" data-colchon-price200="$269.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $419.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2915,7 +2941,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$279.990" data-colchon-price190="$309.990" data-colchon-price200="$159.990" data-disponible="cama-europea,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$249.990" data-colchon-price190="$129.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $279.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2940,7 +2965,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$359.990" data-colchon-price190="$239.990" data-colchon-price200="$249.990" data-box-price="$469.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$439.990" data-colchon-price190="$289.990" data-colchon-price200="$299.990" data-box-price="$529.990" data-disponible="cama-europea,box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $599.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2965,7 +2989,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$929.990" data-colchon-price200="$929.990" data-disponible="colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$799.990" data-box-price="$879.990" data-colchon-price200="$649.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $929.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -2990,7 +3013,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$1.679.989" data-box-price="$1.749.990" data-colchon-price200="$1.249.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$2.399.990" data-box-price="$2.399.990" data-colchon-price200="$1.999.990" data-disponible="box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $1.679.989</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3017,7 +3039,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="description">Firmeza</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$7.699.990" data-box-price="$7.699.990" data-disponible="box-spring">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $7.699.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="box-spring">Box Spring</button>
@@ -3043,7 +3064,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$349.990" data-colchon-price200="$189.990" data-disponible="cama-europea,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$349.990" data-colchon-price200="$189.990" data-disponible="cama-europea,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $349.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3066,7 +3086,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$479.990" data-colchon-price200="$249.990" data-box-price="$579.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$499.990" data-colchon-price200="$339.990" data-box-price="$549.990" data-disponible="cama-europea,box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $479.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3089,7 +3108,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$1.499.990" data-box-price="$1.499.990" data-colchon-price200="$1.099.990" data-disponible="box-spring,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$899.990" data-box-price="$979.990" data-colchon-price200="$749.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $1.499.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3113,7 +3131,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$1.999.990" data-colchon-price200="$1.499.990" data-box-price="$1.999.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$2.699.990" data-box-price="$2.699.990" data-colchon-price200="$2.199.990" data-disponible="box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $1.999.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3141,7 +3158,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$499.990" data-colchon-price200="$279.990" data-box-price="$839.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$589.990" data-box-price="$639.990" data-colchon-price200="$369.990" data-disponible="cama-europea,box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $499.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3165,7 +3181,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="suave" data-cama-price="$1.599.990" data-box-price="$1.599.990" data-colchon-price200="$1.189.990" data-disponible="box-spring,colchon">suave</p>
             <p class="firme" data-firmeza="intermedio" data-cama-price="$949.990" data-colchon-price200="$799.990" data-box-price="$1.049.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $1.599.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3189,7 +3204,6 @@ La mayoría de los usuarios llega a esta guía desde el menú "Camas y Colchones
             <p class="firme" data-firmeza="intermedio" data-cama-price="$2.079.990" data-colchon-price200="$1.599.990" data-box-price="$2.149.990" data-disponible="cama-europea,box-spring,colchon">intermedio</p>
             <p class="firme" data-firmeza="firme" data-cama-price="$2.979.990" data-box-price="$2.979.990" data-colchon-price200="$2.469.990" data-disponible="box-spring,colchon">firme</p>
         </div>
-        <p class="firmeza-hint">Toca una firmeza para ver el precio.</p>
         <p class="price">Desde $2.079.990</p>
         <div class="product-cta-group">
             <button type="button" class="product-cta selected" data-tipo="cama-europea">Camas Europeas</button>
@@ -3434,6 +3448,15 @@ document.querySelectorAll('.product-card').forEach(card => {
     const tamano = grid ? grid.id.replace('products-', '') : '';
     const linea = card.querySelector('.linea').textContent.trim();
     const pills = group.querySelectorAll('.firme');
+
+    // Los pills de firmeza son un control (cambian el precio), así que se arman como selector segmentado y grupo de opciones
+    // accesible: Tab para entrar, flechas para cambiar, Enter o Espacio para elegir. Por eso no lleva texto de ayuda.
+    const segmentos = document.createElement('div');
+    segmentos.className = 'firmeza-segmentos';
+    segmentos.setAttribute('role', 'radiogroup');
+    segmentos.setAttribute('aria-label', 'Firmeza');
+    pills.forEach(p => { p.setAttribute('role', 'radio'); segmentos.appendChild(p); });
+    group.appendChild(segmentos);
     const tamanoGroup = card.querySelector('.tamano-colchon');
     const tamanoPills = tamanoGroup ? tamanoGroup.querySelectorAll('.firme') : [];
 
@@ -3502,7 +3525,33 @@ document.querySelectorAll('.product-card').forEach(card => {
         selectedPill = pill;
         updatePrice();
         updateCta();
+        syncPills();
     }
+
+    // Estado accesible y visual del selector: solo los pills visibles cuentan; el elegido entra en el orden de Tab.
+    function syncPills() {
+        const visibles = Array.from(pills).filter(p => p.style.display !== 'none');
+        pills.forEach(p => {
+            p.setAttribute('aria-checked', p.classList.contains('selected') ? 'true' : 'false');
+            p.tabIndex = (p === selectedPill) ? 0 : -1;
+            p.classList.toggle('seg-first', p === visibles[0]);
+        });
+    }
+
+    pills.forEach(pill => pill.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectPill(pill);
+        } else if (['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(e.key)) {
+            e.preventDefault();
+            const visibles = Array.from(pills).filter(p => p.style.display !== 'none');
+            const i = visibles.indexOf(pill);
+            const paso = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : -1;
+            const siguiente = visibles[(i + paso + visibles.length) % visibles.length];
+            selectPill(siguiente);
+            siguiente.focus();
+        }
+    }));
 
     // Si la pill no declara data-disponible, se asume disponible para cualquier tipo
     function pillDisponible(pill, tipo) {
@@ -3518,6 +3567,7 @@ document.querySelectorAll('.product-card').forEach(card => {
             const fallback = Array.from(pills).find(p => pillDisponible(p, selectedTipo));
             if (fallback) selectPill(fallback);
         }
+        syncPills();
     }
 
     // El tamaño 150 x 190cm solo existe en Colchones. En Camas Europeas y Box Spring
@@ -3627,12 +3677,12 @@ function unir(lista, conj) {
     return lista.length < 2 ? lista.join('') : lista.slice(0, -1).join(', ') + ' ' + conj + ' ' + lista[lista.length - 1];
 }
 
-function actualizarAvisoTamano(target) {
-    if (!sizeNote) return;
+// Texto del aviso para un tamaño ('' si ese tamaño tiene las 4 líneas).
+function avisoTamanoHtml(target) {
     const labelDe = key => document.querySelector('.size-btn[data-size="' + key + '"]').textContent.trim();
     const presentes = lineasEnGrilla(grids[target]);
     const faltan = LINEAS_GUIA.filter(l => !presentes.includes(l));
-    if (!faltan.length) { sizeNote.hidden = true; sizeNote.innerHTML = ''; return; }
+    if (!faltan.length) return '';
 
     // Alternativas: otros tamaños que sí tienen alguna de las líneas faltantes, priorizando los que cubren más
     // líneas faltantes y, a igualdad, los que tienen más líneas en total.
@@ -3643,15 +3693,35 @@ function actualizarAvisoTamano(target) {
     const enlaces = alternativas.map(a => '<a data-size-link="' + a.k + '">' + labelDe(a.k) + '</a>');
 
     const tamano = labelDe(target);
-    let html;
     if (presentes.length === 1) {
-        html = 'En ' + tamano + ' solo tenemos ' + presentes[0] + '. Para ver otras líneas, prueba ' + unir(enlaces, 'o') + '.';
-    } else {
-        html = 'En ' + tamano + ' no tenemos ' + unir(faltan, 'ni') + '. ' +
-            (faltan.length > 1 ? 'Las encuentras' : 'La encuentras') + ' en ' + unir(enlaces, 'y') + '.';
+        return 'En ' + tamano + ' solo tenemos ' + presentes[0] + '. Para ver otras líneas, prueba ' + unir(enlaces, 'o') + '.';
     }
+    return 'En ' + tamano + ' no tenemos ' + unir(faltan, 'ni') + '. ' +
+        (faltan.length > 1 ? 'Las encuentras' : 'La encuentras') + ' en ' + unir(enlaces, 'y') + '.';
+}
+
+function actualizarAvisoTamano(target) {
+    if (!sizeNote) return;
+    const html = avisoTamanoHtml(target);
     sizeNote.innerHTML = html;
+    sizeNote.hidden = !html;
+}
+
+// El aviso aparece solo en algunos tamaños; para que las cards no suban ni bajen al cambiar de tamaño, se reserva siempre
+// la altura del aviso más largo al ancho actual (se recalcula si cambia el ancho de la ventana).
+function reservarAlturaAviso() {
+    if (!sizeNote) return;
+    const html = sizeNote.innerHTML, oculto = sizeNote.hidden;
+    sizeNote.style.minHeight = '';
     sizeNote.hidden = false;
+    let max = 0;
+    Object.keys(grids).forEach(k => {
+        sizeNote.innerHTML = avisoTamanoHtml(k);
+        max = Math.max(max, sizeNote.getBoundingClientRect().height);
+    });
+    sizeNote.innerHTML = html;
+    sizeNote.hidden = oculto;
+    sizeNote.style.minHeight = Math.ceil(max) + 'px';
 }
 
 if (sizeNote) {
@@ -3664,6 +3734,9 @@ if (sizeNote) {
 }
 const tamanoActivo = document.querySelector('.size-btn.active');
 if (tamanoActivo) actualizarAvisoTamano(tamanoActivo.dataset.size);
+reservarAlturaAviso();
+let reservaAvisoTimer;
+window.addEventListener('resize', () => { clearTimeout(reservaAvisoTimer); reservaAvisoTimer = setTimeout(reservarAlturaAviso, 150); });
 
 // Quiz Recomendador
 
