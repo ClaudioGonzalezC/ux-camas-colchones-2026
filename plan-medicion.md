@@ -122,7 +122,37 @@ Sin esto no se puede decir si el rediseño mejoró algo. Son consultas sobre el 
 
 ---
 
-## 7. Qué no concluir
+## 7. Presupuesto de rendimiento (#8)
+
+La lentitud crece hacia la compra: Guía 6,8–11,4 s, Líneas 9,0–13,7 s y PDP 14,0–16,4 s, con TTFB de hasta 2.700 ms en la PDP ([journey-actual.md](journey-actual.md)). Una maqueta no puede mejorar el TTFB (servidor, caché, base de datos), pero sí fija **lo que el diseño puede costar**. Estos límites son restricciones de diseño y a la vez indicadores de control de la prueba A/B.
+
+| Métrica | Hoy (sitio actual) | Techo propuesto | Quién la mueve |
+|---|---|---|---|
+| TTFB de la PDP | hasta 2.700 ms | ≤ 800 ms (umbral "bueno" de Google) | Infraestructura: caché de página, CDN, consultas de la ficha |
+| Carga (onload) de Líneas | 9,0–13,7 s | ≤ 4 s | Peso de imágenes y número de solicitudes |
+| Carga (onload) de la PDP | 14,0–16,4 s | ≤ 4 s | Ídem + TTFB |
+| Peso de Líneas | 7,1–8,2 MB | ≤ 2 MB en la primera carga | Imágenes (WebP, tamaño de uso, carga diferida) |
+| Solicitudes de Líneas | 480–489 | ≤ 100 | Scripts y terceros, imágenes diferidas |
+| LCP (imagen principal) | sin medir | ≤ 2,5 s | Imagen principal liviana y sin carga diferida |
+
+Los techos son una propuesta a validar con quien implemente el sitio; los valores de hoy son los medidos con GTmetrix.
+
+**Lo que ya hizo el prototipo (16-10-2026, ver #29).** Las imágenes pasaron a WebP, a su tamaño de uso y con carga diferida. Pesos medidos antes y después (se mide el archivo de cada imagen pedida; "primera carga" es lo que baja sin hacer scroll, "recorrido completo" es lo que baja al ver toda la página):
+
+| Página | Antes | Después, primera carga | Después, recorrido completo |
+|---|---|---|---|
+| Guía | 7,34 MB (31 solicitudes) | 0,30 MB (19) | 0,74 MB (31) |
+| Líneas, 2 Plazas cama | 3,45 MB (19) | 0,48 MB (17) | 0,51 MB (19) |
+| Líneas, 2 Plazas colchón | 4,09 MB (21) | 0,39 MB (16) | 0,51 MB (21) |
+| PDP | 1,79 MB (18) | 0,36 MB (13) | 1,13 MB (28) |
+
+Esto no es el rendimiento del sitio real: es una maqueta estática servida en local, con muchas menos solicitudes (≈ 20–30, contra ≈ 485). Sirve como referencia de qué peso de imágenes es razonable y para que el diseño no sea la causa de un empeoramiento.
+
+**Cómo se controla en la prueba A/B:** la carga y el peso de Líneas de la variante nueva no deben superar a los del control; si superan los 13,7 s (el peor valor medido hoy) se detiene la prueba.
+
+---
+
+## 8. Qué no concluir
 
 - No usar "entradas ÷ salidas" como si fuera una tasa de salida.
 - No generalizar a todo el tráfico con las grabaciones de Clarity (son una muestra).
@@ -133,10 +163,10 @@ Sin esto no se puede decir si el rediseño mejoró algo. Son consultas sobre el 
 
 ---
 
-## 8. Siguientes pasos
+## 9. Siguientes pasos
 
 1. Calcular la línea base de la sección 5 con los datos del sitio actual.
-2. Aclarar con el equipo qué cuenta como evento clave en cada página.
+2. Aclarar con el equipo qué cuenta como evento clave en cada página, y validar los techos de rendimiento de la sección 7.
 3. Acordar con quien implemente el sitio el plan de eventos de la sección 4.
 4. Recalcular el tamaño de muestra con la línea base real y fijar la duración de la prueba.
 5. Repetir el plan para la PDP y para el quiz cuando esas piezas tengan datos reales.
