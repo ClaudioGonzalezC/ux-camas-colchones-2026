@@ -2299,6 +2299,30 @@ a.pdp-tipo-chip:hover {
     .pdp-info .tamano-colchon .firme {
         padding: 9px 14px;
     }
+
+    .pdp-sticky-cta {
+        min-height: 44px;
+    }
+}
+
+/* Las filas de características medían 340 + 230 + 680 px fijos (1.250 px): en pantallas de 701 a ~1.300 px la página se
+   desbordaba de lado. Entre esos anchos las columnas se reparten el espacio disponible. */
+@media (min-width: 701px) and (max-width: 1320px) {
+    .pdp-feature-row {
+        gap: 48px;
+    }
+
+    .pdp-feature-row-text {
+        flex: 1 1 260px;
+        max-width: 340px;
+        min-width: 0;
+    }
+
+    .pdp-feature-row-media {
+        flex: 1 1 320px;
+        max-width: 680px;
+        min-width: 0;
+    }
 }
 </style>
 </head>

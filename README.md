@@ -15,6 +15,7 @@ data/pdp.js           Lógica de la ficha parametrizada (busca el modelo, comple
 images/                Capturas de referencia, screenshots de secciones estáticas, imágenes de productos y assets del quiz
 hallazgos-y-mejoras.md  Lista consolidada de problemas y su estado
 plan-medicion.md      Cómo medir si el rediseño funciona (indicadores, eventos, línea base y prueba A/B)
+pruebas-funcionales.md  Plan de pruebas (pasos y resultados esperados) y sus resultados: 92 casos
 ```
 
 Las páginas no tienen dependencias ni build step: CSS y JS van inline, salvo `data/modelos.js`, que se carga con un `<script src>`. Para abrirlas basta servir la carpeta con cualquier servidor estático (por ejemplo `python3 -m http.server`).
