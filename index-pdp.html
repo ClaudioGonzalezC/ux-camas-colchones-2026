@@ -2249,6 +2249,57 @@ a.pdp-tipo-chip:hover {
     margin: 0 0 14px;
     color: #444;
 }
+
+/* Móvil — ficha de producto. La grilla y la galería ya se apilaban, pero las miniaturas obligaban a la galería a medir
+   más que la pantalla (la página se desbordaba de lado). Aquí se corrige eso y se ajustan los bloques densos. */
+@media (max-width: 900px) {
+    .pdp > *,
+    .pdp-gallery,
+    .pdp-main-col,
+    .pdp-info {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .pdp-thumbs-vertical {
+        gap: 8px;
+        padding-bottom: 4px;
+        scroll-snap-type: x proximity;
+    }
+
+    .pdp-thumbs-vertical .pdp-thumb {
+        flex: 0 0 72px;
+        scroll-snap-align: start;
+    }
+}
+
+@media (max-width: 640px) {
+    .content {
+        padding: 0 16px;
+    }
+
+    .breadcrumb {
+        padding: 12px 0 0;
+        font-size: 12px;
+    }
+
+    .pdp-info h1 {
+        font-size: 1.5rem;
+        padding: 8px 0 0;
+    }
+
+    .pdp-tipos {
+        gap: 6px;
+    }
+
+    .pdp-tipo-chip {
+        padding: 9px 12px;
+    }
+
+    .pdp-info .tamano-colchon .firme {
+        padding: 9px 14px;
+    }
+}
 </style>
 </head>
 <body>

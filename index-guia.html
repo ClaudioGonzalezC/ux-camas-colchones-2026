@@ -2008,6 +2008,219 @@ body.show-references .reference {
     border-radius: 2px;
     white-space: nowrap;
 }
+
+/* Móvil (≤ 640 px) — Guía.
+   Lo que más se toca en la Guía es el carrusel de categorías, así que pasa a ser un carrusel de verdad (antes eran
+   8 tarjetas apiladas, más de 1.000 px antes del recomendador). El quiz, los tamaños, las cards de comparación y la
+   barra de comparación se adaptan al ancho del teléfono. */
+@media (max-width: 640px) {
+    .content {
+        padding: 0 16px;
+        margin-bottom: 48px;
+    }
+
+    .breadcrumb {
+        padding: 12px 16px 0;
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        padding: 16px 16px 0;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin: 8px auto 16px;
+        padding: 0 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Carrusel de categorías */
+    .categories {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 0 16px 6px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar {
+        display: none;
+    }
+
+    .category {
+        flex: 0 0 104px;
+        scroll-snap-align: start;
+    }
+
+    .image-placeholder {
+        height: 72px;
+    }
+
+    .category h2 {
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    .recommender-container {
+        margin: 24px 0;
+    }
+
+    /* Recomendador: el alto se ajusta al contenido, no a 1.250 px de escritorio */
+    .recommender-placeholder {
+        height: auto;
+        min-height: 0;
+        padding: 16px 0;
+    }
+
+    .quiz-card,
+    .quiz-card.quiz-card-wide {
+        max-width: 100%;
+        padding: 20px 16px;
+        margin: 0 8px;
+    }
+
+    .quiz-widget,
+    .quiz-widget.quiz-widget-size {
+        height: auto;
+        min-height: 440px;
+    }
+
+    .quiz-option {
+        padding: 12px;
+    }
+
+    /* Resultado: las 3 recomendaciones se recorren de lado, una por pantalla */
+    .product-grid.quiz-results-grid {
+        display: flex;
+        grid-template-columns: none;
+        justify-content: flex-start;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 8px;
+    }
+
+    .product-grid.quiz-results-grid > .product-card {
+        flex: 0 0 82%;
+        scroll-snap-align: center;
+    }
+
+    .quiz-cta-primary {
+        margin-top: 12px;
+    }
+
+    .quiz-summary-chip {
+        font-size: 12px;
+    }
+
+    /* Tamaños: una sola fila que se desliza (antes ocupaban 4 filas) */
+    .size-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: 8px;
+        margin-bottom: 24px;
+        padding-bottom: 6px;
+        scrollbar-width: none;
+    }
+
+    .size-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .size-btn {
+        flex: 0 0 auto;
+        padding: 10px 16px;
+        white-space: nowrap;
+    }
+
+    /* Zonas de toque más grandes en los controles de las cards */
+    .firmeza-segmentos .firme {
+        padding: 10px 14px;
+    }
+
+    .product-cta-group .product-cta {
+        height: 56px;
+    }
+
+    .quiz-cta {
+        padding: 12px 20px;
+    }
+
+    .size-note {
+        margin: -12px auto 20px;
+        padding: 0;
+        text-align: left;
+    }
+
+    /* Cards de comparación por tamaño */
+    .featured-products .product-card,
+    .product-grid > .product-card {
+        height: auto;
+    }
+
+    .featured-products h2 {
+        font-size: 1.4rem;
+    }
+
+    /* La foto de cada línea ocupaba casi una pantalla entera: proporción apaisada */
+    .product-grid[id^="products-"] .product-image {
+        aspect-ratio: 16 / 10;
+    }
+
+    /* Barra de comparación: apilada, sin desbordar */
+    .compare-bar {
+        padding: 10px 12px;
+        max-width: 100%;
+    }
+
+    .compare-bar-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .compare-bar-label {
+        flex: 1 1 100%;
+        font-size: 12px;
+    }
+
+    .compare-bar-items {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 6px 12px;
+        font-size: 12px;
+    }
+
+    .compare-bar-expand {
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+
+    /* Cajón expandido: la franja de lo que es igual arriba y cada producto a ancho completo, uno bajo otro */
+    .compare-bar.expanded .compare-bar-expanded {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        max-height: 60vh;
+    }
+
+    .compare-bar.expanded .compare-bar-expanded > * {
+        width: 100%;
+        flex: 0 0 auto;
+    }
+
+    .compare-detail-item .product-image {
+        aspect-ratio: 16 / 10;
+    }
+}
 </style>
 </head>
 <body>
