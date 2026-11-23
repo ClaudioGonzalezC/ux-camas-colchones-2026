@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Encuentra tu descanso | Rosen (opción 3)</title>
+<link rel="stylesheet" href="variantes/hibrida/estilos.css">
+</head>
+<body>
+<a class="saltar" href="#fFrase">Saltar al contenido</a>
+
+<main>
+<section class="hyB" aria-labelledby="hyT">
+  <div class="hyB-fondo"><img src="images/imagen-2.webp" alt="" width="1200" height="1200" fetchpriority="high"></div>
+  <div class="hyB-cab"><h1 id="hyT">Encuentra la cama o el colchón con el que vas a dormir</h1><p>Completa los cuatro datos. Los modelos, los precios y las líneas se ajustan a medida que eliges.</p></div>
+</section>
+<div class="hyB-panel-w">
+  <form class="hyB-panel" id="fFrase" onsubmit="return false" aria-label="Busca tu descanso">
+    <div class="hyB-campos">
+      <div class="hyB-campo"><label id="lblTipo">Busco</label><select id="fTipo"></select></div>
+      <div class="hyB-campo"><label id="lblTamano">Tamaño</label><select id="fTamano"></select></div>
+      <div class="hyB-campo"><label id="lblFirmeza">Firmeza</label><select id="fFirmeza"></select></div>
+      <div class="hyB-campo"><label id="lblMax">Presupuesto</label><select id="fMax"></select></div>
+    </div>
+    <div class="hyB-pie" role="status" aria-live="polite">
+      <p id="fResumen"></p>
+      <div class="hyB-acc"><button type="button" class="v-btn" id="fAyuda">Ayúdame a elegir <svg class="hy-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg></button><a class="v-btn v-btn-primario" id="fVer" href="variantes/hibrida/lineas.html">Ver los modelos</a></div>
+    </div>
+  </form>
+</div>
+<div class="hyB-nota-w"><p class="hy-nota" id="fNota" aria-live="polite"></p></div>
+
+<div id="prevRoot"></div>
+
+<section class="wrap ux-seccion" aria-labelledby="hyLineas">
+    <div class="hy-sec-h"><div><h2 id="hyLineas">Cuatro líneas, de menor a mayor inversión</h2><p>Así se reparten las líneas de Rosen con la búsqueda que armaste arriba. Cambia cualquier dato y se actualiza.</p></div></div>
+    <div class="hy-busq" aria-labelledby="busqT"><span class="hy-busq-t" id="busqT">Tu búsqueda</span><div class="hy-busq-chips" id="fBusqueda"></div></div>
+    <div class="hy-lineas" id="fEscala"></div>
+
+    <div class="hy-ayuda" aria-labelledby="ayudaT">
+        <h2 id="ayudaT">¡Te ayudamos!</h2>
+        <div class="hy-ayuda-g">
+            <a class="hy-ayuda-c" href="https://www.rosen.cl/guias-de-compra/" target="_blank" rel="noopener"><span class="hy-linea-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span><div><h3>Guía de compra</h3><p>Datos para tomar una mejor decisión al elegir tu producto favorito.</p></div></a>
+            <a class="hy-ayuda-c" id="ayudaComparar" href="variantes/hibrida/lineas.html"><span class="hy-linea-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg></span><div><h3>Compara nuestros modelos</h3><p>Encuentra el descanso perfecto según tus gustos y necesidades.</p></div></a>
+            <a class="hy-ayuda-c" href="tel:+5622625300"><span class="hy-linea-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><div><h3>Venta telefónica</h3><p>Te guiamos en tu compra. Llama al +5622625300 de lunes a domingo, 8:30 a 20:00 h.</p></div></a>
+        </div>
+    </div>
+
+    <div class="ux-confianza hy-servicios" aria-labelledby="servT">
+        <h2 id="servT">Todo lo que necesitas para <strong>una mejor experiencia de compra</strong></h2>
+        <ul>
+            <li><a href="https://www.rosen.cl/tiendas/" target="_blank" rel="noopener"><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span><h3>Tiendas Rosen y horarios</h3><p>Conoce nuestras Líneas en camas y colchones para que elijas la que va contigo.</p></span></a></li>
+            <li><a href="https://www.rosen.cl/tiendas/" target="_blank" rel="noopener"><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg></span><span><h3>Prueba tus productos</h3><p>Conoce y prueba tus productos en la tienda más cercana.</p></span></a></li>
+            <li><a href="https://www.rosen.cl/preguntas-frecuentes#retiro-tienda" target="_blank" rel="noopener"><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span><h3>Retira tu cama o colchón</h3><p>Compra y retira tu cama o colchón en tienda.</p></span></a></li>
+            <li><div><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span><h3>Medios de pago</h3><p>Paga con hasta 12 cuotas sin interés.</p></span></div></li>
+            <li><div><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span><h3>Asesoría personalizada</h3><p>Agenda tu hora con un especialista.</p></span></div></li>
+            <li><div><span class="hy-ico-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span><h3>Servicio de armado</h3><p>Incluido en el despacho.</p></span></div></li>
+        </ul>
+    </div>
+</section>
+</main>
+
+<dialog class="ux-dlg ux-vv" id="vv" aria-labelledby="vvT"></dialog>
+
+<dialog class="ux-quiz" id="quiz" aria-labelledby="quizT">
+    <div class="ux-quiz-top"><strong id="quizT">Ayúdame a elegir</strong><button type="button" class="v-btn" id="quizX">Cerrar</button></div>
+    <ol class="ux-pasos" id="quizPasos" aria-label="Progreso"></ol>
+    <div class="ux-quiz-c" id="quizC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="data/galerias.js"></script>
+<script src="variantes/hibrida/comun.js"></script>
+<script src="variantes/hibrida/selector.js"></script>
+<script>
+const carroUI = Shell.montar({ ruta: HY.RUTA, actual: 'guia', migas: [['Camas y Colchones']] });
+
+
+// ---- Vista previa de resultados (carrusel) ----
+document.getElementById('prevRoot').innerHTML = `
+<section class="wrap ux-seccion pvA" aria-labelledby="prevT">
+  <div class="pvA-cab">
+    <div><h2 id="prevT"></h2><p id="prevSub"></p></div>
+    <div class="pvA-orden" role="group" aria-label="Ordenar la vista previa">
+      <button type="button" data-ord="relevancia" aria-pressed="true">Mejor valorados</button>
+      <button type="button" data-ord="menor" aria-pressed="false">Más económicos</button>
+      <button type="button" data-ord="descuento" aria-pressed="false">Mayor descuento</button>
+    </div>
+  </div>
+  <div class="pvA-marco">
+    <div class="pvA-pista">
+      <button type="button" class="pvA-flecha pvA-ant" id="prevAnt" aria-label="Ver los modelos anteriores"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="pvA-carr" id="fPrev" tabindex="0" role="region" aria-label="Modelos (desliza o usa las flechas)"></div>
+      <div class="pvA-barra" id="prevBarra" aria-hidden="true"><div class="pvA-barra-p" id="prevBarraP"></div></div>
+      <button type="button" class="pvA-flecha pvA-sig" id="prevSig" aria-label="Ver los modelos siguientes"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <a class="pvA-mas" id="fVerTodos" href="variantes/hibrida/lineas.html"><strong></strong><span></span></a>
+  </div>
+</section>`;
+const $ = id => document.getElementById(id);
+const MAXES_FRASE = [0, 200000, 300000, 400000, 600000, 800000, 1200000, 2000000];
+const u = Cat.leerUrl();
+const e = { tipo: u.tipo || 'colchon', tamano: u.tamano || '2-plazas', firmeza: u.firmeza[0] || '', max: MAXES_FRASE.includes(u.max) ? u.max : 0 };
+let nota = '';
+
+// ---- La frase ----
+$('fTipo').innerHTML = [['colchon', 'Colchones'], ['cama-europea', 'Camas europeas'], ['box-spring', 'Box Spring'], ['', 'Camas o colchones']].map(o => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
+$('fTamano').innerHTML = Cat.TAMANOS.map(t => '<option value="' + t.id + '">' + t.label + ' · ' + HY.dim(t.dimensiones) + '</option>').join('');
+$('fFirmeza').innerHTML = [['', 'cualquiera'], ['suave', 'suave'], ['intermedio', 'intermedia'], ['firme', 'firme']].map(o => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
+$('fMax').innerHTML = MAXES_FRASE.map(m => '<option value="' + m + '">' + (m ? 'hasta ' + Cat.fmt(m) : 'sin tope de precio') + '</option>').join('');
+
+// ---- Selector propio: mismo <select> por debajo (la lógica no cambia), pero con una lista a medida ----
+const AYUDAS = {
+    fTipo: { 'colchon': 'Ya tengo cama o base', 'cama-europea': 'Colchón y base en uno', 'box-spring': 'Colchón sobre base de resortes', '': 'Mostrar todos los tipos' },
+    fTamano: Object.fromEntries(Cat.TAMANOS.map(t => [t.id, t.personas])),
+    fFirmeza: { '': 'Sin preferencia', 'suave': 'Alivia la presión en hombros y caderas', 'intermedio': 'Equilibrio entre acogida y soporte', 'firme': 'Mantiene la columna alineada' }
+};
+const filtros = extra => Object.assign({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza ? [e.firmeza] : [], max: e.max }, extra || {});
+const paramsLineas = extra => { const f = filtros(extra); return { tamano: f.tamano, tipo: f.tipo, firmeza: f.firmeza, max: f.max || '', linea: f.linea || '' }; };
+const PERMITIDO = {
+    fTipo: v => Cat.filtrar(filtros({ tipo: v })).length > 0,
+    fTamano: v => Cat.filtrar(filtros({ tamano: v })).length > 0,
+    fFirmeza: v => Cat.filtrar(filtros({ firmeza: v ? [v] : [] })).length > 0,
+    fMax: v => Cat.filtrar(filtros({ max: parseInt(v, 10) || 0 })).length > 0
+};
+[['fTipo', 'lblTipo'], ['fTamano', 'lblTamano'], ['fFirmeza', 'lblFirmeza'], ['fMax', 'lblMax']].forEach(([id, l]) => selectorPropio($(id), l, PERMITIDO[id], AYUDAS[id]).sync());
+
+// ---- Vista previa: el título dice qué se está mostrando ----
+let ordenPrev = 'relevancia';
+const esInicial = () => e.tipo === 'colchon' && e.tamano === '2-plazas' && !e.firmeza && !e.max;
+// ---- Mensajes de la vista previa: el título y la bajada cuentan en qué punto de la búsqueda está la persona ----
+const DESC_FIRMEZA = {
+    suave: 'Quienes duermen de lado suelen preferirla: alivia la presión en hombros y caderas.',
+    intermedio: 'Un punto medio entre acogida y soporte.',
+    firme: 'Quienes duermen boca arriba o boca abajo suelen sentirse mejor así: mantiene la columna alineada.'
+};
+// Qué conviene en cada tamaño: los textos de "Elige por tamaño" del sitio (index-lineas.html), sin cambios
+const DESC_TAMANO = {
+    '1-plaza': 'Ideal para durmientes individuales, dormitorios pequeños o camas nido.',
+    '1-5-plazas': 'Para uso individual con más espacio o para adolescentes que crecen.',
+    'full': 'Ideal para parejas en espacios compactos o para quien disfruta de más espacio.',
+    '2-plazas': 'Para parejas en espacios medianos, con buena amplitud sin ocupar demasiado.',
+    'queen': 'Para parejas que valoran el espacio personal o quienes duermen con mascotas.',
+    'king': 'Para parejas que desean máximo espacio y libertad de movimiento.',
+    'super-king': 'El mayor espacio disponible: ideal para quienes comparten cama con niños o mascotas.'
+};
+function mensajePrev(r, c) {
+    const n = r.length, fem = e.tipo === 'cama-europea', art = fem ? 'las' : 'los', val = fem ? 'valoradas' : 'valorados', eco = fem ? 'económicas' : 'económicos';
+    const sust = c.tipo ? c.tipo.plural.toLowerCase() : 'modelos';
+    const frase = { relevancia: 'mejor ' + val, menor: 'más ' + eco, descuento: 'con mayor descuento' }[ordenPrev] || 'mejor ' + val;
+    const orden = { relevancia: '', menor: 'Ordenados de menor a mayor precio. ', descuento: 'Ordenados por mayor descuento. ', mayor: '' }[ordenPrev] || '';
+    const firmTxt = e.firmeza === 'intermedio' ? 'intermedia' : e.firmeza;
+    const desde = n ? Cat.fmt(Cat.minimo(r)) : '';
+    if (!n) {
+        // El tipo elegido no existe en este tamaño (p. ej. colchones en Queen): se dice y se ofrece lo que sí hay
+        if (c.tipo && !Cat.filtrar({ tamano: e.tamano, tipo: e.tipo }).length) {
+            const otros = Cat.TIPOS.filter(t => t.url !== e.tipo && Cat.filtrar({ tamano: e.tamano, tipo: t.url }).length).map(t => t.plural.toLowerCase());
+            return { t: 'No hay ' + c.tipo.plural.toLowerCase() + ' en ' + c.tam, s: c.tam + ': ' + DESC_TAMANO[e.tamano] + (otros.length ? ' En este tamaño sí tenemos ' + otros.join(' y ') + '.' : '') };
+        }
+        return { t: 'Ningún modelo con esta frase', s: '' };
+    }
+
+    // 1. Sin tocar nada: la selección inicial
+    if (c.inicial) return { t: 'Para empezar, ' + art + ' ' + sust + ' de ' + c.tam + ' ' + frase, s: c.tam + ': ' + DESC_TAMANO[e.tamano] + ' Mientras eliges, te mostramos los favoritos. Cambia la frase de arriba y esta lista se actualiza.' };
+
+    // 2. Vino del cuestionario
+    if (nota && /cuestionario|respuestas/i.test(nota)) return { t: n + ' ' + c.que(n) + ' de ' + c.tam + (e.firmeza ? ' con firmeza ' + firmTxt : '') + (e.max ? ' hasta ' + Cat.fmt(e.max) : ''), s: 'Elegidos según tus respuestas. ' + orden + 'Puedes ajustar la frase y la lista se actualiza.' };
+
+    let t, s;
+    const pocos = n === 1 ? 'Es el único que cumple esta combinación. ' : (n <= 3 ? 'Quedan pocos modelos. ' : '');
+    if (!e.firmeza && !e.max) {
+        // 3. Solo cambió el tipo o el tamaño: se explora
+        t = art[0].toUpperCase() + art.slice(1) + ' ' + sust + ' de ' + c.tam + ' ' + frase;
+        s = c.tam + ': ' + DESC_TAMANO[e.tamano] + ' Hay ' + n + ' ' + c.que(n) + ', desde ' + desde + '. ' + orden + 'Elige una firmeza y un presupuesto en la frase para acotar.';
+    } else if (e.firmeza && !e.max) {
+        // 4. Firmeza elegida
+        const cuenta = Cat.FIRMEZAS.map(f => [f, Cat.filtrar(filtros({ firmeza: [f] })).length]).sort((x, y) => y[1] - x[1]);
+        const top = cuenta[0][0] === e.firmeza && cuenta[0][1] > cuenta[1][1] ? ' Es la firmeza con más modelos en ' + c.tam + '.' : '';
+        t = n + ' ' + c.que(n) + ' de ' + c.tam + ' con firmeza ' + firmTxt;
+        s = pocos + orden + DESC_FIRMEZA[e.firmeza] + top + (n > 3 ? ' Suma un presupuesto en la frase para acotar más.' : ' Prueba otra firmeza para ver más.');
+    } else if (!e.firmeza && e.max) {
+        // 5. Solo presupuesto
+        const fuera = c.sinTope.length - n;
+        t = n + ' ' + c.que(n) + ' de ' + c.tam + ' hasta ' + Cat.fmt(e.max);
+        s = pocos + orden + (fuera > 0 ? 'Con ese tope quedan fuera ' + fuera + (fuera === 1 ? ' modelo más caro.' : ' modelos más caros.') : 'Todos los modelos de este tamaño entran en ese presupuesto.') + ' Desde ' + desde + '.';
+    } else {
+        // 6. Firmeza y presupuesto
+        t = n + ' ' + c.que(n) + ' de ' + c.tam + ' con firmeza ' + firmTxt + ' hasta ' + Cat.fmt(e.max);
+        s = pocos + orden + (n <= 3 ? 'Sube el presupuesto o prueba otra firmeza para ver más.' : 'Es la combinación que más acota. Abre uno para ver su ficha.');
+    }
+    return { t, s };
+}
+
+// ---- Alto fijo del título y la bajada: se reserva el espacio del peor caso para que el carrusel no suba ni baje ----
+function ctxPrev(r) {
+    const tipo = e.tipo ? Cat.tipoPorUrl(e.tipo) : null, tam = Cat.TAMANOS.find(t => t.id === e.tamano).label;
+    const que = n => tipo ? (n === 1 ? tipo.nombre.toLowerCase() : tipo.plural.toLowerCase()) : (n === 1 ? 'modelo' : 'modelos');
+    return { tipo, tam, que, inicial: esInicial(), sinTope: Cat.filtrar(filtros({ max: 0 })) };
+}
+let textoMaxT = '', textoMaxS = '';
+function calcularTextosMax() {
+    // Recorre las combinaciones de la frase (y los tres órdenes) y se queda con el título y la bajada más largos
+    const guardado = { e: Object.assign({}, e), o: ordenPrev, n: nota };
+    for (const ta of Cat.TAMANOS.map(t => t.id)) for (const ti of ['', ...Cat.TIPOS.map(t => t.url)]) for (const fi of ['', ...Cat.FIRMEZAS]) for (const mx of [0, 200000, 2000000]) {
+        Object.assign(e, { tamano: ta, tipo: ti, firmeza: fi, max: mx });
+        const r = Cat.filtrar(filtros());
+        for (const o of ['relevancia', 'menor', 'descuento']) for (const nt of ['', 'respuestas']) {
+            ordenPrev = o; nota = nt;
+            const m = mensajePrev(r, ctxPrev(r));
+            if (m.t.length > textoMaxT.length) textoMaxT = m.t;
+            if (m.s.length > textoMaxS.length) textoMaxS = m.s;
+        }
+    }
+    Object.assign(e, guardado.e); ordenPrev = guardado.o; nota = guardado.n;
+}
+function reservarAlto() {
+    if (!textoMaxT) return;
+    const bloque = document.querySelector('.pvA-cab > div'); if (!bloque) return;
+    const sonda = document.createElement('div'); sonda.className = 'pvA-cab pvA-sonda'; sonda.setAttribute('aria-hidden', 'true');
+    sonda.innerHTML = '<div><h2></h2><p></p></div>'; sonda.firstChild.style.width = bloque.getBoundingClientRect().width + 'px';
+    bloque.parentNode.parentNode.appendChild(sonda);
+    const h = sonda.querySelector('h2'), p = sonda.querySelector('p');
+    h.style.minHeight = p.style.minHeight = '0'; h.textContent = textoMaxT; p.textContent = textoMaxS;
+    const root = document.querySelector('.pvA'); root.style.setProperty('--pv-t', Math.ceil(h.getBoundingClientRect().height) + 'px'); root.style.setProperty('--pv-s', Math.ceil(p.getBoundingClientRect().height) + 'px');
+    sonda.remove();
+}
+let _rr; window.addEventListener('resize', () => { clearTimeout(_rr); _rr = setTimeout(reservarAlto, 120); });
+
+// ---- Vista rápida de los modelos del carrusel (con Anterior / Siguiente entre los 8) ----
+let listaVista = [], vi = 0;
+$('fPrev').addEventListener('click', ev => { const v = ev.target.closest('[data-vista]'); if (v) { vi = Math.max(0, listaVista.findIndex(i => i.id === v.dataset.vista)); pintarVista(); if (!$('vv').open) $('vv').showModal(); } });
+function pintarVista() {
+    const i = listaVista[vi]; if (!i) return;
+    const otros = Cat.otrosTipos(i).filter(x => x.tipoKey !== i.tipoKey), fotosV = HY.fotos(i);
+    $('vv').innerHTML = '<div class="ux-vv-izq"><div class="ux-vv-img"><img id="vvFoto" src="' + fotosV[0] + '" alt="' + Cat.esc(i.nombreCompleto) + '">' + (i.descuento ? '<span class="ux-dto">' + i.descuento + '%</span>' : '') + '</div>' +
+        (fotosV.length > 1 ? '<div class="ux-vv-mini" role="group" aria-label="Fotos del producto">' + fotosV.map((f, k) => '<button type="button" data-foto="' + Cat.esc(f) + '" aria-label="Ver foto ' + (k + 1) + ' de ' + fotosV.length + '" aria-current="' + (k === 0) + '"><img src="' + Cat.esc(f) + '" alt="" loading="lazy"></button>').join('') + '</div>' : '') + '</div>' +
+        '<div class="ux-vv-c"><button type="button" class="ux-vv-x" id="vvX" aria-label="Cerrar la vista rápida">×</button>' +
+        '<span class="ux-linea">' + i.linea + '</span><h2 id="vvT">' + Cat.esc(i.nombreCompleto) + '</h2>' +
+        '<div class="ux-val">' + HY.estrellas(i.calificacion) + '<span>' + i.calificacion.toString().replace('.', ',') + ' · ' + i.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
+        '<p class="ux-precio">' + Cat.fmt(i.precio) + (i.descuento ? '<s>' + Cat.fmt(i.precioNormal) + '</s>' : '') + '</p>' +
+        '<p class="ux-meta">' + i.tipo.nombre + ' · ' + i.tamanoLabel + ' (' + HY.dim(i.dimensiones) + ')</p>' +
+        '<div class="ux-vv-b">' + HY.escala('Firmeza', i.firmezaN) + HY.escala('Adaptación', i.adaptacion) + '</div>' +
+        (otros.length ? '<p class="ux-meta">También como: ' + otros.map(o => '<a href="' + Cat.hrefPdp(HY.RUTA, o) + '">' + o.tipo.nombre + ' ' + Cat.fmt(o.precio) + '</a>').join(' · ') + '</p>' : '') +
+        '<p class="ux-meta hy-cuotas">' + HY.iconoTarjeta + '<span>12 cuotas sin interés de ' + Cat.fmt(Math.round(i.precio / 12)) + '</span></p>' +
+        '<div style="display:grid;gap:10px;margin-top:10px"><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(HY.RUTA, i) + '">Ver la ficha completa</a><button type="button" class="v-btn" id="vvAgregar">Agregar al carro</button></div>' +
+        '<div class="ux-vv-nav"><button type="button" class="ux-link" id="vvPrev"' + (vi === 0 ? ' disabled' : '') + '>Anterior</button><span class="ux-meta">' + (vi + 1) + ' de ' + listaVista.length + '</span><button type="button" class="ux-link" id="vvNext"' + (vi === listaVista.length - 1 ? ' disabled' : '') + '>Siguiente</button></div></div>';
+    $('vvX').addEventListener('click', () => $('vv').close());
+    $('vv').querySelectorAll('[data-foto]').forEach(b => b.addEventListener('click', () => {
+        $('vvFoto').src = b.dataset.foto; $('vv').querySelectorAll('[data-foto]').forEach(x => x.setAttribute('aria-current', x === b));
+    }));
+    $('vvPrev').addEventListener('click', () => { vi--; pintarVista(); $('vvPrev').focus(); });
+    $('vvNext').addEventListener('click', () => { vi++; pintarVista(); $('vvNext').focus(); });
+    $('vvAgregar').addEventListener('click', () => { Cat.carro.agregar(i); $('vv').close(); carroUI.abrirCarro(); });
+}
+$('vv').addEventListener('click', ev => { if (ev.target === $('vv')) $('vv').close(); });
+$('vv').addEventListener('keydown', ev => { if (ev.key === 'ArrowRight' && vi < listaVista.length - 1) { vi++; pintarVista(); } if (ev.key === 'ArrowLeft' && vi > 0) { vi--; pintarVista(); } });
+
+// ---- Enviar la selección por correo (panel visible bajo las recomendaciones). Es una simulación: no se envía ni se guarda nada. ----
+const TXT_POLITICAS = 'Acepto las políticas, entregando consentimiento para uso de datos en campañas publicitarias y automatizaciones de ROSEN y partners asociados.';   // texto del formulario original
+function formEnvio() {
+    return '<form class="hy-envio-f" novalidate>' +
+        '<div class="hy-envio-campos">' +
+        '<label class="hy-cf"><span>Nombre</span><input name="nombre" type="text" autocomplete="name"></label>' +
+        '<label class="hy-cf"><span>Correo electrónico</span><input name="correo" type="email" autocomplete="email" required aria-describedby="envioErrC"><em class="hy-err" id="envioErrC" role="alert" hidden></em></label>' +
+        '<label class="hy-cf"><span>Teléfono</span><input name="tel" type="tel" autocomplete="tel" aria-describedby="envioErrT"><em class="hy-err" id="envioErrT" role="alert" hidden></em></label>' +
+        '</div>' +
+        '<label class="hy-check"><input type="checkbox" name="politicas"><span>' + TXT_POLITICAS + '</span></label>' +
+        '<label class="hy-check"><input type="checkbox" name="asesor"><span>Quiero que me contacte un asesor</span></label>' +
+        '<button type="submit" class="v-btn v-btn-primario hy-envio-btn">Enviar</button></form>';
+}
+function envioHTML(top) {
+    return '<section class="hy-envio hy-envio-b" aria-labelledby="envioT"><div class="hy-envio-izq"><h3 id="envioT">Te enviamos el enlace a tu selección</h3><p>Para que la revises con calma.</p>' +
+        '<ul class="hy-envio-lista">' + top.map(i => '<li>' + Cat.esc(i.nombreCompleto) + '<small>' + Cat.fmt(i.precio) + '</small></li>').join('') + '</ul></div><div class="hy-envio-der" id="envioCuerpo">' + formEnvio() + '</div></section>';
+}
+function activarEnvio(top) {
+    const cuerpo = $('envioCuerpo'); if (!cuerpo) return;
+    const form = cuerpo.querySelector('form'), errC = form.querySelector('#envioErrC'), errT = form.querySelector('#envioErrT');
+    const marcar = (el, err, msg) => { err.hidden = !msg; err.textContent = msg || ''; el.setAttribute('aria-invalid', !!msg); };
+    form.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const f = form.elements, correo = f.correo.value.trim(), tel = f.tel.value.trim();
+        const okC = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo), okT = !f.asesor.checked || tel.length >= 8;
+        marcar(f.correo, errC, okC ? '' : (correo ? 'Revisa el correo: parece incompleto.' : 'Escribe tu correo para enviarte el enlace.'));
+        marcar(f.tel, errT, okT ? '' : 'Para que te contacte un asesor necesitamos tu teléfono.');
+        if (!okC) return f.correo.focus(); if (!okT) return f.tel.focus();
+        cuerpo.innerHTML = '<div class="hy-envio-ok" role="status"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>' +
+            '<div><strong>¡Listo! Te enviamos el enlace a tu selección a ' + Cat.esc(correo) + '.</strong><ul>' + top.map(i => '<li>' + Cat.esc(i.nombreCompleto) + '</li>').join('') + '</ul>' +
+            '<p class="hy-proto">Simulación: en este prototipo no se envía ningún correo ni se guarda ningún dato.</p></div></div>';
+    });
+}
+
+// Un ícono por línea (trazo fino): hoja, gema, medalla y corona
+const ICONO_LINEA = {
+    'Línea Esencial': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
+    'Línea Premium': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>',
+    'Línea Advantage': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
+    'Selección Excelsior': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>'
+};
+// Tocar un dato de "Tu búsqueda" sube al panel y abre ese campo
+document.addEventListener('click', ev => {
+    const c = ev.target.closest('[data-campo]'); if (!c) return;
+    document.querySelector('.hyB-panel').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    setTimeout(() => { const b = $(c.dataset.campo + 'Btn'); if (b) b.click(); }, 500);
+});
+
+function pintarPrev(r) {
+    const tipo = e.tipo ? Cat.tipoPorUrl(e.tipo) : null, tam = Cat.TAMANOS.find(t => t.id === e.tamano).label;
+    const que = n => tipo ? (n === 1 ? tipo.nombre.toLowerCase() : tipo.plural.toLowerCase()) : (n === 1 ? 'modelo' : 'modelos');
+    const firm = e.firmeza ? ' con firmeza ' + (e.firmeza === 'intermedio' ? 'intermedia' : e.firmeza) : '', tope = e.max ? ' hasta ' + Cat.fmt(e.max) : '';
+    const inicial = esInicial(), lista = Cat.ordenar(r, ordenPrev), href = Cat.hrefLineas(HY.RUTA, paramsLineas());
+    const sinTope = Cat.filtrar(filtros({ max: 0 })), sinFirmeza = Cat.filtrar(filtros({ firmeza: [] }));
+    const sube = sinTope.length ? Math.ceil(Cat.minimo(sinTope) / 50000) * 50000 : 0;
+    const vacio = '<div class="hy-vacio-prev"><h3>No encontramos modelos con esta frase</h3><p>' + (sinTope.length ? 'Con ese presupuesto no hay modelos; desde ' + Cat.fmt(Cat.minimo(sinTope)) + ' sí.' : (sinFirmeza.length ? 'No hay modelos con esa firmeza en este tamaño. Prueba con otra.' : 'No hay modelos de este tipo en este tamaño.')) + '</p>' +
+        (sube ? '<button type="button" class="v-btn v-btn-primario" id="fSubir">Subir el presupuesto a ' + Cat.fmt(sube) + '</button>' : '') + '</div>';
+    const carr = $('fPrev'); carr.classList.remove('pv-fade'); void carr.offsetWidth; carr.classList.add('pv-fade');
+    const m = mensajePrev(r, ctxPrev(r));
+    $('prevT').textContent = m.t; $('prevSub').textContent = m.s;
+    document.querySelectorAll('[data-ord]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ord === ordenPrev));
+    carr.innerHTML = r.length ? lista.slice(0, 8).map(i => HY.tarjeta(i, { vista: true, minPrecio: r.length > 1 ? Cat.minimo(r) : 0 })).join('') : vacio;
+    listaVista = lista.slice(0, 8);
+    const mas = $('fVerTodos'); mas.hidden = !r.length; mas.href = href;
+    if (r.length) { mas.querySelector('strong').textContent = 'Ver los ' + r.length + ' ' + que(r.length); mas.querySelector('span').textContent = 'Desde ' + Cat.fmt(Cat.minimo(r)); }
+    carr.scrollLeft = 0; flechas();
+    if (sube && $('fSubir')) $('fSubir').addEventListener('click', () => { e.max = MAXES_FRASE.find(m => m >= sube) || 0; nota = ''; dibujar(); });
+}
+// Barra de avance propia (línea fina): el tramo oscuro muestra qué parte del carrusel se ve
+function barra() {
+    const c = $('fPrev'), b = $('prevBarra'), p = $('prevBarraP'), total = c.scrollWidth, vis = c.clientWidth;
+    b.style.visibility = total > vis + 4 ? 'visible' : 'hidden';
+    p.style.width = Math.max(8, vis / total * 100) + '%'; p.style.left = (c.scrollLeft / total * 100) + '%';
+}
+(() => {
+    const b = $('prevBarra'), c = $('fPrev'); let arrastre = null;
+    b.addEventListener('pointerdown', ev => {
+        const r = b.getBoundingClientRect(), p = $('prevBarraP').getBoundingClientRect();
+        // clic fuera del tramo oscuro: salta a ese punto; sobre el tramo: lo arrastra
+        if (ev.clientX < p.left || ev.clientX > p.right) c.scrollTo({ left: (ev.clientX - r.left) / r.width * c.scrollWidth - c.clientWidth / 2, behavior: 'smooth' });
+        else arrastre = { x: ev.clientX, left: c.scrollLeft };
+        try { b.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    b.addEventListener('pointermove', ev => { if (arrastre) c.scrollLeft = arrastre.left + (ev.clientX - arrastre.x) / b.getBoundingClientRect().width * c.scrollWidth; });
+    ['pointerup', 'pointercancel'].forEach(t => b.addEventListener(t, () => { arrastre = null; }));
+})();
+// Las flechas llevan a la siguiente card que empieza justo antes o después de una "página" de carrusel (así el ajuste automático no se pelea con el movimiento)
+function moverCarrusel(dir) {
+    const c = $('fPrev'), base = c.getBoundingClientRect().left, max = c.scrollWidth - c.clientWidth;
+    const pos = [...c.querySelectorAll('.ux-card')].map(k => Math.max(0, Math.round(k.getBoundingClientRect().left - base + c.scrollLeft - 2)));
+    const quiere = c.scrollLeft + dir * c.clientWidth * .85;
+    const cand = pos.filter(p => dir > 0 ? p > c.scrollLeft + 10 : p < c.scrollLeft - 10);
+    let destino = cand.length ? cand.sort((x, y) => Math.abs(x - quiere) - Math.abs(y - quiere))[0] : (dir > 0 ? max : 0);
+    if (dir > 0 && quiere >= max - 10) destino = max;
+    c.scrollTo({ left: Math.max(0, Math.min(max, destino)), behavior: 'smooth' });
+}
+// "Vista rápida" solo en las cards que se ven completas; la que asoma a medias no la ofrece
+function vistaSoloVisibles() {
+    const c = $('fPrev'), r = c.getBoundingClientRect();
+    c.querySelectorAll('.ux-card').forEach(card => {
+        const k = card.getBoundingClientRect(), btn = card.querySelector('.ux-vista'); if (!btn) return;
+        btn.hidden = !(k.left >= r.left - 2 && k.right <= r.right + 2);
+    });
+}
+function flechas() {
+    barra(); vistaSoloVisibles();
+    const c = $('fPrev'), hay = c.scrollWidth > c.clientWidth + 4;
+    $('prevAnt').hidden = $('prevSig').hidden = !hay;
+    $('prevAnt').disabled = c.scrollLeft <= 2; $('prevSig').disabled = c.scrollLeft + c.clientWidth >= c.scrollWidth - 2;
+}
+$('fPrev').addEventListener('scroll', flechas, { passive: true });
+window.addEventListener('resize', flechas);
+$('prevRoot').addEventListener('click', ev => {
+    const o = ev.target.closest('[data-ord]'); if (o) { ordenPrev = o.dataset.ord; dibujar(); }
+    const paso = ev.target.closest('#prevAnt,#prevSig'); if (paso) moverCarrusel(paso.id === 'prevSig' ? 1 : -1);
+});
+
+function dibujar() {
+    $('fTipo').value = e.tipo; $('fTamano').value = e.tamano; $('fFirmeza').value = e.firmeza; $('fMax').value = e.max;
+    selectsPropios.forEach(x => x.sync());
+    Cat.escribirUrl({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza, max: e.max || '' });
+    const r = Cat.filtrar(filtros());
+    $('fResumen').innerHTML = r.length
+        ? '<strong>' + r.length + (r.length === 1 ? ' modelo' : ' modelos') + '</strong> coinciden, desde <strong>' + Cat.fmt(Cat.minimo(r)) + '</strong>'
+        : '<strong>Ningún modelo</strong> coincide con esta frase';
+    $('fVer').href = Cat.hrefLineas(HY.RUTA, paramsLineas());
+    $('fVer').textContent = r.length ? 'Ver los ' + r.length + (r.length === 1 ? ' modelo' : ' modelos') : 'Ver el tamaño sin filtros';
+    $('fNota').textContent = nota;
+    $('ayudaComparar').href = Cat.hrefLineas(HY.RUTA, paramsLineas());
+
+    pintarPrev(r);
+
+    // Tu búsqueda (se recuerda aquí porque el panel queda arriba) y las cuatro líneas
+    const tipoTxt = e.tipo ? Cat.tipoPorUrl(e.tipo).plural : 'Camas o colchones', tamObj = Cat.TAMANOS.find(t => t.id === e.tamano);
+    $('fBusqueda').innerHTML = [
+        ['fTipo', tipoTxt], ['fTamano', tamObj.label + ' · ' + HY.dim(tamObj.dimensiones)],
+        ['fFirmeza', e.firmeza ? 'Firmeza ' + (e.firmeza === 'intermedio' ? 'intermedia' : e.firmeza) : 'Cualquier firmeza'], ['fMax', e.max ? 'Hasta ' + Cat.fmt(e.max) : 'Sin tope de precio']
+    ].map(([id, t]) => '<button type="button" class="hy-busq-chip" data-campo="' + id + '" aria-label="Cambiar: ' + Cat.esc(t) + '">' + Cat.esc(t) + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>').join('');
+    const conteoL = Object.fromEntries(Cat.LINEAS.map(l => [l, Cat.filtrar(filtros({ linea: [l] })).length])), masModelos = RosenModelos.lineasConMasModelos(conteoL);
+    $('fEscala').innerHTML = Cat.LINEAS.map(l => {
+        const ls = Cat.filtrar(filtros({ linea: [l] })), n = ls.length;
+        const firmezas = Cat.FIRMEZAS.filter(f => ls.some(i => i.firmeza === f));
+        return '<article class="hy-linea' + (n ? '' : ' vacia') + '"><div class="hy-linea-cab"><span class="hy-linea-ico" aria-hidden="true">' + ICONO_LINEA[l] + '</span><h3>' + Cat.LINEA_CORTA[l] + '</h3>' + (masModelos.includes(l) ? '<span class="hy-tag">Más modelos</span>' : '') + '</div>' +
+            (n ? '<p class="hy-desde"><small>Desde</small>' + Cat.fmt(Cat.minimo(ls)) + '</p>' +
+                '<div class="hy-fir">' + firmezas.map(f => '<span>' + (f === 'intermedio' ? 'Intermedia' : f.charAt(0).toUpperCase() + f.slice(1)) + '</span>').join('') + '</div>'
+              : '<p class="hy-sin">Sin modelos con tu búsqueda</p>') +
+            '<p class="hy-txt">' + Cat.TEXTO_LINEA[l] + '</p>' +
+            (n ? '<a class="v-btn" href="' + Cat.hrefLineas(HY.RUTA, paramsLineas({ linea: [l] })) + '">Ver ' + (n === 1 ? 'el modelo' : 'los ' + n + ' modelos') + '</a>' : '') + '</article>';
+    }).join('');
+}
+['fTipo', 'fTamano', 'fFirmeza', 'fMax'].forEach(id => $(id).addEventListener('change', () => {
+    e.tipo = $('fTipo').value; e.tamano = $('fTamano').value; e.firmeza = $('fFirmeza').value; e.max = parseInt($('fMax').value, 10); nota = ''; dibujar();
+}));
+
+// ---- Ayúdame a elegir (6 preguntas a pantalla completa) ----
+const MAXES = { a: [0, 300000, 'Hasta $300.000'], b: [300000, 600000, 'Entre $300.000 y $600.000'], c: [600000, 1000000, 'Entre $600.000 y $1.000.000'], d: [1000000, 0, 'Más de $1.000.000'], e: [0, 0, 'Sin límite'] };
+const PASOS = [
+    { k: 'tipo', t: '¿Qué estás buscando?', s: 'Si no lo tienes claro, elige "Aún no lo sé" y te mostramos de todo.', op: [['colchon', 'Un colchón', 'Ya tengo cama o base'], ['cama-europea', 'Una cama europea', 'Colchón y base en uno'], ['box-spring', 'Un box spring', 'Colchón sobre base de resortes'], ['', 'Aún no lo sé', 'Mostrar todos los tipos']] },
+    { k: 'tamano', t: '¿Para quién es?', s: 'El tamaño depende de cuántas personas duermen y del espacio.', op: Cat.TAMANOS.map(t => [t.id, t.label, t.personas + ' · ' + HY.dim(t.dimensiones)]) },
+    { k: 'pos', t: '¿Cómo duermes habitualmente?', s: 'La posición cambia la firmeza que te acomoda.', op: [['lado', 'De lado', 'Hombros y cadera necesitan hundirse un poco'], ['espalda', 'De espalda', 'Necesitas un soporte parejo'], ['boca', 'Boca abajo', 'Necesitas que la cadera no se hunda'], ['fija', 'Sin posición fija', 'Me muevo durante la noche']] },
+    { k: 'dolor', t: '¿Sientes molestias en la espalda al despertar?', s: 'Si es así, descartamos los modelos más blandos.', op: [['si', 'Sí', 'Me hundo o amanezco con molestias'], ['no', 'No', 'Ninguna en particular']] },
+    { k: 'pref', t: '¿Qué sensación prefieres?', s: 'Es lo que cada persona nota al acostarse.', op: [['suave', 'Más suave', 'Que me acoja'], ['firme', 'Más firme', 'Que me sostenga'], ['', 'No lo sé', 'Que decida el recomendador']] },
+    { k: 'max', t: '¿Cuánto quieres invertir?', s: 'Usamos rangos para no dejar afuera buenas opciones.', op: Object.entries(MAXES).map(([k, v]) => [k, v[2], '']) }
+];
+let paso = 0, r = {};
+const dlg = $('quiz');
+function pasos() { $('quizPasos').innerHTML = PASOS.map((p, i) => '<li class="' + (i < paso ? 'ok' : i === paso ? 'ahora' : '') + '"' + (i === paso ? ' aria-current="step"' : '') + '><span class="sr-only">Paso ' + (i + 1) + '</span></li>').join(''); }
+function verPaso() {
+    const p = PASOS[paso]; pasos();
+    $('quizC').innerHTML = '<span class="n">Pregunta ' + (paso + 1) + ' de ' + PASOS.length + '</span><h2>' + p.t + '</h2><p class="s">' + p.s + '</p><div class="ux-opciones">' +
+        p.op.map((o, i) => '<button type="button" data-i="' + i + '"><strong>' + o[1] + '</strong>' + (o[2] ? '<span>' + o[2] + '</span>' : '') + '</button>').join('') + '</div>' +
+        '<div class="ux-quiz-pie">' + (paso ? '<button type="button" class="ux-link" id="quizAtras">Volver a la pregunta anterior</button>' : '<span></span>') + '</div>';
+    const b = $('quizC').querySelector('button'); if (b) b.focus();
+    if (paso) $('quizAtras').addEventListener('click', () => { paso--; verPaso(); });
+}
+$('quizC').addEventListener('click', ev => {
+    const b = ev.target.closest('button[data-i]'); if (!b) return;
+    const p = PASOS[paso]; r[p.k] = p.op[parseInt(b.dataset.i, 10)][0];
+    if (paso < PASOS.length - 1) { paso++; verPaso(); } else resultado();
+});
+function resultado() {
+    $('quizPasos').innerHTML = PASOS.map(() => '<li class="ok"></li>').join('');
+    let deseadas = { lado: ['suave', 'intermedio'], espalda: ['intermedio'], boca: ['firme', 'intermedio'], fija: [] }[r.pos] || [];
+    const motivo = { lado: 'duermes de lado', espalda: 'duermes de espalda', boca: 'duermes boca abajo', fija: '' }[r.pos];
+    if (r.pref === 'firme' && !deseadas.includes('firme')) deseadas = deseadas.concat('firme');
+    if (r.pref === 'suave' && !deseadas.includes('suave')) deseadas = deseadas.concat('suave');
+    if (r.dolor === 'si') { deseadas = deseadas.filter(f => f !== 'suave'); if (!deseadas.length) deseadas = ['intermedio', 'firme']; }
+    const [min, max] = MAXES[r.max] || [0, 0];
+    let aviso = '', lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo, firmeza: deseadas, min, max });
+    if (!lista.length) { lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo, min, max }); aviso = 'No hay modelos con la firmeza que corresponde dentro de ese presupuesto; te mostramos las mejores opciones de cualquier firmeza.'; }
+    if (!lista.length) { lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo }); aviso = 'No hay modelos en ese rango de precio para este tamaño; te mostramos las mejores opciones sin límite de presupuesto.'; }
+    const puntaje = i => (deseadas.includes(i.firmeza) ? 3 : 0) + (i.adaptacion >= 4 ? (r.dolor === 'si' ? 2 : 1) : 0) + i.calificacion / 5;
+    const top = lista.slice().sort((a, b) => puntaje(b) - puntaje(a) || a.precio - b.precio).slice(0, 3);
+    const porque = i => {
+        const x = [];
+        if (deseadas.includes(i.firmeza) && motivo) x.push('firmeza ' + Cat.palabraFirmeza(i.firmezaN) + ': ' + motivo); else if (deseadas.includes(i.firmeza)) x.push('firmeza ' + Cat.palabraFirmeza(i.firmezaN));
+        if (r.dolor === 'si' && i.adaptacion >= 4) x.push('alta adaptación para tus molestias');
+        if (max || min) x.push('dentro de tu presupuesto');
+        return x.length ? 'Porque ' + x.join(', ') + '.' : 'Una de las mejor valoradas de este tamaño.';
+    };
+    $('quizC').innerHTML = '<span class="n">Resultado</span><h2>Tus tres recomendaciones</h2><p class="s">Elegidas por firmeza, adaptación, valoración y presupuesto.</p>' + (aviso ? '<p class="ux-aviso-reco">' + aviso + '</p>' : '') +
+        '<div class="ux-reco">' + (top.length ? top.map(i => HY.tarjeta(i, { minPrecio: lista.length > 1 ? Cat.minimo(lista) : 0, extra: '<p class="ux-porque">' + porque(i) + '</p>' })).join('') : '<p>No encontramos modelos para esta combinación.</p>') + '</div>' +
+        (top.length ? envioHTML(top) : '') +
+        '<div class="ux-quiz-pie"><button type="button" class="ux-link" id="quizReiniciar">Empezar de nuevo</button><span style="display:flex;gap:10px;flex-wrap:wrap">' +
+        '<button type="button" class="v-btn" id="quizFrase">Usar en mi frase</button>' +
+        '<a class="v-btn v-btn-primario" href="' + Cat.hrefLineas(HY.RUTA, { tamano: r.tamano, tipo: r.tipo, firmeza: deseadas.length === 3 ? [] : deseadas, min: min || '', max: max || '' }) + '">Ver los ' + lista.length + ' modelos</a></span></div>';
+    $('quizReiniciar').addEventListener('click', () => { paso = 0; r = {}; verPaso(); });
+    if (top.length) activarEnvio(top);
+    $('quizFrase').addEventListener('click', () => {
+        e.tipo = r.tipo; e.tamano = r.tamano;
+        e.firmeza = deseadas.length === 1 ? deseadas[0] : (deseadas.includes('intermedio') ? 'intermedio' : '');
+        e.max = max ? (MAXES_FRASE.find(m => m >= max) || 0) : 0;
+        nota = 'Completamos la frase con tus respuestas' + (e.firmeza ? ': firmeza ' + (e.firmeza === 'intermedio' ? 'intermedia' : e.firmeza) + (motivo ? ' porque ' + motivo : '') : '') + '. Puedes cambiar cualquier parte.' + (min ? ' La frase solo guarda el tope de precio, no el mínimo.' : '');
+        dlg.close(); dibujar(); $('fResumen').scrollIntoView({ block: 'center' });
+    });
+    dlg.scrollTo(0, 0);
+}
+$('fAyuda').addEventListener('click', () => { paso = 0; r = {}; verPaso(); dlg.showModal(); });
+$('quizX').addEventListener('click', () => dlg.close());
+
+dibujar();
+(window.requestIdleCallback || (f => setTimeout(f, 50)))(() => { calcularTextosMax(); reservarAlto(); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(reservarAlto);
+</script>
+</body>
+</html>

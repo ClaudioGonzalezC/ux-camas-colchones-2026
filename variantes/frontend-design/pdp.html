@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Producto | Rosen (opción frontend-design)</title>
+<link rel="stylesheet" href="variantes/frontend-design/estilos.css">
+</head>
+<body>
+<main class="wrap" id="main"></main>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/faq.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/frontend-design/comun.js"></script>
+<script>
+const q = new URLSearchParams(location.search);
+const nombre = q.get('modelo') || 'New style 6', tipoUrl = q.get('tipo') || 'colchon', tamano = q.get('tamano') || '2-plazas', lineaP = q.get('linea');
+const buscar = () => Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano && (!lineaP || i.linea === lineaP))
+    || Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano);
+const item = buscar();
+const main = document.getElementById('main');
+const shell = Shell.montar({ ruta: FD.RUTA, actual: 'pdp', migas: [['Camas y Colchones', FD.RUTA + 'guia.html'],
+    ['Modelos', Cat.listaGuardada(FD.RUTA, Cat.hrefLineas(FD.RUTA, { tamano, tipo: tipoUrl }))], [item ? item.nombreCompleto : 'Producto']] });
+
+if (!item) {
+    const otros = Cat.items().filter(i => i.nombre === nombre && i.tamano === tamano);
+    document.title = 'Producto no encontrado | Rosen';
+    main.innerHTML = '<div class="fd-error"><h1>No encontramos este producto</h1><p>No hay un modelo llamado <strong>' + Cat.esc(nombre) + '</strong> con ese tipo y tamaño.</p>' +
+        (otros.length ? '<p>Sí lo tenemos como: ' + otros.map(o => '<a href="' + Cat.hrefPdp(FD.RUTA, o) + '">' + o.tipo.nombre + '</a>').join(' · ') + '.</p>' : '') +
+        '<a class="v-btn v-btn-primario" href="' + Cat.hrefLineas(FD.RUTA, { tamano }) + '">Ver los modelos de este tamaño</a></div>';
+} else iniciar();
+
+function iniciar() {
+    const v = item.v, medidas = item.tipoKey === 'colchon' && v.tamanos ? Object.keys(v.tamanos) : [item.dimensiones];
+    let medida = medidas.includes(q.get('medida')) ? q.get('medida') : (medidas.includes(item.dimensiones) ? item.dimensiones : medidas[0]);
+    const claves = item.base ? Object.keys(item.base) : [];
+    const baseElegible = claves.length > 1 && claves.every(k => item.base[k].precio);
+    let base = claves.includes(q.get('base')) ? q.get('base') : (claves.includes('completa') ? 'completa' : (claves[0] || null));
+    let qty = 1;
+    const galeriaNS6 = item.nombre === 'New style 6' && item.tipoKey === 'camaEuropea' && item.tamano === '2-plazas';
+    const imagenes = () => {
+        if (galeriaNS6) { const b = base === 'dividida' ? 'dividida' : 'completa'; return [1, 2, 3, 4].map(n => 'images/productos/cama-ns6-' + b + '-' + n + '.webp').concat(['images/productos/cama-ns6-5.webp', 'images/productos/cama-ns6-6.webp', 'images/productos/cama-ns6-' + b + '-cota.webp']); }
+        const b = base && item.base[base] && item.base[base].imagen;
+        return [b || item.imagen];
+    };
+    let imgIdx = 0;
+    const precio = () => {
+        if (item.tipoKey === 'colchon' && v.tamanos) return v.tamanos[medida];
+        if (baseElegible && item.base[base]) return { precio: item.base[base].precio, precioNormal: item.base[base].precioNormal || item.base[base].precio };
+        return { precio: item.precio, precioNormal: item.precioNormal };
+    };
+    const tipos = Cat.otrosTipos(item), tamanos = Cat.otrosTamanos(item), alts = Cat.alternativas(item, 4);
+    document.title = item.nombreCompleto + ' ' + item.tamanoLabel + ' | Rosen';
+
+    const escala = (txt, n, izq, der) => '<div class="fd-escala-f"><h3>' + txt + ' <span>' + n + ' de 5</span></h3><div class="fd-esc-barra">' + [1, 2, 3, 4, 5].map(k => '<b' + (k <= n ? ' class="on"' : '') + '></b>').join('') + '</div><div class="fd-esc-pie"><span>' + izq + '</span><span>' + der + '</span></div></div>';
+    const dim = x => x.replace(' x ', ' × ').replace('cm', ' cm');
+    const dif = a => {
+        const d = a.precio - item.precio, f = a.firmezaN - item.firmezaN;
+        return '<p class="fd-delta-alt">' + (d === 0 ? 'Mismo precio' : (d > 0 ? '+' : '−') + Cat.fmt(Math.abs(d))) + ' · ' + (f === 0 ? 'misma firmeza' : f > 0 ? 'más firme' : 'más suave') + '</p>';
+    };
+
+    main.innerHTML =
+    '<section class="fd-ficha" aria-label="Ficha del producto">' +
+      '<div class="fd-galeria"><div class="fd-miniaturas" id="mini"></div><div class="fd-principal"><img id="principal" src="' + item.imagen + '" alt="' + Cat.esc(item.nombreCompleto) + '" width="900" height="900" fetchpriority="high"></div></div>' +
+      '<div class="fd-compra">' +
+        '<span class="fd-linea">' + item.linea + '</span><h1>' + Cat.esc(item.nombreCompleto) + '</h1>' +
+        '<div class="fd-valoracion">' + FD.estrellas(item.calificacion) + '<span>' + item.calificacion.toString().replace('.', ',') + ' · ' + item.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
+        '<div class="fd-pdp-precio" aria-live="polite" id="precio"></div><p class="fd-cuotas" id="cuotas"></p>' +
+        (tipos.length > 1 ? '<div class="fd-bloque"><h2>Tipo <span>Mismo modelo, mismo tamaño</span></h2><div class="fd-seg">' + tipos.map(t => t.id === item.id
+            ? '<a aria-current="true" href="' + Cat.hrefPdp(FD.RUTA, t) + '" onclick="return false"><strong>' + t.tipo.nombre + '</strong><span>' + Cat.fmt(t.precio) + '</span></a>'
+            : '<a href="' + Cat.hrefPdp(FD.RUTA, t) + '"><strong>' + t.tipo.nombre + '</strong><span>' + Cat.fmt(t.precio) + '</span></a>').join('') + '</div></div>' : '') +
+        '<div class="fd-bloque"><h2>Tamaño <span>Cambia sin salir de la ficha</span></h2><div class="fd-seg">' + tamanos.map(t => t.id === item.id
+            ? '<a aria-current="true" href="' + Cat.hrefPdp(FD.RUTA, t) + '" onclick="return false"><strong>' + t.tamanoLabel + '</strong><span>' + dim(t.dimensiones) + ' · ' + Cat.fmt(t.precio) + '</span></a>'
+            : '<a href="' + Cat.hrefPdp(FD.RUTA, t) + '"><strong>' + t.tamanoLabel + '</strong><span>' + dim(t.dimensiones) + ' · ' + Cat.fmt(t.precio) + '</span></a>').join('') + '</div></div>' +
+        (medidas.length > 1 ? '<div class="fd-bloque"><h2>Largo</h2><div class="fd-seg" id="segMedida"></div></div>' : '') +
+        (baseElegible ? '<div class="fd-bloque"><h2>Base</h2><div class="fd-seg" id="segBase"></div></div>' : (claves.length ? '<div class="fd-bloque"><h2>Base <span>' + claves[0] + '</span></h2></div>' : '')) +
+        '<div class="fd-compra-fila"><div class="v-qty" role="group" aria-label="Cantidad"><button type="button" id="menos" aria-label="Quitar uno">−</button><span id="cant" aria-live="polite">1</span><button type="button" id="mas" aria-label="Agregar uno">+</button></div>' +
+        '<button type="button" class="v-btn v-btn-primario" id="agregar">Agregar al carro</button></div>' +
+        '<p class="fd-nota-compra">Retiramos tu cama o colchón antiguo al comprar tu cama Rosen por $29.990. Servicio de armado incluido en el despacho.</p>' +
+        '<div class="fd-bloque"><h2>Cómo se siente</h2><div class="fd-escalas">' + escala('Firmeza', item.firmezaN, 'Suave', 'Firme') + escala('Adaptación', item.adaptacion, 'Baja', 'Alta') + '</div></div>' +
+      '</div></section>' +
+
+    '<section class="fd-bajo"><h2 style="font:600 30px var(--serif);margin-bottom:12px">Sobre este modelo</h2><p class="fd-prosa">' + Cat.esc(Cat.descripcion(item)) + '</p></section>' +
+
+    '<section class="fd-bajo" aria-labelledby="altT"><div class="fd-seccion-h"><div><h2 id="altT" style="font:600 30px var(--serif)">Alternativas cercanas</h2><p>Mismo tipo y tamaño, ordenadas por cercanía de precio.</p></div>' +
+    '<a class="fd-enlace" href="' + Cat.listaGuardada(FD.RUTA, Cat.hrefLineas(FD.RUTA, { tamano: item.tamano, tipo: item.tipo.url })) + '">Volver a los resultados</a></div>' +
+    '<div class="fd-grid fd-alt">' + alts.map(a => FD.tarjeta(a, { tambien: false, barras: false, extra: dif(a) })).join('') + '</div></section>' +
+
+    '<section class="fd-bajo fd-faq" aria-labelledby="faqT"><h2 id="faqT" style="font:600 30px var(--serif);margin-bottom:16px">Preguntas frecuentes</h2>' +
+    FAQ.map(x => '<details><summary>' + x[0] + '</summary><p>' + x[1] + '</p></details>').join('') + '</section>' +
+
+    '<div class="fd-barra-fija" id="fija"><div><strong id="fijaPrecio"></strong><small>' + Cat.esc(item.nombreCompleto) + '</small></div><button type="button" class="v-btn v-btn-primario" id="agregar2">Agregar al carro</button></div>';
+
+    const $ = id => document.getElementById(id);
+    function pintar() {
+        const p = precio(), ahorro = p.precioNormal && p.precioNormal > p.precio;
+        $('precio').innerHTML = '<strong>' + Cat.fmt(p.precio) + '</strong>' + (ahorro ? '<s>' + Cat.fmt(p.precioNormal) + '</s><span class="fd-dto">−' + Math.round((1 - p.precio / p.precioNormal) * 100) + '%</span>' : '');
+        $('cuotas').textContent = '12 cuotas sin interés de ' + Cat.fmt(Math.round(p.precio / 12));
+        $('fijaPrecio').textContent = Cat.fmt(p.precio);
+        if ($('segMedida')) $('segMedida').innerHTML = medidas.map(m => '<button type="button" data-medida="' + m + '" aria-pressed="' + (m === medida) + '"><strong>' + dim(m) + '</strong><span>' + Cat.fmt(v.tamanos[m].precio) + '</span></button>').join('');
+        if ($('segBase')) $('segBase').innerHTML = claves.map(k => '<button type="button" data-base="' + k + '" aria-pressed="' + (k === base) + '"><strong>' + k.charAt(0).toUpperCase() + k.slice(1) + '</strong><span>' + Cat.fmt(item.base[k].precio) + '</span></button>').join('');
+        const im = imagenes(); if (imgIdx >= im.length) imgIdx = 0;
+        $('principal').src = im[imgIdx];
+        $('mini').innerHTML = im.length > 1 ? im.map((s, k) => '<button type="button" data-img="' + k + '"' + (k === imgIdx ? ' aria-current="true"' : '') + ' aria-label="Ver imagen ' + (k + 1) + '"><img src="' + s + '" alt="" loading="lazy"></button>').join('') : '';
+        $('mini').style.display = im.length > 1 ? '' : 'none'; document.querySelector('.fd-galeria').classList.toggle('sin-mini', im.length < 2);
+        $('cant').textContent = qty;
+        const nq = new URLSearchParams(location.search); nq.set('medida', medida); if (base) nq.set('base', base); history.replaceState(null, '', location.pathname + '?' + nq.toString());
+    }
+    main.addEventListener('click', ev => {
+        const m = ev.target.closest('[data-medida]'); if (m) { medida = m.dataset.medida; pintar(); }
+        const b = ev.target.closest('[data-base]'); if (b) { base = b.dataset.base; pintar(); }
+        const t = ev.target.closest('[data-img]'); if (t) { imgIdx = parseInt(t.dataset.img, 10); pintar(); }
+    });
+    $('menos').addEventListener('click', () => { qty = Math.max(1, qty - 1); pintar(); });
+    $('mas').addEventListener('click', () => { qty = Math.min(9, qty + 1); pintar(); });
+    const agregar = () => { const p = precio(); Cat.carro.agregar(item, { medida, base, qty, precio: p.precio, precioNormal: p.precioNormal, imagen: imagenes()[0] }); shell.abrirCarro(); };
+    $('agregar').addEventListener('click', agregar); $('agregar2').addEventListener('click', agregar);
+    pintar();
+}
+</script>
+</body>
+</html>

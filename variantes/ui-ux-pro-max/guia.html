@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Elige tu descanso | Rosen (opción UI UX Pro Max)</title>
+<link rel="stylesheet" href="variantes/ui-ux-pro-max/estilos.css">
+</head>
+<body>
+<a class="saltar" href="#puertas">Saltar al contenido</a>
+
+<main>
+<section class="ux-hero" aria-labelledby="uxT">
+    <div class="ux-hero-in">
+        <div>
+            <h1 id="uxT">Elige tu descanso a tu manera</h1>
+            <p>Si ya sabes lo que buscas, filtra. Si dudas, responde unas preguntas. Si quieres entender las diferencias, compara las líneas.</p>
+        </div>
+        <div class="ux-hero-foto"><img src="images/imagen-2.webp" alt="Pareja descansando en una cama" width="1200" height="1200" fetchpriority="high"></div>
+    </div>
+</section>
+
+<div class="ux-puertas" id="puertas">
+    <section class="ux-puerta" aria-labelledby="p1">
+        <h2 id="p1">Ya sé lo que busco</h2>
+        <fieldset><legend class="ux-grupo-t">Tipo</legend><div class="ux-chips" id="pTipo"></div></fieldset>
+        <label><span class="ux-grupo-t">Tamaño</span><select class="ux-sel" id="pTamano"></select></label>
+        <fieldset><legend class="ux-grupo-t">Firmeza</legend><div class="ux-chips" id="pFirmeza"></div></fieldset>
+        <p class="ux-puerta-conteo" id="pConteo" role="status" aria-live="polite"></p>
+        <a class="v-btn v-btn-primario" id="pVer" href="variantes/ui-ux-pro-max/lineas.html">Ver los modelos</a>
+    </section>
+    <section class="ux-puerta" aria-labelledby="p2">
+        <h2 id="p2">Ayúdame a elegir</h2>
+        <p>Seis preguntas sobre cómo duermes y cuánto quieres invertir. Al final te mostramos tres recomendaciones y por qué.</p>
+        <button type="button" class="v-btn v-btn-primario" id="pQuiz">Empezar</button>
+    </section>
+    <section class="ux-puerta" aria-labelledby="p3">
+        <h2 id="p3">Compara las líneas</h2>
+        <p>Esencial, Premium, Advantage y Excelsior lado a lado: precios, firmezas y cuántos modelos tiene cada una.</p>
+        <a class="v-btn" href="#lineas">Ver la comparación</a>
+    </section>
+</div>
+
+<section class="wrap ux-seccion" id="lineas" aria-labelledby="uxL">
+    <div class="ux-sec-h"><h2 id="uxL">Las cuatro líneas, lado a lado</h2><p>Elige el tamaño y el tipo para ver cómo se reparte cada línea.</p></div>
+    <div class="ux-tabs-t" role="group" aria-label="Tamaño" id="mTamanos"></div>
+    <div class="ux-tabs-t" role="group" aria-label="Tipo de producto" id="mTipos"></div>
+    <div class="ux-matriz-w" tabindex="0" role="region" aria-label="Comparación de líneas (desliza para ver más)"><table class="ux-matriz" id="matriz"></table></div>
+
+    <div class="ux-confianza">
+        <div><h3>Servicio de armado</h3><p>Incluido en el despacho.</p></div>
+        <div><h3>Reciclaje de camas y colchones</h3><p>Retiramos tu cama o colchón antiguo al comprar tu cama Rosen por $29.990.</p></div>
+        <div><h3>Medios de pago</h3><p>Hasta 12 cuotas sin interés.</p></div>
+        <div><h3>Retira tu cama o colchón</h3><p>Elige, compra y retira en tienda.</p></div>
+        <div><h3>Prueba tus productos</h3><p>Revisa en la página de cada producto en qué tienda puedes ir a conocerlo.</p></div>
+    </div>
+</section>
+</main>
+
+<dialog class="ux-quiz" id="quiz" aria-labelledby="quizT">
+    <div class="ux-quiz-top"><strong id="quizT">Ayúdame a elegir</strong><button type="button" class="v-btn" id="quizX">Cerrar</button></div>
+    <ol class="ux-pasos" id="quizPasos" aria-label="Progreso"></ol>
+    <div class="ux-quiz-c" id="quizC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/ui-ux-pro-max/comun.js"></script>
+<script>
+Shell.montar({ ruta: UX.RUTA, actual: 'guia', migas: [['Camas y Colchones']] });
+const $ = id => document.getElementById(id);
+const u = Cat.leerUrl();
+const e = { tipo: u.tipo || 'colchon', tamano: u.tamano || '2-plazas', firmeza: u.firmeza[0] || '' };
+const m = { tamano: e.tamano, tipo: e.tipo };
+
+// ---- Puerta 1 ----
+$('pTamano').innerHTML = Cat.TAMANOS.map(t => '<option value="' + t.id + '">' + t.label + ' · ' + UX.dim(t.dimensiones) + '</option>').join('');
+const chips = (id, opciones, clave, valor) => {
+    $(id).innerHTML = opciones.map(o => '<button type="button" class="ux-chip" data-v="' + o[0] + '" aria-pressed="' + (valor() === o[0]) + '">' + o[1] + '</button>').join('');
+};
+function puerta1() {
+    chips('pTipo', [['colchon', 'Colchón'], ['cama-europea', 'Cama europea'], ['box-spring', 'Box spring'], ['', 'Cualquiera']], 'tipo', () => e.tipo);
+    chips('pFirmeza', [['', 'Cualquiera'], ['suave', 'Suave'], ['intermedio', 'Intermedia'], ['firme', 'Firme']], 'firmeza', () => e.firmeza);
+    $('pTamano').value = e.tamano;
+    const r = Cat.filtrar({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza ? [e.firmeza] : [] });
+    $('pConteo').textContent = r.length ? r.length + (r.length === 1 ? ' modelo' : ' modelos') + ' desde ' + Cat.fmt(Cat.minimo(r)) : 'Ningún modelo con esta combinación';
+    $('pVer').href = Cat.hrefLineas(UX.RUTA, { tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza });
+    $('pVer').textContent = r.length ? 'Ver los modelos' : 'Ver el tamaño sin filtros';
+}
+$('pTipo').addEventListener('click', ev => { const b = ev.target.closest('[data-v]'); if (b) { e.tipo = b.dataset.v; puerta1(); } });
+$('pFirmeza').addEventListener('click', ev => { const b = ev.target.closest('[data-v]'); if (b) { e.firmeza = b.dataset.v; puerta1(); } });
+$('pTamano').addEventListener('change', () => { e.tamano = $('pTamano').value; puerta1(); });
+
+// ---- Puerta 3: matriz de líneas ----
+function matriz() {
+    $('mTamanos').innerHTML = Cat.TAMANOS.map(t => '<button type="button" class="ux-chip" data-t="' + t.id + '" aria-pressed="' + (m.tamano === t.id) + '">' + t.label + '</button>').join('');
+    $('mTipos').innerHTML = [['', 'Todos los tipos']].concat(Cat.TIPOS.map(t => [t.url, t.plural])).map(o => '<button type="button" class="ux-chip" data-k="' + o[0] + '" aria-pressed="' + (m.tipo === o[0]) + '">' + o[1] + '</button>').join('');
+    const cols = Cat.LINEAS.map(l => ({ l, r: Cat.filtrar({ tamano: m.tamano, tipo: m.tipo, linea: [l] }) }));
+    const sin = '<span class="ux-sin">Sin modelos en esta combinación</span>';
+    const prom = r => Math.round(r.reduce((s, i) => s + i.adaptacion, 0) / r.length);
+    $('matriz').innerHTML =
+        '<thead><tr><th scope="col"><span class="sr-only">Característica</span></th>' + cols.map(c => '<th scope="col">' + Cat.LINEA_CORTA[c.l] + '</th>').join('') + '</tr></thead><tbody>' +
+        '<tr><th scope="row">Precio</th>' + cols.map(c => '<td>' + (c.r.length ? '<span class="ux-precio"><small>Desde</small>' + Cat.fmt(Cat.minimo(c.r)) + '</span>' : sin) + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row">Hasta</th>' + cols.map(c => '<td>' + (c.r.length ? Cat.fmt(Cat.maximo(c.r)) : '—') + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row">Modelos</th>' + cols.map(c => '<td>' + (c.r.length ? c.r.length : '—') + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row">Firmezas</th>' + cols.map(c => '<td>' + (c.r.length ? Cat.FIRMEZAS.filter(f => c.r.some(i => i.firmeza === f)).map(f => f === 'intermedio' ? 'intermedia' : f).join(' · ') : '—') + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row">Adaptación media</th>' + cols.map(c => '<td>' + (c.r.length ? '<div class="ux-mini-barras" role="img" aria-label="' + prom(c.r) + ' de 5">' + [1, 2, 3, 4, 5].map(k => '<b' + (k <= prom(c.r) ? ' class="on"' : '') + '></b>').join('') + '</div>' : '—') + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row">Qué ofrece</th>' + cols.map(c => '<td class="ux-desc">' + Cat.TEXTO_LINEA[c.l] + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row"></th>' + cols.map(c => '<td>' + (c.r.length ? '<a class="v-btn" href="' + Cat.hrefLineas(UX.RUTA, { tamano: m.tamano, tipo: m.tipo, linea: c.l }) + '">Ver ' + Cat.LINEA_CORTA[c.l] + '</a>' : '') + '</td>').join('') + '</tr></tbody>';
+}
+$('mTamanos').addEventListener('click', ev => { const b = ev.target.closest('[data-t]'); if (b) { m.tamano = b.dataset.t; matriz(); } });
+$('mTipos').addEventListener('click', ev => { const b = ev.target.closest('[data-k]'); if (b) { m.tipo = b.dataset.k; matriz(); } });
+
+// ---- Puerta 2: cuestionario a pantalla completa ----
+const MAXES = { a: [0, 300000, 'Hasta $300.000'], b: [300000, 600000, 'Entre $300.000 y $600.000'], c: [600000, 1000000, 'Entre $600.000 y $1.000.000'], d: [1000000, 0, 'Más de $1.000.000'], e: [0, 0, 'Sin límite'] };
+const PASOS = [
+    { k: 'tipo', t: '¿Qué estás buscando?', s: 'Si no lo tienes claro, elige "Aún no lo sé" y te mostramos de todo.', op: [['colchon', 'Un colchón', 'Ya tengo cama o base'], ['cama-europea', 'Una cama europea', 'Colchón y base en uno'], ['box-spring', 'Un box spring', 'Colchón sobre base de resortes'], ['', 'Aún no lo sé', 'Mostrar todos los tipos']] },
+    { k: 'tamano', t: '¿Para quién es?', s: 'El tamaño depende de cuántas personas duermen y del espacio.', op: Cat.TAMANOS.map(t => [t.id, t.label, t.personas + ' · ' + UX.dim(t.dimensiones)]) },
+    { k: 'pos', t: '¿Cómo duermes habitualmente?', s: 'La posición cambia la firmeza que te acomoda.', op: [['lado', 'De lado', 'Hombros y cadera necesitan hundirse un poco'], ['espalda', 'De espalda', 'Necesitas un soporte parejo'], ['boca', 'Boca abajo', 'Necesitas que la cadera no se hunda'], ['fija', 'Sin posición fija', 'Me muevo durante la noche']] },
+    { k: 'dolor', t: '¿Sientes molestias en la espalda al despertar?', s: 'Si es así, descartamos los modelos más blandos.', op: [['si', 'Sí', 'Me hundo o amanezco con molestias'], ['no', 'No', 'Ninguna en particular']] },
+    { k: 'pref', t: '¿Qué sensación prefieres?', s: 'Es lo que cada persona nota al acostarse.', op: [['suave', 'Más suave', 'Que me acoja'], ['firme', 'Más firme', 'Que me sostenga'], ['', 'No lo sé', 'Que decida el recomendador']] },
+    { k: 'max', t: '¿Cuánto quieres invertir?', s: 'Usamos rangos para no dejar afuera buenas opciones.', op: Object.entries(MAXES).map(([k, v]) => [k, v[2], '']) }
+];
+let paso = 0, r = {};
+const dlg = $('quiz');
+function pasos() { $('quizPasos').innerHTML = PASOS.map((p, i) => '<li class="' + (i < paso ? 'ok' : i === paso ? 'ahora' : '') + '"' + (i === paso ? ' aria-current="step"' : '') + '><span class="sr-only">Paso ' + (i + 1) + '</span></li>').join(''); }
+function verPaso() {
+    const p = PASOS[paso]; pasos();
+    $('quizC').innerHTML = '<span class="n">Pregunta ' + (paso + 1) + ' de ' + PASOS.length + '</span><h2>' + p.t + '</h2><p class="s">' + p.s + '</p><div class="ux-opciones">' +
+        p.op.map((o, i) => '<button type="button" data-i="' + i + '"><strong>' + o[1] + '</strong>' + (o[2] ? '<span>' + o[2] + '</span>' : '') + '</button>').join('') + '</div>' +
+        '<div class="ux-quiz-pie">' + (paso ? '<button type="button" class="ux-link" id="quizAtras">Volver a la pregunta anterior</button>' : '<span></span>') + '</div>';
+    const b = $('quizC').querySelector('button'); if (b) b.focus();
+    if (paso) $('quizAtras').addEventListener('click', () => { paso--; verPaso(); });
+}
+$('quizC').addEventListener('click', ev => {
+    const b = ev.target.closest('button[data-i]'); if (!b) return;
+    const p = PASOS[paso]; r[p.k] = p.op[parseInt(b.dataset.i, 10)][0];
+    if (paso < PASOS.length - 1) { paso++; verPaso(); } else resultado();
+});
+function resultado() {
+    $('quizPasos').innerHTML = PASOS.map(() => '<li class="ok"></li>').join('');
+    let deseadas = { lado: ['suave', 'intermedio'], espalda: ['intermedio'], boca: ['firme', 'intermedio'], fija: [] }[r.pos] || [];
+    const motivo = { lado: 'duermes de lado', espalda: 'duermes de espalda', boca: 'duermes boca abajo', fija: '' }[r.pos];
+    if (r.pref === 'firme' && !deseadas.includes('firme')) deseadas = deseadas.concat('firme');
+    if (r.pref === 'suave' && !deseadas.includes('suave')) deseadas = deseadas.concat('suave');
+    if (r.dolor === 'si') { deseadas = deseadas.filter(f => f !== 'suave'); if (!deseadas.length) deseadas = ['intermedio', 'firme']; }
+    const [min, max] = MAXES[r.max] || [0, 0];
+    let nota = '', lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo, firmeza: deseadas, min, max });
+    if (!lista.length) { lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo, min, max }); nota = 'No hay modelos con la firmeza que corresponde dentro de ese presupuesto; te mostramos las mejores opciones de cualquier firmeza.'; }
+    if (!lista.length) { lista = Cat.filtrar({ tamano: r.tamano, tipo: r.tipo }); nota = 'No hay modelos en ese rango de precio para este tamaño; te mostramos las mejores opciones sin límite de presupuesto.'; }
+    const puntaje = i => (deseadas.includes(i.firmeza) ? 3 : 0) + (i.adaptacion >= 4 ? (r.dolor === 'si' ? 2 : 1) : 0) + i.calificacion / 5;
+    const top = lista.slice().sort((a, b) => puntaje(b) - puntaje(a) || a.precio - b.precio).slice(0, 3);
+    const porque = i => {
+        const x = [];
+        if (deseadas.includes(i.firmeza) && motivo) x.push('firmeza ' + Cat.palabraFirmeza(i.firmezaN) + ': ' + motivo);
+        else if (deseadas.includes(i.firmeza)) x.push('firmeza ' + Cat.palabraFirmeza(i.firmezaN));
+        if (r.dolor === 'si' && i.adaptacion >= 4) x.push('alta adaptación para tus molestias');
+        if (max || min) x.push('dentro de tu presupuesto');
+        return x.length ? 'Porque ' + x.join(', ') + '.' : 'Una de las mejor valoradas de este tamaño.';
+    };
+    $('quizC').innerHTML = '<span class="n">Resultado</span><h2>Tus tres recomendaciones</h2><p class="s">Elegidas por firmeza, adaptación, valoración y presupuesto.</p>' +
+        (nota ? '<p class="ux-aviso-reco">' + nota + '</p>' : '') +
+        '<div class="ux-reco">' + (top.length ? top.map(i => UX.tarjeta(i, { extra: '<p class="ux-porque">' + porque(i) + '</p>' })).join('') : '<p>No encontramos modelos para esta combinación.</p>') + '</div>' +
+        '<div class="ux-quiz-pie"><button type="button" class="ux-link" id="quizReiniciar">Empezar de nuevo</button>' +
+        '<a class="v-btn v-btn-primario" href="' + Cat.hrefLineas(UX.RUTA, { tamano: r.tamano, tipo: r.tipo, firmeza: deseadas.length === 3 ? [] : deseadas, min: min || '', max: max || '' }) + '">Ver los ' + lista.length + ' modelos</a></div>';
+    $('quizReiniciar').addEventListener('click', () => { paso = 0; r = {}; verPaso(); });
+    dlg.scrollTo(0, 0);
+}
+$('pQuiz').addEventListener('click', () => { paso = 0; r = {}; verPaso(); dlg.showModal(); });
+$('quizX').addEventListener('click', () => dlg.close());
+
+puerta1(); matriz();
+</script>
+</body>
+</html>

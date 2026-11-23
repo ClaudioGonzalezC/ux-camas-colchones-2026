@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Modelos | Rosen (opción UI UX Pro Max)</title>
+<link rel="stylesheet" href="variantes/ui-ux-pro-max/estilos.css">
+</head>
+<body>
+<a class="saltar" href="#grid">Saltar a los resultados</a>
+
+<main class="wrap">
+    <div class="ux-cab">
+        <div><h1 id="uxRes">Modelos</h1><p id="uxSub" role="status" aria-live="polite"></p></div>
+    </div>
+    <nav class="ux-tipos" id="tipos" aria-label="Tipo de producto"></nav>
+
+    <form class="ux-filtros ux-vidrio" id="filtros" onsubmit="return false" aria-label="Filtros">
+        <label class="ux-f"><span>Tamaño</span><select class="ux-sel" id="fTam"></select></label>
+        <fieldset class="ux-f"><legend><span>Firmeza</span></legend><div class="ux-chips" id="fFir"></div></fieldset>
+        <fieldset class="ux-f"><legend><span>Línea</span></legend><div class="ux-chips" id="fLin"></div></fieldset>
+        <label class="ux-f"><span>Presupuesto</span><select class="ux-sel" id="fPre"></select></label>
+        <div class="ux-f-fin">
+            <label class="ux-f"><span>Ordenar por</span><select class="ux-sel" id="fOrd">
+                <option value="relevancia">Más valorados</option><option value="menor">Menor precio</option><option value="mayor">Mayor precio</option><option value="descuento">Mayor descuento</option><option value="az">A a Z</option></select></label>
+            <button type="button" class="ux-link" id="fLimpiar">Limpiar filtros</button>
+        </div>
+    </form>
+
+    <div class="ux-grid" id="grid"></div>
+</main>
+
+<div class="ux-bandeja ux-vidrio" id="bandeja" hidden>
+    <div class="ux-bandeja-items" id="bandejaItems"></div>
+    <span class="ux-meta" id="bandejaTxt"></span>
+    <button type="button" class="ux-link" id="bandejaVaciar">Vaciar</button>
+    <button type="button" class="v-btn v-btn-primario" id="bandejaVer">Comparar</button>
+</div>
+
+<dialog class="ux-dlg ux-vv" id="vv" aria-labelledby="vvT"></dialog>
+<dialog class="ux-dlg ux-cmp" id="cmp" aria-labelledby="cmpT">
+    <div class="ux-cmp-h"><h2 id="cmpT">Comparación</h2><button type="button" class="v-btn" id="cmpX">Cerrar</button></div>
+    <div class="ux-cmp-c" id="cmpC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/ui-ux-pro-max/comun.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const u = Cat.leerUrl();
+const est = { tamano: Cat.TAMANOS.some(t => t.id === u.tamano) ? u.tamano : '2-plazas', tipo: u.tipo, firmeza: u.firmeza, linea: u.linea.filter(l => Cat.LINEAS.includes(l)), min: u.min, max: u.max,
+    orden: ['relevancia', 'menor', 'mayor', 'descuento', 'az'].includes(u.orden) ? u.orden : 'relevancia' };
+const carro = Shell.montar({ ruta: UX.RUTA, actual: 'lineas', migas: [['Camas y Colchones', UX.RUTA + 'guia.html'], ['Modelos']] });
+const PRES = [['', 0, 0, 'Todos los precios'], ['a', 0, 300000, 'Hasta $300.000'], ['b', 300000, 600000, 'Entre $300.000 y $600.000'], ['c', 600000, 1000000, 'Entre $600.000 y $1.000.000'], ['d', 1000000, 0, 'Más de $1.000.000']];
+const f = extra => Cat.filtrar(Object.assign({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min, max: est.max }, extra || {}));
+let lista = [];
+
+$('fTam').innerHTML = Cat.TAMANOS.map(t => '<option value="' + t.id + '">' + t.label + ' · ' + UX.dim(t.dimensiones) + '</option>').join('');
+$('fFir').innerHTML = Cat.FIRMEZAS.map(x => '<button type="button" class="ux-chip" data-fir="' + x + '" aria-pressed="false">' + (x === 'intermedio' ? 'Intermedia' : x.charAt(0).toUpperCase() + x.slice(1)) + '</button>').join('');
+$('fLin').innerHTML = Cat.LINEAS.map(l => '<button type="button" class="ux-chip" data-lin="' + l + '" aria-pressed="false">' + Cat.LINEA_CORTA[l] + '</button>').join('');
+
+function tabs() {
+    const base = { tamano: est.tamano, firmeza: est.firmeza, linea: est.linea, min: est.min, max: est.max, orden: est.orden };
+    $('tipos').innerHTML = [['', 'Todos']].concat(Cat.TIPOS.map(t => [t.url, t.plural])).map(o => {
+        const n = f({ tipo: o[0] }).length;
+        return '<a href="' + Cat.hrefLineas(UX.RUTA, Object.assign({}, base, { tipo: o[0] })) + '" data-tipo="' + o[0] + '"' + (est.tipo === o[0] ? ' aria-current="page"' : '') + '>' + o[1] + ' <small>(' + n + ')</small></a>';
+    }).join('');
+}
+function presupuesto() {
+    const sel = PRES.find(p => p[1] === est.min && p[2] === est.max);
+    $('fPre').innerHTML = PRES.map(p => '<option value="' + p[0] + '">' + p[3] + '</option>').join('') + (sel ? '' : '<option value="x">' + (est.max ? 'Hasta ' + Cat.fmt(est.max) : 'Desde ' + Cat.fmt(est.min)) + '</option>');
+    $('fPre').value = sel ? sel[0] : 'x';
+}
+function dibujar() {
+    setTimeout(Cat.recordarLista, 0);
+    lista = Cat.ordenar(f(), est.orden);
+    Cat.escribirUrl({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min || '', max: est.max || '', orden: est.orden });
+    const tam = Cat.TAMANOS.find(t => t.id === est.tamano);
+    $('uxRes').textContent = (est.tipo ? Cat.tipoPorUrl(est.tipo).plural : 'Camas y colchones') + ' · ' + tam.label;
+    document.title = $('uxRes').textContent + ' | Rosen (opción UI UX Pro Max)';
+    $('uxSub').textContent = lista.length ? lista.length + (lista.length === 1 ? ' modelo' : ' modelos') + ' desde ' + Cat.fmt(Cat.minimo(lista)) : 'Ningún modelo con estos filtros';
+    $('fTam').value = est.tamano; $('fOrd').value = est.orden;
+    document.querySelectorAll('[data-fir]').forEach(b => b.setAttribute('aria-pressed', est.firmeza.includes(b.dataset.fir)));
+    document.querySelectorAll('[data-lin]').forEach(b => b.setAttribute('aria-pressed', est.linea.includes(b.dataset.lin)));
+    presupuesto(); tabs();
+    if (lista.length) $('grid').innerHTML = lista.map(i => UX.tarjeta(i, { comparar: true, vista: true })).join('');
+    else {
+        const quitar = [];
+        if (est.firmeza.length && Cat.filtrar({ tamano: est.tamano, tipo: est.tipo, linea: est.linea, min: est.min, max: est.max }).length) quitar.push(['firmeza', 'Quitar la firmeza']);
+        if (est.linea.length && Cat.filtrar({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, min: est.min, max: est.max }).length) quitar.push(['linea', 'Quitar la línea']);
+        if ((est.min || est.max) && Cat.filtrar({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea }).length) quitar.push(['precio', 'Quitar el presupuesto']);
+        $('grid').innerHTML = '<div class="ux-vacio"><h2>No hay modelos con estos filtros</h2><p>' + (quitar.length ? 'Prueba quitando uno:' : 'Prueba con otro tamaño o tipo.') + '</p><div class="ux-chips" style="justify-content:center">' +
+            quitar.map(q => '<button type="button" class="ux-chip" data-quitar="' + q[0] + '">' + q[1] + '</button>').join('') + '</div></div>';
+    }
+    bandeja();
+}
+$('filtros').addEventListener('click', ev => {
+    const b = ev.target.closest('[data-fir],[data-lin]'); if (!b) return;
+    if (b.dataset.fir) est.firmeza = est.firmeza.includes(b.dataset.fir) ? est.firmeza.filter(x => x !== b.dataset.fir) : Cat.FIRMEZAS.filter(x => x === b.dataset.fir || est.firmeza.includes(x));
+    else est.linea = est.linea.includes(b.dataset.lin) ? est.linea.filter(x => x !== b.dataset.lin) : Cat.LINEAS.filter(x => x === b.dataset.lin || est.linea.includes(x));
+    dibujar();
+});
+$('fTam').addEventListener('change', () => { est.tamano = $('fTam').value; dibujar(); });
+$('fOrd').addEventListener('change', () => { est.orden = $('fOrd').value; dibujar(); });
+$('fPre').addEventListener('change', () => { const p = PRES.find(x => x[0] === $('fPre').value); if (p) { est.min = p[1]; est.max = p[2]; dibujar(); } });
+$('fLimpiar').addEventListener('click', () => { est.tipo = ''; est.firmeza = []; est.linea = []; est.min = 0; est.max = 0; dibujar(); });
+$('tipos').addEventListener('click', ev => { const a = ev.target.closest('[data-tipo]'); if (!a) return; ev.preventDefault(); est.tipo = a.dataset.tipo; dibujar(); });
+$('grid').addEventListener('click', ev => {
+    const q = ev.target.closest('[data-quitar]'); if (q) { if (q.dataset.quitar === 'firmeza') est.firmeza = []; if (q.dataset.quitar === 'linea') est.linea = []; if (q.dataset.quitar === 'precio') { est.min = 0; est.max = 0; } dibujar(); return; }
+    const v = ev.target.closest('[data-vista]'); if (v) abrirVista(v.dataset.vista);
+});
+
+// ---- Vista rápida con anterior / siguiente ----
+let vi = 0;
+function abrirVista(id) { vi = Math.max(0, lista.findIndex(i => i.id === id)); pintarVista(); const d = $('vv'); if (!d.open) d.showModal(); }
+function pintarVista() {
+    const i = lista[vi]; if (!i) return;
+    $('vv').innerHTML = '<div class="ux-vv-img"><img src="' + i.imagen + '" alt="' + Cat.esc(i.nombreCompleto) + '"></div>' +
+        '<div class="ux-vv-c"><button type="button" class="ux-vv-x" id="vvX" aria-label="Cerrar la vista rápida">×</button>' +
+        '<span class="ux-linea">' + i.linea + '</span><h2 id="vvT">' + Cat.esc(i.nombreCompleto) + '</h2>' +
+        '<div class="ux-val">' + UX.estrellas(i.calificacion) + '<span>' + i.calificacion.toString().replace('.', ',') + ' · ' + i.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
+        '<p class="ux-precio">' + Cat.fmt(i.precio) + (i.descuento ? '<s>' + Cat.fmt(i.precioNormal) + '</s>' : '') + '</p>' +
+        '<p class="ux-meta">' + i.tipo.nombre + ' · ' + i.tamanoLabel + ' (' + UX.dim(i.dimensiones) + ')</p>' +
+        '<div class="ux-vv-b">' + UX.escala('Firmeza', i.firmezaN) + UX.escala('Adaptación', i.adaptacion) + '</div>' +
+        '<p class="ux-meta" style="margin-top:6px">12 cuotas sin interés de ' + Cat.fmt(Math.round(i.precio / 12)) + '</p>' +
+        '<div style="display:grid;gap:10px;margin-top:10px"><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(UX.RUTA, i) + '">Ver la ficha completa</a><button type="button" class="v-btn" id="vvAgregar">Agregar al carro</button></div>' +
+        '<div class="ux-vv-nav"><button type="button" class="ux-link" id="vvPrev"' + (vi === 0 ? ' disabled' : '') + '>Anterior</button><span class="ux-meta">' + (vi + 1) + ' de ' + lista.length + '</span><button type="button" class="ux-link" id="vvNext"' + (vi === lista.length - 1 ? ' disabled' : '') + '>Siguiente</button></div></div>';
+    $('vvX').addEventListener('click', () => $('vv').close());
+    $('vvPrev').addEventListener('click', () => { vi--; pintarVista(); $('vvPrev').focus(); });
+    $('vvNext').addEventListener('click', () => { vi++; pintarVista(); $('vvNext').focus(); });
+    $('vvAgregar').addEventListener('click', () => { Cat.carro.agregar(i); $('vv').close(); carro.abrirCarro(); });
+}
+$('vv').addEventListener('click', ev => { if (ev.target === $('vv')) $('vv').close(); });
+$('vv').addEventListener('keydown', ev => { if (ev.key === 'ArrowRight' && vi < lista.length - 1) { vi++; pintarVista(); } if (ev.key === 'ArrowLeft' && vi > 0) { vi--; pintarVista(); } });
+
+// ---- Comparador ----
+$('grid').addEventListener('change', ev => {
+    const c = ev.target.closest('[data-comparar]'); if (!c) return;
+    if (!Cat.comparador.alternar(c.dataset.comparar)) { c.checked = false; Shell.aviso('Puedes comparar hasta ' + Cat.comparador.MAX + ' productos. Quita uno para agregar otro.'); }
+});
+function bandeja() {
+    const l = Cat.comparador.lista().map(Cat.porId);
+    $('bandeja').hidden = !l.length; document.body.style.paddingBottom = l.length ? '96px' : '';
+    $('bandejaItems').innerHTML = l.map(i => '<span class="ux-mini"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '<button type="button" data-quitar-c="' + i.id + '" aria-label="Quitar ' + Cat.esc(i.nombreCompleto) + ' de la comparación">×</button></span>').join('');
+    $('bandejaTxt').textContent = l.length < 2 ? 'Elige al menos 2' : '';
+    $('bandejaVer').disabled = l.length < 2;
+    document.querySelectorAll('.ux-card').forEach(c => { const on = Cat.comparador.tiene(c.dataset.id); c.classList.toggle('en-comparador', on); const cb = c.querySelector('[data-comparar]'); if (cb) cb.checked = on; });
+}
+document.addEventListener('comparador:cambio', bandeja);
+$('bandejaItems').addEventListener('click', ev => { const b = ev.target.closest('[data-quitar-c]'); if (b) Cat.comparador.quitar(b.dataset.quitarC); });
+$('bandejaVaciar').addEventListener('click', () => Cat.comparador.vaciar());
+$('bandejaVer').addEventListener('click', () => {
+    const l = Cat.comparador.lista().map(Cat.porId); if (l.length < 2) return;
+    const min = Math.min(...l.map(i => i.precio));
+    const filas = [['Línea', i => i.linea], ['Tipo', i => i.tipo.nombre], ['Tamaño', i => i.tamanoLabel + ' (' + UX.dim(i.dimensiones) + ')'], ['Firmeza', i => Cat.palabraFirmeza(i.firmezaN) + ' (' + i.firmezaN + ' de 5)'], ['Adaptación', i => Cat.palabraAdapt(i.adaptacion) + ' (' + i.adaptacion + ' de 5)']];
+    const iguales = [], dif = [];
+    filas.forEach(([n, fn]) => { const v = l.map(fn); (v.every(x => x === v[0]) ? iguales : dif).push([n, fn, v[0]]); });
+    $('cmpC').innerHTML = (iguales.length ? '<p class="ux-iguales"><strong>Iguales en los ' + l.length + ':</strong> ' + iguales.map(x => x[0].toLowerCase() + ' ' + x[2]).join(' · ') + '</p>' : '') +
+        '<div style="overflow-x:auto"><table class="ux-tabla"><thead><tr><th></th>' + l.map(i => '<th scope="col"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '</th>').join('') + '</tr></thead><tbody>' +
+        dif.map(([n, fn]) => '<tr><th scope="row">' + n + '</th>' + l.map(i => '<td>' + Cat.esc(fn(i)) + '</td>').join('') + '</tr>').join('') +
+        '<tr><th scope="row">Precio</th>' + l.map(i => '<td' + (i.precio === min ? ' class="mejor"' : '') + '>' + Cat.fmt(i.precio) + '<span class="ux-delta">' + (i.precio === min ? 'El más económico' : '+' + Cat.fmt(i.precio - min) + ' vs. el más económico') + '</span></td>').join('') + '</tr>' +
+        '<tr><th scope="row"></th>' + l.map(i => '<td><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(UX.RUTA, i) + '">Ver ficha</a></td>').join('') + '</tr></tbody></table></div>';
+    $('cmp').showModal();
+});
+$('cmpX').addEventListener('click', () => $('cmp').close());
+$('cmp').addEventListener('click', ev => { if (ev.target === $('cmp')) $('cmp').close(); });
+
+Cat.recordarLista();
+dibujar();
+</script>
+</body>
+</html>

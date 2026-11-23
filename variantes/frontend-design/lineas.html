@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Modelos | Rosen (opción frontend-design)</title>
+<link rel="stylesheet" href="variantes/frontend-design/estilos.css">
+</head>
+<body>
+
+<main class="wrap fd-pagina">
+    <aside class="fd-rail" id="rail" aria-label="Filtros">
+        <h2>Filtros</h2>
+        <fieldset class="fd-grupo"><legend>Tipo</legend><div id="gTipo"></div></fieldset>
+        <fieldset class="fd-grupo"><legend>Tamaño</legend><div id="gTamano"></div></fieldset>
+        <fieldset class="fd-grupo"><legend>Firmeza</legend><div id="gFirmeza"></div></fieldset>
+        <div class="fd-grupo">
+            <h3 id="gMaxT">Presupuesto máximo</h3>
+            <input type="range" class="fd-rango" id="gMax" aria-labelledby="gMaxT" aria-describedby="gMaxV">
+            <div class="fd-rango-v" id="gMaxV"></div>
+        </div>
+        <fieldset class="fd-grupo"><legend>Línea</legend><div id="gLinea"></div></fieldset>
+        <div class="fd-grupo"><button type="button" class="fd-limpiar" id="gLimpiar">Quitar los filtros (menos el tamaño)</button></div>
+        <button type="button" class="v-btn v-btn-primario fd-rail-x" id="railCerrar">Ver los modelos</button>
+    </aside>
+
+    <section aria-labelledby="fdRes">
+        <div class="fd-cabeza">
+            <div>
+                <h1 id="fdRes">Modelos</h1>
+                <p id="fdResSub" role="status" aria-live="polite"></p>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                <button type="button" class="v-btn fd-filtros-btn" id="abrirRail">Filtros <span id="nFiltros"></span></button>
+                <label class="fd-orden">Ordenar por
+                    <select id="orden">
+                        <option value="relevancia">Más valorados</option><option value="menor">Menor precio</option><option value="mayor">Mayor precio</option>
+                        <option value="descuento">Mayor descuento</option><option value="az">A a Z</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="fd-activos" id="activos" aria-label="Filtros aplicados"></div>
+        <div class="fd-grid" id="grid"></div>
+    </section>
+</main>
+
+<div class="v-overlay" id="railOverlay" hidden></div>
+
+<div class="fd-bandeja" id="bandeja" hidden>
+    <div class="fd-bandeja-in">
+        <div class="fd-bandeja-items" id="bandejaItems"></div>
+        <span class="fd-bandeja-txt" id="bandejaTxt"></span>
+        <button type="button" class="fd-limpiar" id="bandejaVaciar">Vaciar</button>
+        <button type="button" class="v-btn v-btn-primario" id="bandejaVer">Comparar</button>
+    </div>
+</div>
+
+<dialog class="fd-modal" id="modalComp" aria-labelledby="modalCompT">
+    <div class="fd-modal-h"><h2 id="modalCompT">Comparación</h2><button type="button" class="fd-modal-x" id="modalCompX" aria-label="Cerrar">×</button></div>
+    <div class="fd-modal-c" id="modalCompC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/frontend-design/comun.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const u = Cat.leerUrl();
+const est = { tamano: u.tamano || '2-plazas', tipo: u.tipo, firmeza: u.firmeza, linea: u.linea.filter(l => Cat.LINEAS.includes(l)), max: u.max, orden: u.orden };
+if (!Cat.TAMANOS.some(t => t.id === est.tamano)) est.tamano = '2-plazas';
+if (!['relevancia', 'menor', 'mayor', 'descuento', 'az'].includes(est.orden)) est.orden = 'relevancia';
+const nombreTam = () => Cat.TAMANOS.find(t => t.id === est.tamano).label;
+const f = (extra) => Cat.filtrar(Object.assign({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, max: est.max }, extra || {}));
+
+Shell.montar({ ruta: FD.RUTA, actual: 'lineas', migas: [['Camas y Colchones', FD.RUTA + 'guia.html'], ['Modelos']] });
+
+// ---- Panel de filtros (se construye una vez y se actualizan los números) ----
+$('gTipo').innerHTML = [['', 'Todos']].concat(Cat.TIPOS.map(t => [t.url, t.plural])).map(o =>
+    '<label class="fd-opcion"><input type="radio" name="tipo" value="' + o[0] + '"> <span>' + o[1] + '</span><span class="n" data-n="tipo:' + o[0] + '"></span></label>').join('');
+$('gTamano').innerHTML = Cat.TAMANOS.map(t =>
+    '<label class="fd-opcion"><input type="radio" name="tamano" value="' + t.id + '"> <span>' + t.label + '<small>' + t.dimensiones.replace(' x ', ' × ').replace('cm', ' cm') + '</small></span><span class="n" data-n="tamano:' + t.id + '"></span></label>').join('');
+$('gFirmeza').innerHTML = Cat.FIRMEZAS.map(x =>
+    '<label class="fd-opcion"><input type="checkbox" name="firmeza" value="' + x + '"> <span>' + x.charAt(0).toUpperCase() + x.slice(1) + '</span><span class="n" data-n="firmeza:' + x + '"></span></label>').join('');
+$('gLinea').innerHTML = Cat.LINEAS.map(l =>
+    '<label class="fd-opcion"><input type="checkbox" name="linea" value="' + l + '"> <span>' + Cat.LINEA_CORTA[l] + '<small data-desde="' + l + '"></small></span><span class="n" data-n="linea:' + l + '"></span></label>').join('');
+
+function actualizarPanel() {
+    document.querySelectorAll('input[name=tipo]').forEach(i => { i.checked = i.value === est.tipo; });
+    document.querySelectorAll('input[name=tamano]').forEach(i => { i.checked = i.value === est.tamano; });
+    document.querySelectorAll('input[name=firmeza]').forEach(i => { i.checked = est.firmeza.includes(i.value); });
+    document.querySelectorAll('input[name=linea]').forEach(i => { i.checked = est.linea.includes(i.value); });
+    const conteo = (dim, val) => {
+        const extra = {};
+        if (dim === 'tipo') extra.tipo = val; else if (dim === 'tamano') extra.tamano = val;
+        else if (dim === 'firmeza') extra.firmeza = [val]; else extra.linea = [val];
+        return f(extra);
+    };
+    document.querySelectorAll('[data-n]').forEach(el => {
+        const [dim, val] = el.dataset.n.split(':'); const r = conteo(dim, val);
+        el.textContent = r.length; el.closest('.fd-opcion').classList.toggle('sin', r.length === 0);
+    });
+    document.querySelectorAll('[data-desde]').forEach(el => {
+        const r = f({ linea: [el.dataset.desde] }); el.textContent = r.length ? 'Desde ' + Cat.fmt(Cat.minimo(r)) : 'Sin modelos con estos filtros';
+    });
+    // Presupuesto: el rango real del tamaño y el tipo elegidos
+    const base = f({ max: 0, firmeza: [], linea: [] });
+    const lo = base.length ? Math.floor(Cat.minimo(base) / 10000) * 10000 : 0, hi = base.length ? Math.ceil(Cat.maximo(base) / 10000) * 10000 : 0;
+    const r = $('gMax'); r.min = lo; r.max = hi; r.step = 10000; r.disabled = !base.length; r.value = est.max && est.max <= hi ? est.max : hi;
+    $('gMaxV').innerHTML = '<span>' + Cat.fmt(lo) + '</span><strong>' + (est.max && est.max < hi ? 'Hasta ' + Cat.fmt(est.max) : 'Sin tope') + '</strong><span>' + Cat.fmt(hi) + '</span>';
+}
+
+// ---- Resultados ----
+function chipsActivos() {
+    const c = [];
+    if (est.tipo) c.push(['tipo', Cat.tipoPorUrl(est.tipo).plural, () => { est.tipo = ''; }]);
+    c.push(['tamano', nombreTam(), null]);
+    est.firmeza.forEach(x => c.push(['firmeza', 'Firmeza ' + (x === 'intermedio' ? 'intermedia' : x), () => { est.firmeza = est.firmeza.filter(y => y !== x); }]));
+    est.linea.forEach(l => c.push(['linea', Cat.LINEA_CORTA[l], () => { est.linea = est.linea.filter(y => y !== l); }]));
+    if (est.max) c.push(['max', 'Hasta ' + Cat.fmt(est.max), () => { est.max = 0; }]);
+    return c;
+}
+function dibujar() {
+    setTimeout(Cat.recordarLista, 0);
+    const r = Cat.ordenar(f(), est.orden);
+    Cat.escribirUrl({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, max: est.max || '', orden: est.orden });
+    $('orden').value = est.orden;
+    $('fdRes').textContent = (est.tipo ? Cat.tipoPorUrl(est.tipo).plural : 'Camas y colchones') + ' ' + nombreTam();
+    $('fdResSub').textContent = r.length ? r.length + (r.length === 1 ? ' modelo' : ' modelos') + ', desde ' + Cat.fmt(Cat.minimo(r)) : 'Ningún modelo con estos filtros';
+    document.title = $('fdRes').textContent + ' | Rosen (opción frontend-design)';
+    const chips = chipsActivos(); window._chips = chips;
+    $('activos').innerHTML = chips.map((c, i) => '<span class="fd-activo">' + Cat.esc(c[1]) + (c[2] ? '<button type="button" data-q="' + i + '" aria-label="Quitar ' + Cat.esc(c[1]) + '">×</button>' : '') + '</span>').join('');
+    const extras = chips.filter(c => c[2]).length; $('nFiltros').textContent = extras ? '(' + extras + ')' : '';
+    if (r.length) {
+        $('grid').innerHTML = r.map(i => FD.tarjeta(i, { comparar: true })).join('');
+    } else {
+        // Explica qué quitar para volver a tener resultados
+        const sug = chips.map((c, i) => {
+            if (!c[2]) return '';
+            const bak = JSON.stringify(est); c[2](); const n = f().length; Object.assign(est, JSON.parse(bak));
+            return n ? '<button type="button" class="v-btn" data-q="' + i + '">Quitar «' + Cat.esc(c[1]) + '» (' + n + ')</button>' : '';
+        }).filter(Boolean).join(' ');
+        $('grid').innerHTML = '<div class="fd-vacio"><h2>Ningún modelo con estos filtros</h2><p>' + (sug ? 'Quita uno para volver a ver modelos:' : 'Prueba con otro tamaño.') + '</p>' + sug + '</div>';
+    }
+    actualizarPanel(); dibujarBandeja();
+}
+function cambio() { dibujar(); }
+
+// Eventos del panel
+$('rail').addEventListener('change', ev => {
+    const t = ev.target;
+    if (t.name === 'tipo') est.tipo = t.value;
+    else if (t.name === 'tamano') est.tamano = t.value;
+    else if (t.name === 'firmeza') est.firmeza = Cat.FIRMEZAS.filter(x => document.querySelector('input[name=firmeza][value=' + x + ']').checked);
+    else if (t.name === 'linea') est.linea = Cat.LINEAS.filter(l => Array.from(document.querySelectorAll('input[name=linea]')).find(i => i.value === l).checked);
+    cambio();
+});
+$('gMax').addEventListener('input', () => { const v = parseInt($('gMax').value, 10); est.max = v >= parseInt($('gMax').max, 10) ? 0 : v; cambio(); });
+$('gLimpiar').addEventListener('click', () => { est.tipo = ''; est.firmeza = []; est.linea = []; est.max = 0; cambio(); });
+$('orden').addEventListener('change', () => { est.orden = $('orden').value; cambio(); });
+document.addEventListener('click', ev => {
+    const q = ev.target.closest('[data-q]'); if (!q) return;
+    const c = window._chips[parseInt(q.dataset.q, 10)]; if (c && c[2]) { c[2](); cambio(); }
+});
+$('abrirRail').addEventListener('click', () => { $('rail').classList.add('abierto'); $('railOverlay').hidden = false; });
+const cerrarRail = () => { $('rail').classList.remove('abierto'); $('railOverlay').hidden = true; };
+$('railCerrar').addEventListener('click', cerrarRail); $('railOverlay').addEventListener('click', cerrarRail);
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') cerrarRail(); });
+
+// ---- Comparador: bandeja inferior y tabla de diferencias ----
+$('grid').addEventListener('change', ev => {
+    const c = ev.target.closest('[data-comparar]'); if (!c) return;
+    if (!Cat.comparador.alternar(c.dataset.comparar)) { c.checked = false; Shell.aviso('Puedes comparar hasta ' + Cat.comparador.MAX + ' productos. Quita uno para agregar otro.'); }
+});
+function dibujarBandeja() {
+    const l = Cat.comparador.lista().map(Cat.porId);
+    $('bandeja').hidden = !l.length;
+    document.body.style.paddingBottom = l.length ? '84px' : '';
+    $('bandejaItems').innerHTML = l.map(i => '<span class="fd-mini"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + ' <button type="button" data-quitar="' + i.id + '" aria-label="Quitar ' + Cat.esc(i.nombreCompleto) + ' de la comparación">×</button></span>').join('');
+    $('bandejaTxt').textContent = l.length < 2 ? 'Elige al menos 2 para comparar' : '';
+    $('bandejaVer').disabled = l.length < 2;
+    document.querySelectorAll('.fd-card').forEach(c => {
+        const on = Cat.comparador.tiene(c.dataset.id); c.classList.toggle('en-comparador', on);
+        const cb = c.querySelector('[data-comparar]'); if (cb) cb.checked = on;
+    });
+}
+document.addEventListener('comparador:cambio', dibujarBandeja);
+$('bandejaItems').addEventListener('click', ev => { const b = ev.target.closest('[data-quitar]'); if (b) Cat.comparador.quitar(b.dataset.quitar); });
+$('bandejaVaciar').addEventListener('click', () => Cat.comparador.vaciar());
+$('bandejaVer').addEventListener('click', () => {
+    const l = Cat.comparador.lista().map(Cat.porId); if (l.length < 2) return;
+    const min = Math.min(...l.map(i => i.precio));
+    const filas = [
+        ['Línea', i => i.linea], ['Tipo', i => i.tipo.nombre], ['Tamaño', i => i.tamanoLabel + ' (' + i.dimensiones.replace(' x ', ' × ').replace('cm', ' cm') + ')'],
+        ['Firmeza', i => Cat.palabraFirmeza(i.firmezaN) + ' (' + i.firmezaN + ' de 5)'], ['Adaptación', i => Cat.palabraAdapt(i.adaptacion) + ' (' + i.adaptacion + ' de 5)']
+    ];
+    const iguales = [], dif = [];
+    filas.forEach(([n, fn]) => { const v = l.map(fn); (v.every(x => x === v[0]) ? iguales : dif).push([n, fn, v[0]]); });
+    $('modalCompC').innerHTML =
+        (iguales.length ? '<p class="fd-iguales"><strong>Iguales en los ' + l.length + ':</strong> ' + iguales.map(x => x[0].toLowerCase() + ' ' + x[2]).join(' · ') + '</p>' : '') +
+        '<div style="overflow-x:auto"><table class="fd-tabla"><thead><tr><th></th>' + l.map(i => '<th scope="col"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '</th>').join('') + '</tr></thead><tbody>' +
+        dif.map(([n, fn]) => '<tr><th scope="row">' + n + '</th>' + l.map(i => '<td>' + Cat.esc(fn(i)) + '</td>').join('') + '</tr>').join('') +
+        '<tr><th scope="row">Precio</th>' + l.map(i => '<td' + (i.precio === min ? ' class="mejor"' : '') + '>' + Cat.fmt(i.precio) + (i.precio === min ? '<span class="fd-delta">El más económico</span>' : '<span class="fd-delta">+' + Cat.fmt(i.precio - min) + ' vs. el más económico</span>') + '</td>').join('') + '</tr>' +
+        '<tr><th scope="row"></th>' + l.map(i => '<td><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(FD.RUTA, i) + '">Ver producto</a></td>').join('') + '</tr></tbody></table></div>';
+    $('modalComp').showModal();
+});
+$('modalCompX').addEventListener('click', () => $('modalComp').close());
+$('modalComp').addEventListener('click', ev => { if (ev.target === $('modalComp')) $('modalComp').close(); });
+
+Cat.recordarLista();
+dibujar();
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Modelos | Rosen (opción 3)</title>
+<link rel="stylesheet" href="variantes/hibrida/estilos.css">
+</head>
+<body>
+<a class="saltar" href="#grid">Saltar a los resultados</a>
+
+<main class="wrap">
+    <div class="ux-cab"><div><h1 id="hyRes">Modelos</h1><div id="hyTam" class="hy-tam"></div></div></div>
+    <nav class="ux-tipos" id="tipos" aria-label="Tipo de producto"></nav>
+
+    <div class="hy-pagina">
+        <aside class="hy-rail" id="rail" aria-label="Filtros">
+            <h2>Filtros</h2>
+            <fieldset class="hy-grupo"><legend>Tamaño</legend><div id="gTamano"></div></fieldset>
+            <fieldset class="hy-grupo"><legend>Firmeza</legend><div id="gFirmeza"></div></fieldset>
+            <div class="hy-grupo">
+                <h3 id="gMaxT">Presupuesto máximo</h3>
+                <p class="hy-rango-sel" id="gMaxSel" aria-live="polite"></p>
+                <input type="range" class="hy-rango" id="gMax" aria-labelledby="gMaxT" aria-describedby="gMaxSel gMaxV">
+                <div class="hy-rango-v" id="gMaxV"></div>
+            </div>
+            <fieldset class="hy-grupo"><legend>Línea</legend><div id="gLinea"></div></fieldset>
+            <div class="hy-grupo"><button type="button" class="ux-link" id="gLimpiar">Quitar los filtros (menos el tamaño)</button></div>
+            <button type="button" class="v-btn v-btn-primario hy-rail-x" id="railCerrar">Ver los modelos</button>
+        </aside>
+
+        <section aria-label="Resultados">
+            <div class="hy-barra-res">
+                <button type="button" class="v-btn hy-filtros-btn" id="abrirRail">Filtros <span id="nFiltros"></span></button>
+                <p id="hySub" class="hy-cuenta" role="status" aria-live="polite"></p>
+                <div class="hy-orden"><span id="lblOrden">Ordenar por</span>
+                    <select id="orden">
+                        <option value="relevancia">Más valorados</option><option value="menor">Menor precio</option><option value="mayor">Mayor precio</option><option value="descuento">Mayor descuento</option><option value="az">A a Z</option>
+                    </select>
+                </div>
+            </div>
+            <div class="hy-activos" id="activos" aria-label="Filtros aplicados"></div>
+            <div class="ux-grid hy-grid" id="grid"></div>
+        </section>
+    </div>
+    <div id="ayudaModelos"></div>
+</main>
+
+<div class="v-overlay" id="railOverlay" hidden></div>
+<div class="ux-bandeja ux-vidrio" id="bandeja" hidden>
+    <div class="ux-bandeja-items" id="bandejaItems"></div>
+    <span class="ux-meta" id="bandejaTxt"></span>
+    <button type="button" class="ux-link" id="bandejaVaciar">Vaciar</button>
+    <button type="button" class="v-btn v-btn-primario" id="bandejaVer">Comparar</button>
+</div>
+
+<dialog class="ux-dlg ux-vv" id="vv" aria-labelledby="vvT"></dialog>
+<dialog class="ux-dlg ux-cmp" id="cmp" aria-labelledby="cmpT">
+    <div class="ux-cmp-h"><h2 id="cmpT">Comparación</h2><button type="button" class="v-btn" id="cmpX">Cerrar</button></div>
+    <div class="ux-cmp-c" id="cmpC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="data/galerias.js"></script>
+<script src="variantes/hibrida/comun.js"></script>
+<script src="variantes/hibrida/selector.js"></script>
+<script src="variantes/shared/faq.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const u = Cat.leerUrl();
+const est = { tamano: Cat.TAMANOS.some(t => t.id === u.tamano) ? u.tamano : '2-plazas', tipo: u.tipo, firmeza: u.firmeza, linea: u.linea.filter(l => Cat.LINEAS.includes(l)), min: u.min, max: u.max,
+    orden: ['relevancia', 'menor', 'mayor', 'descuento', 'az'].includes(u.orden) ? u.orden : 'relevancia' };
+const carro = Shell.montar({ ruta: HY.RUTA, actual: 'lineas', migas: [['Camas y Colchones', HY.RUTA + 'guia.html'], ['Modelos']] });
+const f = extra => Cat.filtrar(Object.assign({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min, max: est.max }, extra || {}));
+const nombreTam = () => Cat.TAMANOS.find(t => t.id === est.tamano).label;
+let lista = [];
+
+// ---- Panel de filtros (se arma una vez; después solo se actualizan los números) ----
+$('gTamano').innerHTML = Cat.TAMANOS.map(t => '<label class="hy-opcion"><input type="radio" name="tamano" value="' + t.id + '"> <span>' + t.label + '<small>' + HY.dim(t.dimensiones) + '</small></span><span class="n" data-n="tamano:' + t.id + '"></span></label>').join('');
+$('gFirmeza').innerHTML = Cat.FIRMEZAS.map(x => '<label class="hy-opcion"><input type="checkbox" name="firmeza" value="' + x + '"> <span>' + (x === 'intermedio' ? 'Intermedia' : x.charAt(0).toUpperCase() + x.slice(1)) + '</span><span class="n" data-n="firmeza:' + x + '"></span></label>').join('');
+$('gLinea').innerHTML = Cat.LINEAS.map(l => '<label class="hy-opcion"><input type="checkbox" name="linea" value="' + l + '"> <span>' + Cat.LINEA_CORTA[l] + '<small data-desde="' + l + '"></small></span><span class="n" data-n="linea:' + l + '"></span></label>').join('');
+
+function panel() {
+    document.querySelectorAll('input[name=tamano]').forEach(i => { i.checked = i.value === est.tamano; });
+    document.querySelectorAll('input[name=firmeza]').forEach(i => { i.checked = est.firmeza.includes(i.value); });
+    document.querySelectorAll('input[name=linea]').forEach(i => { i.checked = est.linea.includes(i.value); });
+    document.querySelectorAll('[data-n]').forEach(el => {
+        const [dim, val] = el.dataset.n.split(':'); const extra = {};
+        if (dim === 'tamano') extra.tamano = val; else if (dim === 'firmeza') extra.firmeza = [val]; else extra.linea = [val];
+        const n = f(extra).length; el.textContent = n; const op = el.closest('.hy-opcion'); op.classList.toggle('sin', n === 0); op.hidden = n === 0 && !op.querySelector('input').checked;   // no se ofrece lo que no tiene modelos
+    });
+    document.querySelectorAll('[data-desde]').forEach(el => { const r = f({ linea: [el.dataset.desde] }); el.textContent = r.length ? 'Desde ' + Cat.fmt(Cat.minimo(r)) : 'Sin modelos con estos filtros'; });
+    const base = f({ min: 0, max: 0, firmeza: [], linea: [] });
+    const lo = base.length ? Math.floor(Cat.minimo(base) / 10000) * 10000 : 0, hi = base.length ? Math.ceil(Cat.maximo(base) / 10000) * 10000 : 0;
+    const rg = $('gMax'); rg.min = lo; rg.max = hi; rg.step = 10000; rg.disabled = !base.length; rg.value = est.max && est.max <= hi ? est.max : hi;
+    $('gMaxSel').innerHTML = est.max && est.max < hi ? 'Hasta <strong>' + Cat.fmt(est.max) + '</strong>' : '<strong>Sin tope</strong>';
+    $('gMaxV').innerHTML = '<span>' + Cat.fmt(lo) + '</span><span>' + Cat.fmt(hi) + '</span>';
+}
+function tabs() {
+    const base = { tamano: est.tamano, firmeza: est.firmeza, linea: est.linea, min: est.min, max: est.max, orden: est.orden };
+    $('tipos').innerHTML = [['', 'Todos']].concat(Cat.TIPOS.map(t => [t.url, t.plural])).filter(o => o[0] === '' || o[0] === est.tipo || f({ tipo: o[0] }).length > 0).map(o =>
+        '<a href="' + Cat.hrefLineas(HY.RUTA, Object.assign({}, base, { tipo: o[0] })) + '" data-tipo="' + o[0] + '"' + (est.tipo === o[0] ? ' aria-current="page"' : '') + '>' + o[1] + ' <small>(' + f({ tipo: o[0] }).length + ')</small></a>').join('');
+}
+function chips() {
+    const c = [];
+    if (est.min || est.max) c.push(['Precio ' + (est.min && est.max ? Cat.fmt(est.min) + ' a ' + Cat.fmt(est.max) : est.max ? 'hasta ' + Cat.fmt(est.max) : 'desde ' + Cat.fmt(est.min)), () => { est.min = 0; est.max = 0; }]);
+    est.firmeza.forEach(x => c.push(['Firmeza ' + (x === 'intermedio' ? 'intermedia' : x), () => { est.firmeza = est.firmeza.filter(y => y !== x); }]));
+    est.linea.forEach(l => c.push([Cat.LINEA_CORTA[l], () => { est.linea = est.linea.filter(y => y !== l); }]));
+    return c;
+}
+let chipsAct = [];
+// ---- Ayuda para elegir en Modelos ----
+// Qué conviene en cada tamaño: los textos de "Elige por tamaño" del sitio (index-lineas.html), sin cambios
+const DESC_TAMANO = {
+    '1-plaza': 'Ideal para durmientes individuales, dormitorios pequeños o camas nido.',
+    '1-5-plazas': 'Para uso individual con más espacio o para adolescentes que crecen.',
+    'full': 'Ideal para parejas en espacios compactos o para quien disfruta de más espacio.',
+    '2-plazas': 'Para parejas en espacios medianos, con buena amplitud sin ocupar demasiado.',
+    'queen': 'Para parejas que valoran el espacio personal o quienes duermen con mascotas.',
+    'king': 'Para parejas que desean máximo espacio y libertad de movimiento.',
+    'super-king': 'El mayor espacio disponible: ideal para quienes comparten cama con niños o mascotas.'
+};
+const FAQ_ELEGIR = [0, 1, 2, 3].map(k => FAQ[k]);   // tamaño, líneas, firmeza y juego completo
+function montarAyuda() {
+    $('ayudaModelos').innerHTML = '<section class="hy-am" aria-labelledby="faqT"><h2 id="faqT">Preguntas frecuentes</h2><div class="hy-faq">' +
+        FAQ_ELEGIR.map(x => '<details><summary>' + x[0] + '</summary><div>' + x[1] + '</div></details>').join('') + '</div></section>';
+}
+function actualizarAyuda() {
+    const tam = Cat.TAMANOS.find(t => t.id === est.tamano);
+    $('hyTam').innerHTML = '<span class="hy-tam-et">Tamaño ' + Cat.esc(tam.label) + ' · ' + HY.dim(tam.dimensiones) + '</span><span class="hy-tam-d">' + DESC_TAMANO[est.tamano] + '</span>';
+}
+
+function dibujar() {
+    lista = Cat.ordenar(f(), est.orden);
+    Cat.escribirUrl({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min || '', max: est.max || '', orden: est.orden });
+    setTimeout(Cat.recordarLista, 0);
+    $('orden').value = est.orden; selectsPropios.forEach(x => x.sync());
+    $('hyRes').textContent = (est.tipo ? Cat.tipoPorUrl(est.tipo).plural : 'Camas y colchones') + ' · ' + nombreTam();
+    document.title = $('hyRes').textContent + ' | Rosen (opción 3)';
+    $('hySub').innerHTML = lista.length ? '<strong>' + lista.length + (lista.length === 1 ? ' modelo' : ' modelos') + '</strong> · desde ' + Cat.fmt(Cat.minimo(lista)) : 'Ningún modelo con estos filtros';
+    chipsAct = chips();
+    $('activos').innerHTML = chipsAct.map((c, i) => '<span class="hy-activo">' + Cat.esc(c[0]) + '<button type="button" data-q="' + i + '" aria-label="Quitar ' + Cat.esc(c[0]) + '">×</button></span>').join('');
+    $('nFiltros').textContent = chipsAct.length ? '(' + chipsAct.length + ')' : '';
+    if (lista.length) $('grid').innerHTML = lista.map(i => HY.tarjeta(i, { comparar: true, vista: true, tambien: !!est.tipo, minPrecio: lista.length > 1 ? Cat.minimo(lista) : 0 })).join('');
+    else {
+        const sug = chipsAct.map((c, i) => { const bak = JSON.stringify(est); c[1](); const n = f().length; Object.assign(est, JSON.parse(bak)); return n ? '<button type="button" class="ux-chip" data-q="' + i + '">Quitar «' + Cat.esc(c[0]) + '» (' + n + ')</button>' : ''; }).filter(Boolean).join('');
+        $('grid').innerHTML = '<div class="ux-vacio"><h2>No hay modelos con estos filtros</h2><p>' + (sug ? 'Prueba quitando uno:' : 'Prueba con otro tamaño o tipo.') + '</p><div class="ux-chips" style="justify-content:center">' + sug + '</div></div>';
+    }
+    panel(); tabs(); bandeja(); actualizarAyuda();
+}
+$('rail').addEventListener('change', ev => {
+    const t = ev.target;
+    if (t.name === 'tamano') est.tamano = t.value;
+    else if (t.name === 'firmeza') est.firmeza = Cat.FIRMEZAS.filter(x => document.querySelector('input[name=firmeza][value=' + x + ']').checked);
+    else if (t.name === 'linea') est.linea = Cat.LINEAS.filter(l => Array.from(document.querySelectorAll('input[name=linea]')).find(i => i.value === l).checked);
+    dibujar();
+});
+$('gMax').addEventListener('input', () => { const v = parseInt($('gMax').value, 10); est.min = 0; est.max = v >= parseInt($('gMax').max, 10) ? 0 : v; dibujar(); });
+$('gLimpiar').addEventListener('click', () => { est.firmeza = []; est.linea = []; est.min = 0; est.max = 0; dibujar(); });
+$('orden').addEventListener('change', () => { est.orden = $('orden').value; dibujar(); });
+selectorPropio($('orden'), 'lblOrden');
+$('tipos').addEventListener('click', ev => { const a = ev.target.closest('[data-tipo]'); if (!a) return; ev.preventDefault(); est.tipo = a.dataset.tipo; dibujar(); });
+document.addEventListener('click', ev => { const q = ev.target.closest('[data-q]'); if (q && chipsAct[+q.dataset.q]) { chipsAct[+q.dataset.q][1](); dibujar(); } });
+$('abrirRail').addEventListener('click', () => { $('rail').classList.add('abierto'); $('railOverlay').hidden = false; });
+const cerrarRail = () => { $('rail').classList.remove('abierto'); $('railOverlay').hidden = true; };
+$('railCerrar').addEventListener('click', cerrarRail); $('railOverlay').addEventListener('click', cerrarRail);
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') cerrarRail(); });
+
+// ---- Vista rápida con anterior / siguiente ----
+let vi = 0;
+$('grid').addEventListener('click', ev => { const v = ev.target.closest('[data-vista]'); if (v) { vi = Math.max(0, lista.findIndex(i => i.id === v.dataset.vista)); pintarVista(); if (!$('vv').open) $('vv').showModal(); } });
+function pintarVista() {
+    const i = lista[vi]; if (!i) return;
+    const otros = Cat.otrosTipos(i).filter(x => x.tipoKey !== i.tipoKey), fotosV = HY.fotos(i);
+    $('vv').innerHTML = '<div class="ux-vv-izq"><div class="ux-vv-img"><img id="vvFoto" src="' + fotosV[0] + '" alt="' + Cat.esc(i.nombreCompleto) + '">' + (i.descuento ? '<span class="ux-dto">' + i.descuento + '%</span>' : '') + '</div>' +
+        (fotosV.length > 1 ? '<div class="ux-vv-mini" role="group" aria-label="Fotos del producto">' + fotosV.map((f, k) => '<button type="button" data-foto="' + Cat.esc(f) + '" aria-label="Ver foto ' + (k + 1) + ' de ' + fotosV.length + '" aria-current="' + (k === 0) + '"><img src="' + Cat.esc(f) + '" alt="" loading="lazy"></button>').join('') + '</div>' : '') + '</div>' +
+        '<div class="ux-vv-c"><button type="button" class="ux-vv-x" id="vvX" aria-label="Cerrar la vista rápida">×</button>' +
+        '<span class="ux-linea">' + i.linea + '</span><h2 id="vvT">' + Cat.esc(i.nombreCompleto) + '</h2>' +
+        '<div class="ux-val">' + HY.estrellas(i.calificacion) + '<span>' + i.calificacion.toString().replace('.', ',') + ' · ' + i.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
+        '<p class="ux-precio">' + Cat.fmt(i.precio) + (i.descuento ? '<s>' + Cat.fmt(i.precioNormal) + '</s>' : '') + '</p>' +
+        '<p class="ux-meta">' + i.tipo.nombre + ' · ' + i.tamanoLabel + ' (' + HY.dim(i.dimensiones) + ')</p>' +
+        '<div class="ux-vv-b">' + HY.escala('Firmeza', i.firmezaN) + HY.escala('Adaptación', i.adaptacion) + '</div>' +
+        (otros.length ? '<p class="ux-meta">Este modelo también como: ' + otros.map(o => '<a href="' + Cat.hrefPdp(HY.RUTA, o) + '">' + o.tipo.nombre.toLowerCase() + ' ' + Cat.fmt(o.precio) + '</a>').join(' · ') + '</p>' : '') +
+        '<p class="ux-meta hy-cuotas">' + HY.iconoTarjeta + '<span>12 cuotas sin interés de ' + Cat.fmt(Math.round(i.precio / 12)) + '</span></p>' +
+        '<div style="display:grid;gap:10px;margin-top:10px"><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(HY.RUTA, i) + '">Ver la ficha completa</a><button type="button" class="v-btn" id="vvAgregar">Agregar al carro</button></div>' +
+        '<div class="ux-vv-nav"><button type="button" class="ux-link" id="vvPrev"' + (vi === 0 ? ' disabled' : '') + '>Anterior</button><span class="ux-meta">' + (vi + 1) + ' de ' + lista.length + '</span><button type="button" class="ux-link" id="vvNext"' + (vi === lista.length - 1 ? ' disabled' : '') + '>Siguiente</button></div></div>';
+    $('vvX').addEventListener('click', () => $('vv').close());
+    $('vv').querySelectorAll('[data-foto]').forEach(b => b.addEventListener('click', () => {
+        $('vvFoto').src = b.dataset.foto; $('vv').querySelectorAll('[data-foto]').forEach(x => x.setAttribute('aria-current', x === b));
+    }));
+    $('vvPrev').addEventListener('click', () => { vi--; pintarVista(); $('vvPrev').focus(); });
+    $('vvNext').addEventListener('click', () => { vi++; pintarVista(); $('vvNext').focus(); });
+    $('vvAgregar').addEventListener('click', () => { Cat.carro.agregar(i); $('vv').close(); carro.abrirCarro(); });
+}
+$('vv').addEventListener('click', ev => { if (ev.target === $('vv')) $('vv').close(); });
+$('vv').addEventListener('keydown', ev => { if (ev.key === 'ArrowRight' && vi < lista.length - 1) { vi++; pintarVista(); } if (ev.key === 'ArrowLeft' && vi > 0) { vi--; pintarVista(); } });
+
+// ---- Comparador ----
+$('grid').addEventListener('change', ev => { const c = ev.target.closest('[data-comparar]'); if (!c) return; if (!Cat.comparador.alternar(c.dataset.comparar)) { c.checked = false; Shell.aviso('Puedes comparar hasta ' + Cat.comparador.MAX + ' productos. Quita uno para agregar otro.'); } });
+function bandeja() {
+    const l = Cat.comparador.lista().map(Cat.porId);
+    $('bandeja').hidden = !l.length; document.body.style.paddingBottom = l.length ? '96px' : '';
+    $('bandejaItems').innerHTML = l.map(i => '<span class="ux-mini"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '<button type="button" data-quitar-c="' + i.id + '" aria-label="Quitar ' + Cat.esc(i.nombreCompleto) + ' de la comparación">×</button></span>').join('');
+    $('bandejaTxt').textContent = l.length < 2 ? 'Elige al menos 2' : ''; $('bandejaVer').disabled = l.length < 2;
+    document.querySelectorAll('.ux-card').forEach(c => { const on = Cat.comparador.tiene(c.dataset.id); c.classList.toggle('en-comparador', on); const cb = c.querySelector('[data-comparar]'); if (cb) cb.checked = on; });
+}
+document.addEventListener('comparador:cambio', bandeja);
+$('bandejaItems').addEventListener('click', ev => { const b = ev.target.closest('[data-quitar-c]'); if (b) Cat.comparador.quitar(b.dataset.quitarC); });
+$('bandejaVaciar').addEventListener('click', () => Cat.comparador.vaciar());
+$('bandejaVer').addEventListener('click', () => {
+    const l = Cat.comparador.lista().map(Cat.porId); if (l.length < 2) return;
+    const min = Math.min(...l.map(i => i.precio));
+    const filas = [['Línea', i => i.linea], ['Tipo', i => i.tipo.nombre], ['Tamaño', i => i.tamanoLabel + ' (' + HY.dim(i.dimensiones) + ')'], ['Firmeza', i => Cat.palabraFirmeza(i.firmezaN) + ' (' + i.firmezaN + ' de 5)'], ['Adaptación', i => Cat.palabraAdapt(i.adaptacion) + ' (' + i.adaptacion + ' de 5)']];
+    const iguales = [], dif = [];
+    filas.forEach(([n, fn]) => { const v = l.map(fn); (v.every(x => x === v[0]) ? iguales : dif).push([n, fn, v[0]]); });
+    $('cmpC').innerHTML = (iguales.length ? '<p class="ux-iguales"><strong>Iguales en los ' + l.length + ':</strong> ' + iguales.map(x => x[0].toLowerCase() + ' ' + x[2]).join(' · ') + '</p>' : '') +
+        '<div style="overflow-x:auto"><table class="ux-tabla"><thead><tr><th></th>' + l.map(i => '<th scope="col"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '</th>').join('') + '</tr></thead><tbody>' +
+        dif.map(([n, fn]) => '<tr><th scope="row">' + n + '</th>' + l.map(i => '<td>' + Cat.esc(fn(i)) + '</td>').join('') + '</tr>').join('') +
+        '<tr><th scope="row">Precio</th>' + l.map(i => '<td' + (i.precio === min ? ' class="mejor"' : '') + '>' + Cat.fmt(i.precio) + '<span class="ux-delta">' + (i.precio === min ? 'El más económico' : '+' + Cat.fmt(i.precio - min) + ' vs. el más económico') + '</span></td>').join('') + '</tr>' +
+        '<tr><th scope="row"></th>' + l.map(i => '<td><a class="v-btn v-btn-primario" href="' + Cat.hrefPdp(HY.RUTA, i) + '">Ver ficha</a></td>').join('') + '</tr></tbody></table></div>';
+    $('cmp').showModal();
+});
+$('cmpX').addEventListener('click', () => $('cmp').close());
+$('cmp').addEventListener('click', ev => { if (ev.target === $('cmp')) $('cmp').close(); });
+
+Cat.recordarLista();
+montarAyuda();
+dibujar();
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Producto | Rosen (opción UI UX Pro Max)</title>
+<link rel="stylesheet" href="variantes/ui-ux-pro-max/estilos.css">
+</head>
+<body>
+<a class="saltar" href="#resumen">Saltar al contenido</a>
+<main class="wrap" id="main"></main>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/faq.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/ui-ux-pro-max/comun.js"></script>
+<script>
+const q = new URLSearchParams(location.search);
+const nombre = q.get('modelo') || 'New style 6', tipoUrl = q.get('tipo') || 'colchon', tamano = q.get('tamano') || '2-plazas', lineaP = q.get('linea');
+const item = Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano && (!lineaP || i.linea === lineaP))
+    || Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano);
+const main = document.getElementById('main');
+const shell = Shell.montar({ ruta: UX.RUTA, actual: 'pdp', migas: [['Camas y Colchones', UX.RUTA + 'guia.html'],
+    ['Modelos', Cat.listaGuardada(UX.RUTA, Cat.hrefLineas(UX.RUTA, { tamano, tipo: tipoUrl }))], [item ? item.nombreCompleto : 'Producto']] });
+
+if (!item) {
+    const otros = Cat.items().filter(i => i.nombre === nombre && i.tamano === tamano);
+    document.title = 'Producto no encontrado | Rosen';
+    main.innerHTML = '<div class="ux-error"><h1>No encontramos este producto</h1><p>No hay un modelo llamado <strong>' + Cat.esc(nombre) + '</strong> con ese tipo y tamaño.</p>' +
+        (otros.length ? '<p>Sí lo tenemos como: ' + otros.map(o => '<a href="' + Cat.hrefPdp(UX.RUTA, o) + '">' + o.tipo.nombre + '</a>').join(' · ') + '.</p>' : '') +
+        '<a class="v-btn v-btn-primario" href="' + Cat.hrefLineas(UX.RUTA, { tamano }) + '">Ver los modelos de este tamaño</a></div>';
+} else iniciar();
+
+function iniciar() {
+    const v = item.v, medidas = item.tipoKey === 'colchon' && v.tamanos ? Object.keys(v.tamanos) : [item.dimensiones];
+    let medida = medidas.includes(q.get('medida')) ? q.get('medida') : (medidas.includes(item.dimensiones) ? item.dimensiones : medidas[0]);
+    const claves = item.base ? Object.keys(item.base) : [];
+    const baseElegible = claves.length > 1 && claves.every(k => item.base[k].precio);
+    let base = claves.includes(q.get('base')) ? q.get('base') : (claves.includes('completa') ? 'completa' : (claves[0] || null));
+    let qty = 1, imgIdx = 0;
+    const galeriaNS6 = item.nombre === 'New style 6' && item.tipoKey === 'camaEuropea' && item.tamano === '2-plazas';
+    const imagenes = () => {
+        if (galeriaNS6) { const b = base === 'dividida' ? 'dividida' : 'completa'; return [1, 2, 3, 4].map(n => 'images/productos/cama-ns6-' + b + '-' + n + '.webp').concat(['images/productos/cama-ns6-5.webp', 'images/productos/cama-ns6-6.webp', 'images/productos/cama-ns6-' + b + '-cota.webp']); }
+        const b = base && item.base[base] && item.base[base].imagen; return [b || item.imagen];
+    };
+    const precio = () => {
+        if (item.tipoKey === 'colchon' && v.tamanos) return v.tamanos[medida];
+        if (baseElegible && item.base[base]) return { precio: item.base[base].precio, precioNormal: item.base[base].precioNormal || item.base[base].precio };
+        return { precio: item.precio, precioNormal: item.precioNormal };
+    };
+    const tipos = Cat.otrosTipos(item), tamanos = Cat.otrosTamanos(item), alts = Cat.alternativas(item, 6);
+    document.title = item.nombreCompleto + ' ' + item.tamanoLabel + ' | Rosen';
+    const dif = a => { const d = a.precio - item.precio, f = a.firmezaN - item.firmezaN;
+        return '<p class="ux-delta-alt">' + (d === 0 ? 'Mismo precio' : (d > 0 ? '+' : '−') + Cat.fmt(Math.abs(d))) + ' · ' + (f === 0 ? 'misma firmeza' : f > 0 ? 'más firme' : 'más suave') + '</p>'; };
+    const fila = (tag, attrs, r, a, b, p) => '<' + tag + ' class="ux-fila" ' + attrs + '><span class="r"></span><span><strong>' + a + '</strong><small>' + b + '</small></span><span class="p">' + p + '</span></' + tag + '>';
+
+    main.innerHTML =
+    '<div class="ux-ficha" id="resumen">' +
+      '<div class="ux-gal"><div class="ux-gal-p"><img id="principal" src="' + item.imagen + '" alt="' + Cat.esc(item.nombreCompleto) + '" width="900" height="900" fetchpriority="high"></div><div class="ux-gal-m" id="mini"></div></div>' +
+      '<div>' +
+        '<div class="ux-cabeza"><span class="ux-linea">' + item.linea + '</span><h1>' + Cat.esc(item.nombreCompleto) + '</h1>' +
+        '<div class="ux-val">' + UX.estrellas(item.calificacion) + '<span>' + item.calificacion.toString().replace('.', ',') + ' · ' + item.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
+        '<div class="ux-pdp-precio" id="precio" aria-live="polite"></div><p class="ux-cuotas" id="cuotas"></p></div>' +
+        '<nav class="ux-nav ux-vidrio" id="secNav" aria-label="Secciones de la ficha"><a href="#resumen-d">Resumen</a><a href="#medidas">Medidas y precios</a><a href="#firmeza">Firmeza</a><a href="#preguntas">Preguntas</a></nav>' +
+
+        '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2>' +
+          '<dl class="ux-hechos"><div><dt>Línea</dt><dd>' + item.lineaCorta + '</dd></div><div><dt>Tipo</dt><dd>' + item.tipo.nombre + '</dd></div><div><dt>Firmeza</dt><dd>' + Cat.palabraFirmeza(item.firmezaN).replace(/^./, c => c.toUpperCase()) + '</dd></div><div><dt>Adaptación</dt><dd>' + Cat.palabraAdapt(item.adaptacion).replace(/^./, c => c.toUpperCase()) + '</dd></div></dl>' +
+          (tipos.length > 1 ? '<h3 style="font-size:24px;margin:22px 0 10px">Este modelo en otros tipos</h3><div class="ux-filas">' + tipos.map(t => t.id === item.id ? fila('a', 'aria-current="true" href="' + Cat.hrefPdp(UX.RUTA, t) + '" onclick="return false"', '', t.tipo.nombre, 'Estás viendo este', Cat.fmt(t.precio)) : fila('a', 'href="' + Cat.hrefPdp(UX.RUTA, t) + '"', '', t.tipo.nombre, 'Ver este tipo', Cat.fmt(t.precio))).join('') + '</div>' : '') +
+        '</section>' +
+
+        '<section class="ux-bloque" id="medidas"><h2>Medidas y precios</h2><div class="ux-filas">' +
+          tamanos.map(t => t.id === item.id ? fila('a', 'aria-current="true" href="' + Cat.hrefPdp(UX.RUTA, t) + '" onclick="return false"', '', t.tamanoLabel, UX.dim(t.dimensiones), Cat.fmt(t.precio)) : fila('a', 'href="' + Cat.hrefPdp(UX.RUTA, t) + '"', '', t.tamanoLabel, UX.dim(t.dimensiones), Cat.fmt(t.precio))).join('') + '</div>' +
+          (medidas.length > 1 ? '<h3 style="font-size:24px;margin:22px 0 10px">Largo</h3><div class="ux-filas" id="segMedida"></div>' : '') +
+          (baseElegible ? '<h3 style="font-size:24px;margin:22px 0 10px">Base</h3><div class="ux-filas" id="segBase"></div>' : (claves.length ? '<p class="ux-meta" style="margin-top:14px">Base ' + claves[0] + '</p>' : '')) +
+        '</section>' +
+
+        '<section class="ux-bloque" id="firmeza"><h2>Firmeza y adaptación</h2><div class="ux-vv-b">' + UX.escala('Firmeza', item.firmezaN) + UX.escala('Adaptación', item.adaptacion) + '</div></section>' +
+
+        '<section class="ux-bloque ux-acordeon" id="preguntas"><h2>Más información</h2>' +
+          '<details open><summary>Descripción</summary><p>' + Cat.esc(Cat.descripcion(item)) + '</p></details>' +
+          FAQ.map(x => '<details><summary>' + x[0] + '</summary><div>' + x[1] + '</div></details>').join('') + '</section>' +
+      '</div></div>' +
+
+    '<section class="ux-bloque ux-bajo" aria-labelledby="altT"><h2 id="altT">Si dudas, mira también</h2><p class="ux-meta" style="margin:-6px 0 18px">Mismo tipo y tamaño, ordenadas por cercanía de precio.</p>' +
+    '<div class="ux-carrusel" tabindex="0" role="region" aria-label="Alternativas (desliza para ver más)">' + alts.map(a => UX.tarjeta(a, { extra: dif(a) })).join('') + '</div></section>' +
+
+    '<div class="ux-compra ux-vidrio" role="region" aria-label="Comprar"><div class="ux-compra-n"><strong>' + Cat.esc(item.nombreCompleto) + '</strong><span id="compraSub"></span></div><span class="ux-compra-p" id="compraP"></span>' +
+    '<div class="v-qty" role="group" aria-label="Cantidad"><button type="button" id="menos" aria-label="Quitar uno">−</button><span id="cant" aria-live="polite">1</span><button type="button" id="mas" aria-label="Agregar uno">+</button></div>' +
+    '<button type="button" class="v-btn v-btn-primario" id="agregar">Agregar al carro</button></div>';
+
+    const $ = id => document.getElementById(id);
+    function pintar() {
+        const p = precio(), ahorro = p.precioNormal && p.precioNormal > p.precio;
+        $('precio').innerHTML = '<strong>' + Cat.fmt(p.precio) + '</strong>' + (ahorro ? '<s>' + Cat.fmt(p.precioNormal) + '</s><span class="ux-dto">−' + Math.round((1 - p.precio / p.precioNormal) * 100) + '%</span>' : '');
+        $('cuotas').textContent = '12 cuotas sin interés de ' + Cat.fmt(Math.round(p.precio / 12));
+        $('compraP').textContent = Cat.fmt(p.precio); $('compraSub').textContent = item.tamanoLabel + ' · ' + UX.dim(medida) + (base ? ' · base ' + base : '');
+        if ($('segMedida')) $('segMedida').innerHTML = medidas.map(m => fila('button', 'type="button" data-medida="' + m + '" aria-pressed="' + (m === medida) + '"', '', UX.dim(m), 'Largo', Cat.fmt(v.tamanos[m].precio))).join('');
+        if ($('segBase')) $('segBase').innerHTML = claves.map(k => fila('button', 'type="button" data-base="' + k + '" aria-pressed="' + (k === base) + '"', '', k.charAt(0).toUpperCase() + k.slice(1), 'Base', Cat.fmt(item.base[k].precio))).join('');
+        const im = imagenes(); if (imgIdx >= im.length) imgIdx = 0; $('principal').src = im[imgIdx];
+        $('mini').innerHTML = im.length > 1 ? im.map((s, k) => '<button type="button" data-img="' + k + '"' + (k === imgIdx ? ' aria-current="true"' : '') + ' aria-label="Ver imagen ' + (k + 1) + '"><img src="' + s + '" alt="" loading="lazy"></button>').join('') : '';
+        $('cant').textContent = qty;
+        const nq = new URLSearchParams(location.search); nq.set('medida', medida); if (base) nq.set('base', base); history.replaceState(null, '', location.pathname + '?' + nq.toString());
+    }
+    main.addEventListener('click', ev => {
+        const m = ev.target.closest('[data-medida]'); if (m) { medida = m.dataset.medida; pintar(); }
+        const b = ev.target.closest('[data-base]'); if (b) { base = b.dataset.base; pintar(); }
+        const t = ev.target.closest('[data-img]'); if (t) { imgIdx = parseInt(t.dataset.img, 10); pintar(); }
+    });
+    $('menos').addEventListener('click', () => { qty = Math.max(1, qty - 1); pintar(); });
+    $('mas').addEventListener('click', () => { qty = Math.min(9, qty + 1); pintar(); });
+    $('agregar').addEventListener('click', () => { const p = precio(); Cat.carro.agregar(item, { medida, base, qty, precio: p.precio, precioNormal: p.precioNormal, imagen: imagenes()[0] }); shell.abrirCarro(); });
+    pintar();
+
+    // La sección visible se marca en la navegación
+    const enlaces = [...document.querySelectorAll('#secNav a')];
+    const io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) enlaces.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false')); }); }, { rootMargin: '-30% 0px -60% 0px' });
+    ['resumen-d', 'medidas', 'firmeza', 'preguntas'].forEach(id => io.observe($(id)));
+}
+</script>
+</body>
+</html>

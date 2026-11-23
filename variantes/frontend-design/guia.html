@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<base href="../../">
+<title>Encuentra tu descanso | Rosen (opción frontend-design)</title>
+<link rel="stylesheet" href="variantes/frontend-design/estilos.css">
+</head>
+<body>
+
+<main>
+<section class="wrap fd-hero" aria-labelledby="fdTitulo">
+    <div>
+        <h1 id="fdTitulo">Encuentra la cama o el colchón con el que vas a dormir</h1>
+        <p class="fd-hero-sub">Completa la frase. Los modelos, los precios y las líneas se ajustan a medida que eliges.</p>
+
+        <form class="fd-frase" id="fdFrase" onsubmit="return false">
+            <label>Busco <select id="fTipo" aria-label="Tipo de producto"></select></label>
+            <label>para <select id="fTamano" aria-label="Tamaño"></select>,</label>
+            <label>con firmeza <select id="fFirmeza" aria-label="Firmeza"></select></label>
+            <label>y <select id="fMax" aria-label="Presupuesto máximo"></select>.</label>
+        </form>
+
+        <div class="fd-resumen" role="status" aria-live="polite">
+            <p id="fResumen"></p>
+            <div class="fd-resumen-acciones">
+                <button type="button" class="v-btn" id="fAyuda">Ayúdame a elegir</button>
+                <a class="v-btn v-btn-primario" id="fVer" href="variantes/frontend-design/lineas.html">Ver los modelos</a>
+            </div>
+        </div>
+        <p class="fd-nota" id="fNota" aria-live="polite"></p>
+    </div>
+    <div class="fd-hero-foto"><img src="images/imagen-1.webp" alt="Una madre y su hijo descansando sobre una cama" width="1200" height="1200" fetchpriority="high"></div>
+</section>
+
+<section class="wrap fd-seccion" aria-labelledby="fdPrev">
+    <div class="fd-seccion-h">
+        <div><h2 id="fdPrev">Con tu frase, estos son los mejor valorados</h2><p id="fPrevSub"></p></div>
+        <a class="fd-enlace" id="fVerTodos" href="variantes/frontend-design/lineas.html">Ver todos los modelos</a>
+    </div>
+    <div class="fd-grid" id="fPrev"></div>
+</section>
+
+<section class="wrap fd-seccion" aria-labelledby="fdLineas">
+    <div class="fd-seccion-h">
+        <div><h2 id="fdLineas">Cuatro líneas, de menor a mayor inversión</h2><p>Con el tipo, el tamaño y el presupuesto que elegiste, así se reparten.</p></div>
+    </div>
+    <div class="fd-escala" id="fEscala"></div>
+
+    <div class="fd-confianza">
+        <div><h3>Servicio de armado</h3><p>Incluido en el despacho.</p></div>
+        <div><h3>Reciclaje de camas y colchones</h3><p>Retiramos tu cama o colchón antiguo al comprar tu cama Rosen por $29.990.</p></div>
+        <div><h3>Medios de pago</h3><p>Hasta 12 cuotas sin interés.</p></div>
+        <div><h3>Retira tu cama o colchón</h3><p>Elige, compra y retira en tienda.</p></div>
+        <div><h3>Prueba tus productos</h3><p>Revisa en la página de cada producto en qué tienda puedes ir a conocerlo.</p></div>
+    </div>
+</section>
+</main>
+
+<dialog class="fd-modal fd-quiz" id="fQuiz" aria-labelledby="fQuizT">
+    <div class="fd-modal-h"><h2 id="fQuizT">Ayúdame a elegir</h2><button type="button" class="fd-modal-x" id="fQuizX" aria-label="Cerrar">×</button></div>
+    <div class="fd-quiz-prog" aria-hidden="true"><span id="fQuizBar"></span></div>
+    <div class="fd-modal-c fd-quiz" id="fQuizC"></div>
+</dialog>
+
+<script src="data/modelos.js"></script>
+<script src="variantes/shared/catalogo.js"></script>
+<script src="variantes/shared/shell.js"></script>
+<script src="variantes/frontend-design/comun.js"></script>
+<script>
+Shell.montar({ ruta: FD.RUTA, actual: 'guia', migas: [['Camas y Colchones']] });
+
+const $ = id => document.getElementById(id);
+const MAXES = [0, 200000, 300000, 400000, 600000, 800000, 1200000, 2000000];
+const u = Cat.leerUrl();
+const e = {
+    tipo: u.tipo || 'colchon',
+    tamano: u.tamano || '2-plazas',
+    firmeza: u.firmeza[0] || '',
+    max: MAXES.includes(u.max) ? u.max : 0
+};
+let nota = '';
+
+// ---- La frase ----
+$('fTipo').innerHTML = [['colchon', 'un colchón'], ['cama-europea', 'una cama europea'], ['box-spring', 'un box spring'], ['', 'una cama o un colchón']].map(o => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
+$('fTamano').innerHTML = Cat.TAMANOS.map(t => '<option value="' + t.id + '">' + t.label + ' (' + t.dimensiones.replace(' x ', ' × ').replace('cm', ' cm') + ')</option>').join('');
+$('fFirmeza').innerHTML = [['', 'cualquiera'], ['suave', 'suave'], ['intermedio', 'intermedia'], ['firme', 'firme']].map(o => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
+$('fMax').innerHTML = MAXES.map(m => '<option value="' + m + '">' + (m ? 'hasta ' + Cat.fmt(m) : 'sin tope de precio') + '</option>').join('');
+
+function filtros(extra) { return Object.assign({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza ? [e.firmeza] : [], max: e.max }, extra || {}); }
+function paramsLineas(extra) { const f = filtros(extra); return { tamano: f.tamano, tipo: f.tipo, firmeza: f.firmeza, max: f.max || '', linea: f.linea || '' }; }
+
+function dibujar() {
+    $('fTipo').value = e.tipo; $('fTamano').value = e.tamano; $('fFirmeza').value = e.firmeza; $('fMax').value = e.max;
+    Cat.escribirUrl({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza, max: e.max || '' });
+    const r = Cat.filtrar(filtros());
+    const desde = Cat.minimo(r);
+    $('fResumen').innerHTML = r.length
+        ? '<strong>' + r.length + (r.length === 1 ? ' modelo' : ' modelos') + '</strong> coinciden, desde <strong>' + Cat.fmt(desde) + '</strong>'
+        : '<strong>Ningún modelo</strong> coincide con esta frase';
+    $('fVer').href = Cat.hrefLineas(FD.RUTA, paramsLineas());
+    $('fVer').textContent = r.length ? 'Ver los ' + r.length + (r.length === 1 ? ' modelo' : ' modelos') : 'Ver el tamaño sin filtros';
+    $('fVerTodos').href = $('fVer').href;
+    $('fNota').textContent = nota;
+
+    // Sin resultados: se dice por qué y qué cambiar
+    let sub = '';
+    if (!r.length) {
+        const sinTope = Cat.filtrar(filtros({ max: 0 }));
+        const sinFirmeza = Cat.filtrar(filtros({ firmeza: [] }));
+        sub = sinTope.length ? 'Con ese presupuesto no hay modelos. Desde ' + Cat.fmt(Cat.minimo(sinTope)) + ' sí. ' : (sinFirmeza.length ? 'No hay modelos con esa firmeza en este tamaño. Prueba con otra. ' : 'No hay modelos de este tipo en este tamaño. ');
+    } else sub = 'Ordenados por valoración. Elige uno para ver su ficha o ajusta la frase.';
+    $('fPrevSub').textContent = sub;
+    $('fPrev').innerHTML = r.length
+        ? Cat.ordenar(r, 'relevancia').slice(0, 4).map(i => FD.tarjeta(i, { tambien: false })).join('')
+        : '<div class="fd-vacio"><h2>No encontramos modelos con esta frase</h2><p>' + sub + '</p>' +
+          (Cat.filtrar(filtros({ max: 0 })).length ? '<button type="button" class="v-btn v-btn-primario" id="fSubir">Subir el presupuesto a ' + Cat.fmt(Math.ceil(Cat.minimo(Cat.filtrar(filtros({ max: 0 }))) / 50000) * 50000) + '</button>' : '') + '</div>';
+    const subir = $('fSubir');
+    if (subir) subir.addEventListener('click', () => { const v = Math.ceil(Cat.minimo(Cat.filtrar(filtros({ max: 0 }))) / 50000) * 50000; e.max = MAXES.find(m => m >= v) || 0; nota = ''; dibujar(); });
+
+    // Escala de líneas
+    $('fEscala').innerHTML = Cat.LINEAS.map(l => {
+        const ls = Cat.filtrar(filtros({ linea: [l] }));
+        const d = Cat.minimo(ls);
+        return '<div class="fd-paso' + (ls.length ? '' : ' vacio') + '"><h3>' + Cat.LINEA_CORTA[l] + '</h3>' +
+            (ls.length ? '<p class="fd-desde"><small>Desde</small> ' + Cat.fmt(d) + '</p><p class="fd-cuenta">' + ls.length + (ls.length === 1 ? ' modelo' : ' modelos') + ' con tu frase</p>' : '<p class="fd-desde"><small>Sin modelos con tu frase</small></p>') +
+            '<p class="fd-txt">' + Cat.TEXTO_LINEA[l] + '</p>' +
+            (ls.length ? '<a class="v-btn" href="' + Cat.hrefLineas(FD.RUTA, paramsLineas({ linea: l })) + '">Ver ' + Cat.LINEA_CORTA[l] + '</a>' : '') + '</div>';
+    }).join('');
+}
+['fTipo', 'fTamano', 'fFirmeza', 'fMax'].forEach(id => $(id).addEventListener('change', () => {
+    e.tipo = $('fTipo').value; e.tamano = $('fTamano').value; e.firmeza = $('fFirmeza').value; e.max = parseInt($('fMax').value, 10); nota = ''; dibujar();
+}));
+
+// ---- Ayúdame a elegir: 5 preguntas que completan la frase ----
+const PASOS = [
+    { k: 'tipo', t: '¿Qué estás buscando?', s: 'Si no estás seguro, déjalo abierto.', op: [['colchon', 'Un colchón', 'Ya tengo cama o base'], ['cama-europea', 'Una cama europea', 'Colchón y base en uno'], ['box-spring', 'Un box spring', 'Colchón sobre base de resortes'], ['', 'No lo sé aún', 'Muéstrame todas']] },
+    { k: 'tamano', t: '¿Para quién es?', s: 'El tamaño depende de cuántas personas duermen.', op: Cat.TAMANOS.map(t => [t.id, t.label, t.personas + ' · ' + t.dimensiones.replace(' x ', ' × ').replace('cm', ' cm')]) },
+    { k: 'pos', t: '¿Cómo duermes habitualmente?', s: 'Cambia qué firmeza te acomoda más.', op: [['lado', 'De lado', 'Los hombros y la cadera necesitan hundirse un poco'], ['espalda', 'De espalda', 'Necesitas un soporte parejo'], ['boca', 'Boca abajo', 'Necesitas que la cadera no se hunda'], ['fija', 'Sin una posición fija', 'Me muevo durante la noche']] },
+    { k: 'dolor', t: '¿Sientes molestias en la espalda al despertar?', s: 'Sirve para descartar las opciones más blandas.', op: [['si', 'Sí', 'Me hundo o amanezco con molestias'], ['no', 'No', 'Ninguna en particular']] },
+    { k: 'max', t: '¿Cuánto quieres invertir como máximo?', s: 'Puedes cambiarlo después en la frase.', op: [[300000, 'Hasta $300.000', ''], [600000, 'Hasta $600.000', ''], [1200000, 'Hasta $1.200.000', ''], [0, 'Sin tope', 'Muéstrame todo el rango']] }
+];
+let paso = 0, resp = {};
+const dlg = $('fQuiz');
+function dibujarPaso() {
+    const p = PASOS[paso];
+    $('fQuizBar').style.width = ((paso) / PASOS.length * 100) + '%';
+    $('fQuizC').innerHTML = '<h3>' + p.t + '</h3><p class="s">' + p.s + '</p><div class="fd-quiz-op">' +
+        p.op.map((o, i) => '<button type="button" data-i="' + i + '"><strong>' + o[1] + '</strong>' + (o[2] ? '<span>' + o[2] + '</span>' : '') + '</button>').join('') + '</div>' +
+        '<div class="fd-quiz-pie"><span class="fd-nota">Pregunta ' + (paso + 1) + ' de ' + PASOS.length + '</span>' + (paso ? '<button type="button" class="fd-limpiar" id="fAtras">Volver</button>' : '') + '</div>';
+    const primero = $('fQuizC').querySelector('button'); if (primero) primero.focus();
+    if (paso) $('fAtras').addEventListener('click', () => { paso--; dibujarPaso(); });
+}
+$('fQuizC').addEventListener('click', ev => {
+    const b = ev.target.closest('button[data-i]'); if (!b) return;
+    const p = PASOS[paso]; resp[p.k] = p.op[parseInt(b.dataset.i, 10)][0];
+    if (paso < PASOS.length - 1) { paso++; dibujarPaso(); } else terminar();
+});
+function terminar() {
+    // Regla: de lado → suave; de espalda → intermedio; boca abajo → firme; con molestias nunca suave
+    let f = { lado: 'suave', espalda: 'intermedio', boca: 'firme', fija: '' }[resp.pos] || '';
+    const porque = [];
+    if (resp.pos === 'lado') porque.push('duermes de lado');
+    if (resp.pos === 'espalda') porque.push('duermes de espalda');
+    if (resp.pos === 'boca') porque.push('duermes boca abajo');
+    if (resp.dolor === 'si' && (f === 'suave' || f === '')) { f = 'intermedio'; porque.push('sientes molestias en la espalda'); }
+    e.tipo = resp.tipo; e.tamano = resp.tamano; e.firmeza = f; e.max = resp.max;
+    nota = f ? 'Elegimos firmeza ' + (f === 'intermedio' ? 'intermedia' : f) + (porque.length ? ' porque ' + porque.join(' y ') : '') + '. Puedes cambiarla en la frase.' : 'Dejamos la firmeza abierta: puedes elegirla en la frase.';
+    dlg.close(); dibujar();
+    $('fResumen').scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+$('fAyuda').addEventListener('click', () => { paso = 0; resp = {}; dibujarPaso(); dlg.showModal(); });
+$('fQuizX').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', ev => { if (ev.target === dlg) dlg.close(); });
+
+dibujar();
+</script>
+</body>
+</html>
