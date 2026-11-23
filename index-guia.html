@@ -4224,8 +4224,11 @@ const RosenCompare = (() => {
     // (en file:// cada HTML puede quedar en un origen distinto), así que
     // además de guardar en localStorage, el estado se transporta como
     // parámetro "cmp" en la URL al navegar entre ambas páginas.
-    const KEY = "rosenCompareItems";
-    const DETAILS_KEY = "rosenCompareDetails";
+    // Las claves llevan la carpeta del sitio: en github.io el almacenamiento se comparte entre
+    // todos los proyectos de la misma cuenta y, sin esto, el comparador leía selecciones de otro.
+    const NS = location.pathname.replace(/[^/]*$/, "");
+    const KEY = "rosenCompareItems:" + NS;
+    const DETAILS_KEY = "rosenCompareDetails:" + NS;
     const LIMIT = 3;
     const ALMOHADA_SUFFIX = " + Almohada Fibra Light";
 
@@ -4273,7 +4276,9 @@ const RosenCompare = (() => {
     // que apunte a guia.html o líneas.html, para que la otra página lo reciba.
     function appendCompareParam(href) {
         const items = getItems();
-        if (items.length === 0) return href;
+        // En http(s) las dos páginas comparten localStorage y no hace falta viajar por la URL.
+        // Solo en file:// cada HTML puede quedar en un origen distinto.
+        if (location.protocol !== "file:" || items.length === 0) return href;
         const [base, hash] = href.split('#');
         const [path, query] = base.split('?');
         const params = new URLSearchParams(query || '');
@@ -4305,7 +4310,8 @@ const RosenCompare = (() => {
         const valoresEl = card.querySelector(".valores");
         const priceEl = card.querySelector(".price");
         return {
-            imagen: imageEl ? imageEl.src : "",
+            // Ruta tal como está en la card (relativa), no la dirección absoluta del sitio actual
+            imagen: imageEl ? (imageEl.getAttribute("src") || imageEl.src) : "",
             descuento: badgeEl ? badgeEl.textContent : "",
             lineaReco: lineaRecoEl ? lineaRecoEl.textContent : "",
             ratingHtml: ratingEl ? ratingEl.outerHTML : "",

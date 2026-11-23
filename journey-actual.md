@@ -3,6 +3,8 @@
 Levantamiento del flujo real en rosen.cl, hecho para contrastar contra el rediseño del wireframe.
 Todo lo que está en "Estructura observada" fue verificado directamente en el sitio en producción el **10-09-2026**. Lo que es interpretación o hipótesis está marcado como tal.
 
+> **Revisión del 23-11-2026.** Las cifras de BigQuery se verificaron contra las tablas. Se corrigieron los ingresos de Guía (estaban divididos por 100), la lectura del "evento clave" y el reparto por dispositivo; la fuente, las ventanas de fechas y las limitaciones están en el **§10**.
+
 ---
 
 ## 1. El journey tiene 4 pasos, no 3
@@ -119,7 +121,7 @@ Extraídos del análisis previo de BigQuery/GA4/Clarity, ya transcritos en el wi
 - **Acceso a Guía**: menú "Camas y Colchones" es el #4 más clickeado del home (1.622 clics); el home es la página #1 que aporta tráfico a Guía (9.238 clics).
 - **Guía → Líneas**: solo 4,08% mobile (1.227/30.091) y 2,46% desktop (778/31.661).
 - **Recomendador**: 1.757 clics totales (1.076 móvil, 660 desktop, 21 tablet); lo ve 32,3%/30,1% (M/D), interactúa 11,07%/6,93% de los que llegan; solo 2,83% de las sesiones de Guía interactúa.
-- **Comparación real**: 68,5% de las sesiones compara saltando de PDP en PDP.
+- **Comparación real**: 68,5% de las sesiones compara saltando de PDP en PDP (cifra de las capas del wireframe; no reproducible con las tablas actuales, ver §10).
 - **PDP → Guía**: 798 sesiones de retorno desde 15 PDPs distintas (perfil P3, validador de categoría).
 - **Filtro más usado**: "Camas: 2 Plazas", 1.558 clics totales, el más usado de los 23 del sidebar.
 - **Venta telefónica**: 58 clics totales (53 móvil, 5 desktop) vs 1.150 de Guía de compra.
@@ -209,7 +211,7 @@ Página `/guia-camas-y-colchones-rosen`, categoría "Guías". Recibido el 10-09-
 | Usuarios activos | 11.028 (6.587 nuevos) |
 | Eventos clave | 242 |
 | Tasa de evento clave | 1,87% |
-| Ingresos atribuibles | ≈ $1.090.390 CLP |
+| Ingresos atribuibles | ≈ $109.039.021 CLP |
 
 ### 6.3 Relación con otras páginas — `ga4_referrer_*`
 
@@ -256,13 +258,13 @@ Página `/guia-camas-y-colchones-rosen`, categoría "Guías". Recibido el 10-09-
 | Sesiones como landing | 12.524 (20%) | 937 (17%) |
 | Eventos clave | 242 | 3 |
 | Tasa de evento clave (landing) | 1,87% | 0,32% |
-| Ingresos atribuibles | ≈ $1.090.390 | ≈ $1.130.911 |
+| Ingresos atribuibles | ≈ $109.039.021 | ≈ $1.130.911 |
 | Clics (Clarity) | ≈ 27.585 | 310 |
 | Grabaciones entrada / salida | 629 / 621 (1,01) | 44 / 101 (0,44) |
 | Peso | 4,2–4,7 MB | 7,1–8,2 MB |
 | Onload | 6,8–11,4 s | 9,0–13,7 s |
 
-> ⚠️ **Ojo con los ingresos.** Guía genera ≈$1.090.390 con 242 eventos clave (≈$4.506 por evento) y Líneas ≈$1.130.911 con solo 3 (≈$376.970 por evento). Ninguna de las dos cifras calza con el ticket de un colchón, así que antes de sacar conclusiones hay que confirmar **qué eventos cuentan como "evento clave"** y cómo se atribuye el ingreso.
+> **Ingresos (corregido el 23-11-2026).** Guía suma ≈$109.039.021 con 242 eventos clave (≈$450.574 por evento) y Líneas ≈$1.130.911 con 3 (≈$376.970 por evento). La versión anterior decía ≈$1.090.390 y ≈$4.506 para Guía: era el valor real dividido por 100, verificado en BigQuery. Los tres valores por evento quedan entre $377.000 y $451.000, coherentes con el ticket de una compra.
 
 ---
 
@@ -309,7 +311,7 @@ Confirma que las variantes de tamaño del mismo modelo se referencian entre sí:
 ### 7.4 Comportamiento UX — Microsoft Clarity
 
 - **Clics**: 557 filas → 2.324 móvil, 1.954 PC, 182 tablet (**≈ 4.460 totales**)
-- Reparto móvil/PC: **52% / 44%**, contra 76% / 23% en Guía → se configura y compara desde escritorio
+- Reparto móvil/PC **de los clics**: 52% / 44%, contra 76% / 23% en Guía. Por grabaciones, la PDP es ≈72% móvil (ver §8.4)
 - **Grabaciones**: 608 como entrada, **837 como salida** — la cifra de salida más alta de las tres páginas
 - **Atención** y **scroll**: 60 filas cada una
 
@@ -321,9 +323,9 @@ Confirma que las variantes de tamaño del mismo modelo se referencian entre sí:
 
 ### 7.6 Lecturas
 
-1. **Aquí sí ocurre la venta.** ≈$8.875.456 atribuibles, 8× lo de Guía o Líneas. Con 21 eventos clave son ≈$422.641 por evento — cifra que **sí calza con el precio de una cama 2 plazas**.
-2. **Esto resuelve el enigma de los ingresos.** Si en la PDP un evento clave ≈ una compra, entonces los 242 eventos clave de Guía a ≈$4.506 cada uno **no son compras**: son otro tipo de evento clave. Hay que confirmar la definición antes de comparar tasas entre páginas.
-3. **La recirculación entre variantes es real y medible.** 158 eventos desde la variante King y 114 desde la de 1,5 plazas. Es el patrón "PDP→PDP" (68,5%) visto en vivo: el usuario cambia de tamaño saltando de ficha en ficha. **Valida directamente la apuesta del prototipo** de resolver tamaño y base dentro de la misma PDP en lugar de repartirlos en SKUs separados.
+1. **La PDP es donde se cierra la compra.** ≈$8.875.456 atribuibles como página de entrada (Guía suma ≈$109 M como página de entrada, con mucho más tráfico). Con 21 eventos clave son ≈$422.641 por evento — cifra que **sí calza con el precio de una cama 2 plazas**.
+2. **El evento clave es la compra en las tres páginas.** Ingreso por evento: PDP ≈$422.641, Líneas ≈$376.970 y Guía ≈$450.574, todos del orden del precio de una cama o colchón. Las tasas de evento clave entre páginas son comparables (falta confirmar el nombre del evento en GA4: las tablas no lo traen).
+3. **La recirculación entre variantes es real y medible.** 158 eventos desde la variante King y 114 desde la de 1,5 plazas. Es el patrón "PDP→PDP" visto en vivo (el 68,5% citado es una cifra heredada del análisis previo que no se pudo reproducir; con las tablas actuales, el 58,1% de los eventos entre PDP va a otra PDP, ver §10): el usuario cambia de tamaño saltando de ficha en ficha. **Valida directamente la apuesta del prototipo** de resolver tamaño y base dentro de la misma PDP en lugar de repartirlos en SKUs separados.
 4. **Se evalúa igual de lento que se compara.** 59,0 s de interacción en la PDP vs 56,3 s en Líneas: la gente dedica prácticamente el mismo tiempo a comparar líneas que a evaluar un producto concreto.
 5. **Rebote más alto de las tres** (13,53% vs 6,54% de Líneas y 2,84% de Guía), coherente con recibir tráfico directo de campaña y orgánico.
 6. **Es el mayor punto de fuga en volumen absoluto**: 837 salidas. Proporcionalmente Líneas está peor (2,3× salidas/entradas vs 1,38× acá), pero en cantidad de sesiones perdidas la PDP es la que más pesa.
@@ -341,10 +343,10 @@ Confirma que las variantes de tamaño del mismo modelo se referencian entre sí:
 | Sesiones como landing | 12.524 (20%) | 937 (17%) | 2.153 (25%) |
 | Eventos clave | 242 | 3 | 21 |
 | Tasa de evento clave (landing) | 1,87% | 0,32% | 0,98% |
-| Ingresos atribuibles | ≈ $1.090.390 | ≈ $1.130.911 | **≈ $8.875.456** |
-| Ingreso por evento clave | ≈ $4.506 | ≈ $376.970 | ≈ $422.641 |
+| Ingresos atribuibles | ≈ $109.039.021 | ≈ $1.130.911 | ≈ $8.875.456 |
+| Ingreso por evento clave | ≈ $450.574 | ≈ $376.970 | ≈ $422.641 |
 | Clics (Clarity) | ≈ 27.585 | 310 | ≈ 4.460 |
-| Reparto móvil / PC | 76% / 23% | mayormente móvil | 52% / 44% |
+| Reparto móvil / PC (clics de Clarity; ver §8.4) | 76% / 23% | mayormente móvil | 52% / 44% |
 | Grabaciones entrada / salida | 629 / 621 (1,01) | 44 / 101 (**2,30**) | 608 / 837 (1,38) |
 | Peso | 4,2–4,7 MB | 7,1–8,2 MB | **7,7–8,7 MB** |
 | Solicitudes | ~418 | ~485 | **550–567** |
@@ -359,17 +361,17 @@ Patrón claro: **a medida que el usuario avanza en el embudo, la página se vuel
 
 Cuatro hallazgos que solo aparecen al cruzar los tres datasets.
 
-### 8.1 "Evento clave" no significa lo mismo en cada página
+### 8.1 "Evento clave" equivale a compra en las tres páginas
 
 | Página | Eventos clave | Ingresos | Por evento |
 |---|---|---|---|
-| PDP | 21 | ≈ $8.875.456 | **≈ $422.641** |
+| PDP | 21 | ≈ $8.875.456 | ≈ $422.641 |
 | Líneas | 3 | ≈ $1.130.911 | ≈ $376.970 |
-| Guía | 242 | ≈ $1.090.390 | **≈ $4.506** |
+| Guía | 242 | ≈ $109.039.021 | ≈ $450.574 |
 
-En la PDP el ingreso por evento calza con el precio real de una cama 2 plazas, así que ahí un evento clave ≈ una compra. Pero entonces los 242 eventos de Guía a $4.506 cada uno **no pueden ser compras** — son otro tipo de evento clave.
+> **Corrección del 23-11-2026.** La versión anterior decía que Guía generaba ≈$1.090.390 (≈$4.506 por evento) y concluía que el evento clave significaba cosas distintas en cada página. Era un error: el ingreso real de Guía es 100 veces mayor. Los tres valores por evento están entre $377.000 y $451.000, y a nivel de sitio los eventos clave son casi iguales a las transacciones. Todo indica que el evento clave es la compra.
 
-> **Consecuencia práctica**: no se pueden comparar las tasas de evento clave entre páginas (1,87% Guía vs 0,32% Líneas vs 0,98% PDP) hasta confirmar la definición de cada una. Cualquier conclusión construida sobre esa comparación queda en suspenso.
+> **Consecuencia práctica**: las tasas de evento clave como página de entrada (1,87% Guía, 0,32% Líneas, 0,98% PDP) sí se pueden comparar. Falta confirmar con quien administra GA4 el nombre del evento, porque ninguna tabla lo trae.
 
 ### 8.2 La recirculación entre variantes está medida y valida el rediseño
 
@@ -379,7 +381,7 @@ En la PDP el ingreso por evento calza con el precio real de una cama 2 plazas, a
 - 114 eventos desde `cama-autonomy-sky-base-grafito-1-5-plazas.html`
 - 301 eventos de recirculación dentro de la misma página
 
-Es el patrón "PDP→PDP" (68,5% de las sesiones) con el mecanismo a la vista: **el usuario cambia de tamaño saltando de ficha en ficha, porque cada medida es una PDP distinta**.
+Es el patrón "PDP→PDP" con el mecanismo a la vista (el 68,5% de sesiones citado antes no se pudo reproducir; ver §10): **el usuario cambia de tamaño saltando de ficha en ficha, porque cada medida es una PDP distinta**.
 
 Esto respalda directamente dos decisiones del prototipo: resolver el tamaño dentro de la misma PDP, y consolidar colchón / cama europea / boxet en un configurador en vez de SKUs separados.
 
@@ -394,17 +396,19 @@ Esto respalda directamente dos decisiones del prototipo: resolver el tamaño den
 
 El embudo empeora técnicamente a medida que avanza. La PDP tarda hasta 16 segundos en cargar y es la única de las tres donde efectivamente entra dinero.
 
-### 8.4 Se descubre en móvil, se decide en escritorio
+### 8.4 Dispositivo: la cifra depende de qué se mide
 
-| Página | Móvil | PC |
-|---|---|---|
-| Guía | 76% | 23% |
-| Líneas | mayormente móvil | — |
-| PDP | 52% | **44%** |
+| Página | Usuarios GA4 (móvil / PC) | Clics Clarity (móvil / PC) | Grabaciones Clarity (móvil / PC) |
+|---|---|---|---|
+| Guía | 50,7% / 48,8% (visitaron) · 52,8% / 46,9% (entraron) | 75,8% / 23,2% | 351 / 248 (entran por Guía) |
+| Líneas | 70,7% / 28,3% (visitaron) · 82,9% / 17,1% (entraron) | mayormente móvil | — |
+| PDP | sin dato por PDP en GA4 | 52% / 44% (Autonomy) | 71,7% / 26,1% (PDP, 368) · 72,9% / 24,9% (Autonomy, 1.551) |
 
-El peso del escritorio casi se duplica al llegar a la ficha de producto. Sumado a que las sesiones desde PC ven 4,7 páginas contra 3,5 en móvil, el patrón es: descubrimiento y navegación en móvil, configuración y decisión en escritorio.
+Son medidas distintas y no se deben mezclar. Los clics sobrerrepresentan a escritorio: en Autonomy hay 1.954 clics de PC frente a 2.324 móviles, pero 386 grabaciones de PC frente a 1.131 móviles, es decir, unos 5 clics por grabación en PC contra unos 2 en móvil (cálculo propio, orientativo).
 
-> **Consecuencia práctica**: el esfuerzo de diseño de la PDP (selector de medidas, configurador de base, comparación) tiene proporcionalmente más audiencia en desktop que el resto del journey — al revés de lo que sugeriría mirar solo el tráfico de Guía.
+> **Corrección del 23-11-2026.** La versión anterior concluía "se descubre en móvil, se decide en escritorio" a partir de los clics. Por visitas, la PDP es ≈72% móvil, así que esa conclusión no se sostiene. Lo que sí se sostiene: escritorio ve más páginas por sesión (4,7 contra 3,5) y hace más clics por sesión.
+
+> **Consecuencia práctica**: el diseño móvil de la PDP (selector de medidas, base, comparación) importa tanto o más que el de escritorio. Líneas también es mayormente móvil.
 
 ---
 
@@ -447,3 +451,15 @@ Las respuestas de **A** y **B** son las que desbloquean la capa Cognición de `i
 - El precio del Colchón New Style 6 de 2 Plazas 150x200 en producción hoy es **$219.990 / $339.990 (35%)**, mientras que el wireframe usa **$249.990 / $339.990 (26%)**. Revisar cuál corresponde al escenario que queremos mostrar.
 - Los rangos de precio por línea del wireframe (Esencial $250.000, Premium $450.000, Advantage $650.000, Excelsior $850.000) tampoco coinciden con los de producción (Esencial $259.990–$499.990, Premium $499.990–$849.990, Advantage $849.990–$1.999.990, Excélsior sobre $1.999.990).
 - En Guía el nombre es "Selección Excelsior"; en Líneas aparece como "Línea Excélsior" y "Selección Excélsior" (con tilde) en la misma página.
+
+---
+
+## 10. Fuente, ventana y limitaciones de los datos (verificado el 23-11-2026)
+
+- **Fuente**: proyecto `metricas-90-dias`, dataset `ux_analisis` (ubicación US), 38 tablas cargadas desde archivos entre el 9 y el 16-07-2026. No hay exportación nativa de GA4 por evento. "Recibido el 10-09-2026" indica cuándo llegaron los datos a este análisis, no la ventana.
+- **Ventanas**: GA4 del 22-03 al 20-06-2026 (91 días), deducida de otras tablas del dataset porque las citadas no tienen columna de fecha. Clarity, atención y scroll: 23-03 al 20-06; clics: hasta el 19-06; grabaciones: 23-04 al 20-06 (59 días, con huecos de 14 días en Autonomy, 20 en PDP y 31 en Líneas, entre el 26-04 y el 09-06). GTmetrix: 18-06 al 12-07, mediciones sueltas.
+- **Ingresos**: se guardan como número decimal, sin moneda declarada (por la magnitud se asume CLP).
+- **Dispositivo**: GA4 trae usuarios, no sesiones, por dispositivo. En los clics de Clarity, la columna `pct_interacciones` suma solo 82,6% en móvil y 40,9% en PC, así que el archivo podría no incluir todos los clics (el % móvil de Guía sería ≈61% en ese caso; sin confirmar).
+- **PDP→PDP**: `ga4_referrer_pdp_destino` probablemente está cortada en 5.000 filas. Con esa tabla, el 58,1% de los 143.801 eventos va a otra PDP (666 destinos, 493 orígenes). El 68,5% de sesiones no se pudo reproducir con ninguna definición probada (entre 39,8% y 87,0% según la definición).
+- **Parámetro `?modelo=`**: GA4 quita los parámetros de las rutas, por eso no aparece ahí. Sí aparece en URLs completas de Clarity: 12 de las 89 grabaciones de Líneas (13,5%) terminan en un listado con `?modelo=` (solo la última página de cada una).
+- **No se puede determinar con estas tablas**: la moneda, los ingresos por canal, las sesiones por dispositivo, los datos de GA4 por dispositivo para PDP, los nombres de los eventos clave, el % de sesiones (no eventos) entre PDP, los clics en "Complementa con" y "Si te gustó el producto" (no existen como evento).

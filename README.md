@@ -16,6 +16,8 @@ images/                Capturas de referencia, screenshots de secciones estátic
 hallazgos-y-mejoras.md  Lista consolidada de problemas y su estado
 plan-medicion.md      Cómo medir si el rediseño funciona (indicadores, eventos, línea base y prueba A/B)
 pruebas-funcionales.md  Plan de pruebas (pasos y resultados esperados) y sus resultados: 92 casos
+verificacion-de-hallazgos.md  Qué problemas del sitio real y de las pruebas de usabilidad resuelve el prototipo, con evidencia y brechas
+variantes/            Dos rediseños completos (Guía, Líneas y Ficha) con el mismo catálogo: frontend-design/ ("Asesor de descanso") y ui-ux-pro-max/ ("Tres puertas") y hibrida/ (opción 3: la frase + las mejores piezas de las dos). Se abren en variantes/<opción>/guia.html; comparten variantes/shared/ (datos, carro, comparador)
 ```
 
 Las páginas no tienen dependencias ni build step: CSS y JS van inline, salvo `data/modelos.js`, que se carga con un `<script src>`. Para abrirlas basta servir la carpeta con cualquier servidor estático (por ejemplo `python3 -m http.server`).

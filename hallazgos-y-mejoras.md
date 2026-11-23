@@ -98,7 +98,7 @@ No son hallazgos de diseño — son consecuencia directa de que el prototipo no 
 | Mejora | Por qué la respaldan los datos |
 |---|---|
 | **Tratar Líneas como paso intermedio con contexto** (parámetros de URL) | 83% del tráfico de Líneas llega navegando desde dentro del sitio |
-| **Resolver tamaño y base dentro de la misma PDP**, en vez de SKUs separados | Recirculación medida entre variantes: 158 + 114 eventos. Es el patrón PDP→PDP (68,5%) con el mecanismo a la vista |
+| **Resolver tamaño y base dentro de la misma PDP**, en vez de SKUs separados | Recirculación medida entre variantes: 158 + 114 eventos. Es el patrón PDP→PDP (68,5%, cifra heredada que no se pudo reproducir; ver journey-actual §10) con el mecanismo a la vista |
 | **Grid filtrado + comparador en Líneas** | El diagnóstico es correcto: rebote 6,54%, 56,3 s de lectura, 0,32% de conversión. No es problema de atención sino de conversión de esa atención |
 
 ## 2.2 Acciones propuestas
@@ -141,7 +141,7 @@ No son hallazgos de diseño — son consecuencia directa de que el prototipo no 
 
 # Parte 3 · Preguntas abiertas
 
-1. **¿Qué cuenta como "evento clave" en cada página?** En la PDP un evento ≈ $422.641 (calza con una compra); en Guía ≈ $4.506 (no puede ser compra). Hasta aclararlo, **las tasas de conversión entre páginas no son comparables**.
+1. **Confirmar el nombre del "evento clave" en GA4.** Verificado en BigQuery el 23-11-2026: el ingreso por evento es ≈$422.641 en PDP, ≈$376.970 en Líneas y ≈$450.574 en Guía (el documento anterior tenía Guía dividido por 100), así que el evento clave equivale a compra y **las tasas entre páginas son comparables**. Falta solo el nombre exacto del evento, que las tablas no traen.
 2. **Reconciliar el paso Guía → Líneas.** Las capas del wireframe dicen 4,08% mobile / 2,46% desktop; los datos nuevos sugieren ~7,6%. Probablemente distintos rangos de fecha.
 3. **El perfil P3 es mayor de lo documentado**: las anotaciones hablan de 15 PDPs enviando tráfico a Guía; la consulta muestra **69**.
 4. **Faltan las preguntas B2 y siguientes** de [journey-actual.md](journey-actual.md) §9 para poder escribir la capa Cognición de Líneas con datos reales.

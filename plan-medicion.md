@@ -18,7 +18,7 @@ Datos del sitio actual (90 días, [journey-actual.md §5](journey-actual.md)):
 | Grabaciones con Líneas como salida / entrada | 101 / 44 (2,3×) | **No es una tasa de salida.** Una página intermedia siempre tiene más salidas que entradas. Además es una muestra. |
 | Tiempo de interacción medio | 56,3 s | Alto: se detienen a leer y comparar. |
 | Rebote | 6,54% | Bajo: casi nadie se va sin hacer nada. |
-| Tasa de evento clave como landing | 0,32% (3 de 937) | No es comparable con otras páginas hasta aclarar qué cuenta como evento clave (pregunta abierta nº 1 de [hallazgos](hallazgos-y-mejoras.md)). |
+| Tasa de evento clave como landing | 0,32% (3 de 937) | Comparable con las otras páginas: el evento clave equivale a compra (ingreso por evento entre $377.000 y $451.000 en las tres). Falta confirmar el nombre del evento en GA4. |
 | Clics registrados en Clarity | 310, concentrados en el header | Mayormente móvil; son filas agregadas, no sesiones. |
 | Carga (GTmetrix) | 9,0–13,7 s, 7–8 MB | Restricción de diseño: lo que se agregue no debe empeorarla. |
 
@@ -98,7 +98,7 @@ Sin esto no se puede decir si el rediseño mejoró algo. Son consultas sobre el 
 4. Clics en los banners de línea frente a los de "Ver todo Línea X" (pregunta 6).
 5. Profundidad de scroll hasta Premium, que hoy es el tercer bloque (pregunta 7).
 6. Uso de "Filtrar" y "Ordenar por" en la PLP actual antes de un clic a producto (pregunta 9).
-7. **Qué cuenta como evento clave en cada página.** Hoy una conversión en PDP vale ≈ $422.641 y en Guía ≈ $4.506, lo que indica definiciones distintas. Hasta aclararlo, no comparar tasas de conversión entre páginas.
+7. **Nombre del evento clave en GA4.** Con los ingresos verificados, el evento clave equivale a compra en las tres páginas (≈$377.000 a ≈$451.000 por evento; la versión anterior tenía el ingreso de Guía dividido por 100). Falta confirmar el nombre exacto del evento, porque las tablas no lo traen.
 
 ---
 
