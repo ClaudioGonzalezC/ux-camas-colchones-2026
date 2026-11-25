@@ -228,13 +228,19 @@ const Cat = (() => {
         try { sessionStorage.setItem(clave('rosenVarBusqueda'), JSON.stringify(b)); } catch (e) {}
         document.querySelectorAll('a[data-guia]').forEach(a => a.setAttribute('href', hrefGuia(a.dataset.guia)));
     }
+    // Pasa una dirección del sitio a ruta relativa a la raíz del prototipo (la del <base href="../../">).
+    // Sirve igual en local (raíz "/") y en GitHub Pages (raíz "/ux-camas-colchones-2026/"); quitar solo la "/" inicial duplicaba la carpeta en Pages.
+    function relativa(u) {
+        const url = new URL(u, document.baseURI), raiz = new URL(document.baseURI).pathname;
+        return (url.pathname.indexOf(raiz) === 0 ? url.pathname.slice(raiz.length) : url.pathname.replace(/^\//, '')) + url.search;
+    }
     function listaGuardada(ruta, alternativa) {
-        try { const u = sessionStorage.getItem(clave('rosenVarLista')); if (u && u.indexOf(ruta) >= 0) return u.replace(/^\//, ''); } catch (e) {}
+        try { const u = sessionStorage.getItem(clave('rosenVarLista')); if (u && u.indexOf(ruta) >= 0) return relativa(u); } catch (e) {}
         return alternativa || hrefLineas(ruta, { tamano: '2-plazas' });
     }
 
     const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     return { TIPOS, TAMANOS, LINEAS, LINEA_CORTA, TEXTO_LINEA, FIRMEZAS, tipoPorKey, tipoPorUrl, fmt, slug, esc, items, porId, filtrar, minimo, maximo, ordenar,
-        hrefPdp, hrefLineas, recordarLista, listaGuardada, hrefGuia, guardarBusqueda, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
+        hrefPdp, hrefLineas, recordarLista, listaGuardada, relativa, hrefGuia, guardarBusqueda, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
 })();

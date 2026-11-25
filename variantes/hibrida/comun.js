@@ -87,8 +87,8 @@ const HY = (() => {
         const pEl = card.querySelector('.ux-precio'); pEl.dataset.precio = precio; pEl.innerHTML = Cat.fmt(precio) + (normal > precio ? '<s>' + Cat.fmt(normal) + '</s>' : '');
         const d = card.querySelector('.ux-dto'); d.hidden = !(normal > precio); d.textContent = '' + Math.round((1 - precio / normal) * 100) + '%';
         if (b.dataset.img) card.querySelector('.ux-card-img img').src = b.dataset.img;
-        const q = new URL(card.dataset.href, location.href); q.searchParams.set('base', b.dataset.base);
-        const nuevo = q.pathname.replace(/^\//, '') + q.search; card.dataset.href = nuevo; card.querySelectorAll('h3 a, .hy-cta').forEach(a => a.setAttribute('href', nuevo));
+        const q = new URL(card.dataset.href, document.baseURI); q.searchParams.set('base', b.dataset.base);
+        const nuevo = Cat.relativa(q.href); card.dataset.href = nuevo; card.querySelectorAll('h3 a, .hy-cta').forEach(a => a.setAttribute('href', nuevo));
     });
     // Fotos de un producto: la principal del catálogo y las 2 adicionales de data/galerias.js (si existen)
     function fotos(i) {
