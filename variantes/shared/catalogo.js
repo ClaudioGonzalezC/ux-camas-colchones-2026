@@ -227,6 +227,22 @@ const Cat = (() => {
         const b = Object.assign(busquedaGuardada() || {}, parcial);
         try { sessionStorage.setItem(clave('rosenVarBusqueda'), JSON.stringify(b)); } catch (e) {}
         document.querySelectorAll('a[data-guia]').forEach(a => a.setAttribute('href', hrefGuia(a.dataset.guia)));
+        document.querySelectorAll('a[data-modelos]').forEach(a => a.setAttribute('href', hrefModelos(a.dataset.modelos)));
+    }
+    // "Modelos" (navegación y miga): vuelve a la última lista que viste, con su línea y su orden, si sigue siendo la búsqueda actual.
+    // Si en la Guía o en la ficha cambiaste tamaño, tipo, firmeza o presupuesto, abre la lista de la búsqueda nueva.
+    function hrefModelos(ruta) {
+        const b = busquedaGuardada();
+        let u = null; try { u = sessionStorage.getItem(clave('rosenVarLista')); } catch (e) {}
+        if (u && u.indexOf(ruta) < 0) u = null;
+        if (!b) return u ? relativa(u) : hrefLineas(ruta, { tamano: '2-plazas' });
+        if (u) {
+            const q = new URL(u, document.baseURI).searchParams;
+            const firmezas = v => (Array.isArray(v) ? v : String(v || '').split(',')).filter(Boolean).sort().join(',');
+            if ((q.get('tamano') || '') === (b.tamano || '') && (q.get('tipo') || '') === (b.tipo || '')
+                && firmezas(q.get('firmeza')) === firmezas(b.firmeza) && (parseInt(q.get('max'), 10) || 0) === (b.max || 0)) return relativa(u);
+        }
+        return hrefLineas(ruta, { tamano: b.tamano || '2-plazas', tipo: b.tipo, firmeza: b.firmeza, max: b.max });
     }
     // Pasa una dirección del sitio a ruta relativa a la raíz del prototipo (la del <base href="../../">).
     // Sirve igual en local (raíz "/") y en GitHub Pages (raíz "/ux-camas-colchones-2026/"); quitar solo la "/" inicial duplicaba la carpeta en Pages.
@@ -242,5 +258,5 @@ const Cat = (() => {
     const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     return { TIPOS, TAMANOS, LINEAS, LINEA_CORTA, TEXTO_LINEA, FIRMEZAS, tipoPorKey, tipoPorUrl, fmt, slug, esc, items, porId, filtrar, minimo, maximo, ordenar,
-        hrefPdp, hrefLineas, recordarLista, listaGuardada, relativa, hrefGuia, guardarBusqueda, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
+        hrefPdp, hrefLineas, recordarLista, listaGuardada, relativa, hrefGuia, hrefModelos, busquedaGuardada, guardarBusqueda, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
 })();

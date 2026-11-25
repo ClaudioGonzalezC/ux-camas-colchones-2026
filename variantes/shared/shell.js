@@ -17,7 +17,12 @@ const Shell = (() => {
             ''+
             '</div></nav></div>';
         document.body.insertBefore(top, document.body.firstChild);
-        if (cfg.guiaConBusqueda) top.querySelectorAll('a').forEach(a => { if (/guia\.html(\?|$)/.test(a.getAttribute('href') || '')) { a.dataset.guia = ruta; a.setAttribute('href', Cat.hrefGuia(ruta)); } });
+        // Los enlaces a la Guía y a Modelos llevan la búsqueda actual (se actualizan con Cat.guardarBusqueda)
+        if (cfg.guiaConBusqueda) top.querySelectorAll('a').forEach(a => {
+            const h = a.getAttribute('href') || '';
+            if (/guia\.html(\?|$)/.test(h)) { a.dataset.guia = ruta; a.setAttribute('href', Cat.hrefGuia(ruta)); }
+            else if (/lineas\.html(\?|$)/.test(h)) { a.dataset.modelos = ruta; a.setAttribute('href', Cat.hrefModelos(ruta)); }
+        });
 
         const foot = document.createElement('footer');
         foot.className = 'v-footer';

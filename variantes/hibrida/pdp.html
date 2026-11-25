@@ -25,8 +25,10 @@ const nombre = q.get('modelo') || 'New style 6', tipoUrl = q.get('tipo') || 'col
 const item = Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano && (!lineaP || i.linea === lineaP))
     || Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano);
 const main = document.getElementById('main');
-// La ficha actualiza el tipo y el tamaño de la búsqueda (el 74 % de los saltos entre fichas son cambios de medida); firmeza y presupuesto se mantienen
-if (item) Cat.guardarBusqueda({ tamano: item.tamano, tipo: item.tipo.url });
+// La ficha actualiza el tipo y el tamaño de la búsqueda (el 74 % de los saltos entre fichas son cambios de medida); firmeza y presupuesto se mantienen.
+// Si la búsqueda era "Todos los tipos", se mantiene: ya incluye este producto.
+const busq0 = Cat.busquedaGuardada();
+if (item) Cat.guardarBusqueda({ tamano: item.tamano, tipo: busq0 && !busq0.tipo ? '' : item.tipo.url });
 const shell = Shell.montar({ ruta: HY.RUTA, actual: 'pdp', guiaConBusqueda: true, migas: [['Camas y Colchones', HY.RUTA + 'guia.html'],
     ['Modelos', Cat.listaGuardada(HY.RUTA, Cat.hrefLineas(HY.RUTA, { tamano, tipo: tipoUrl }))], [item ? item.nombreCompleto : 'Producto']] });
 
