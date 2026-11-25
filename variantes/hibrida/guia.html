@@ -18,8 +18,12 @@
 </section>
 <div class="hyB-panel-w">
   <form class="hyB-panel" id="fFrase" onsubmit="return false" aria-label="Busca tu descanso">
+    <fieldset class="hyB-tipo" aria-labelledby="lblTipo"><legend id="lblTipo">¿Qué buscas?</legend>
+      <div class="hyB-tipos" id="fTipos"></div>
+      <div class="hyB-otros"><span class="hyB-otros-t" id="lblOtros">Otros tipos de cama</span><div class="hyB-otros-l" id="fOtros" role="list" aria-labelledby="lblOtros"></div></div>
+      <select id="fTipo" hidden aria-hidden="true" tabindex="-1"></select>
+    </fieldset>
     <div class="hyB-campos">
-      <div class="hyB-campo"><label id="lblTipo">Busco</label><select id="fTipo"></select></div>
       <div class="hyB-campo"><label id="lblTamano">Tamaño</label><select id="fTamano"></select></div>
       <div class="hyB-campo"><label id="lblFirmeza">Firmeza</label><select id="fFirmeza"></select></div>
       <div class="hyB-campo"><label id="lblMax">Presupuesto</label><select id="fMax"></select></div>
@@ -77,7 +81,7 @@
 <script src="variantes/hibrida/comun.js"></script>
 <script src="variantes/hibrida/selector.js"></script>
 <script>
-const carroUI = Shell.montar({ ruta: HY.RUTA, actual: 'guia', migas: [['Camas y Colchones']] });
+const carroUI = Shell.montar({ ruta: HY.RUTA, actual: 'guia', guiaConBusqueda: true, migas: [['Camas y Colchones']] });
 
 
 // ---- Vista previa de resultados (carrusel) ----
@@ -104,7 +108,7 @@ document.getElementById('prevRoot').innerHTML = `
 const $ = id => document.getElementById(id);
 const MAXES_FRASE = [0, 200000, 300000, 400000, 600000, 800000, 1200000, 2000000];
 const u = Cat.leerUrl();
-const e = { tipo: u.tipo || 'colchon', tamano: u.tamano || '2-plazas', firmeza: u.firmeza[0] || '', max: MAXES_FRASE.includes(u.max) ? u.max : 0 };
+const e = { tipo: u.tipo || '', tamano: u.tamano || '2-plazas', firmeza: u.firmeza[0] || '', max: MAXES_FRASE.includes(u.max) ? u.max : 0 };
 let nota = '';
 
 // ---- La frase ----
@@ -127,11 +131,41 @@ const PERMITIDO = {
     fFirmeza: v => Cat.filtrar(filtros({ firmeza: v ? [v] : [] })).length > 0,
     fMax: v => Cat.filtrar(filtros({ max: parseInt(v, 10) || 0 })).length > 0
 };
-[['fTipo', 'lblTipo'], ['fTamano', 'lblTamano'], ['fFirmeza', 'lblFirmeza'], ['fMax', 'lblMax']].forEach(([id, l]) => selectorPropio($(id), l, PERMITIDO[id], AYUDAS[id]).sync());
+[['fTamano', 'lblTamano'], ['fFirmeza', 'lblFirmeza'], ['fMax', 'lblMax']].forEach(([id, l]) => selectorPropio($(id), l, PERMITIDO[id], AYUDAS[id]).sync());
+
+// ---- ¿Qué buscas?: opciones visibles en vez de una lista desplegable ----
+// En la Guía actual el carrusel de categorías es lo más clicado en móvil (GA4/BigQuery, 22-03 a 20-06-2026).
+// Los tres tipos del catálogo filtran el panel; los otros siete llevan a su categoría en rosen.cl, ordenados por clics
+// (camas con muebles 2.683, guarda objetos 1.815, nido y divanes 1.117, bases 1.044, eléctricas 467, sofás cama 439, camarotes 219).
+const IMG_BOX = (Cat.filtrar({ tamano: '2-plazas', tipo: 'box-spring' })[0] || {}).imagen || '';
+const OPS_TIPO = [
+    ['', 'Todos los tipos', '', 'Colchones, camas y box spring'],
+    ['cama-europea', 'Camas europeas', 'images/productos/Categorias-Camas.webp', AYUDAS.fTipo['cama-europea']],
+    ['colchon', 'Colchones', 'images/productos/Categorias-Colchones.webp', AYUDAS.fTipo['colchon']],
+    ['box-spring', 'Box Spring', IMG_BOX, AYUDAS.fTipo['box-spring']]
+];
+const OTROS_TIPOS = [
+    ['Camas con muebles', 'camas-y-colchones/camas-con-muebles.html', 'Categorias-CamasConMuebles.webp'],
+    ['Guarda objetos', 'camas-y-colchones/tipos-de-cama/camas-guarda-objetos.html', 'Categorias-CamasGuardaObjetos.webp'],
+    ['Nido y divanes', 'camas-y-colchones/tipos-de-cama/camas-nido-y-divanes.html', 'Categorias-CamasNidosyDivanes.webp'],
+    ['Bases', 'camas-y-colchones/tipos-de-cama/bases.html', 'Categorias-Bases.webp'],
+    ['Camas eléctricas', 'camas-y-colchones/tipos-de-cama/camas-adaptables-electricas.html', 'Categorias-CamasAdaptablesElectricas.webp'],
+    ['Sofás cama y futones', 'camas-y-colchones/tipos-de-cama/sofas-cama-y-futones.html', 'Categorias-SofasCamasYFutones.webp'],
+    ['Camarotes', 'camas-y-colchones/tipos-de-cama/camarotes.html', 'FV_Camarote_19822.webp']
+];
+const ICO_TODOS = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>';
+$('fTipos').innerHTML = OPS_TIPO.map(o => '<label class="hyB-t"><input type="radio" name="fTipoR" value="' + o[0] + '">' +
+    (o[2] ? '<img src="' + o[2] + '" alt="" width="56" height="56">' : '<span class="hyB-t-ico">' + ICO_TODOS + '</span>') +
+    '<span><strong>' + o[1] + '</strong><small>' + o[3] + '</small></span></label>').join('');
+$('fOtros').innerHTML = OTROS_TIPOS.map(o => '<a class="hyB-otro" role="listitem" href="https://www.rosen.cl/' + o[1] + '" aria-label="' + o[0] + ', en rosen.cl"><img src="images/productos/' + o[2] + '" alt="" width="32" height="32" loading="lazy"><span>' + o[0] + '</span></a>').join('');
+$('fTipos').addEventListener('change', ev => { const r = ev.target.closest('input[name=fTipoR]'); if (!r) return; $('fTipo').value = r.value; $('fTipo').dispatchEvent(new Event('change')); });
+function pintarTipos() {
+    $('fTipos').querySelectorAll('input').forEach(r => { r.checked = r.value === e.tipo; r.disabled = r.value !== e.tipo && !PERMITIDO.fTipo(r.value); });
+}
 
 // ---- Vista previa: el título dice qué se está mostrando ----
 let ordenPrev = 'relevancia';
-const esInicial = () => e.tipo === 'colchon' && e.tamano === '2-plazas' && !e.firmeza && !e.max;
+const esInicial = () => !e.tipo && e.tamano === '2-plazas' && !e.firmeza && !e.max;
 // ---- Mensajes de la vista previa: el título y la bajada cuentan en qué punto de la búsqueda está la persona ----
 const DESC_FIRMEZA = {
     suave: 'Quienes duermen de lado suelen preferirla: alivia la presión en hombros y caderas.',
@@ -304,7 +338,7 @@ const ICONO_LINEA = {
 document.addEventListener('click', ev => {
     const c = ev.target.closest('[data-campo]'); if (!c) return;
     document.querySelector('.hyB-panel').scrollIntoView({ block: 'center', behavior: 'smooth' });
-    setTimeout(() => { const b = $(c.dataset.campo + 'Btn'); if (b) b.click(); }, 500);
+    setTimeout(() => { if (c.dataset.campo === 'fTipo') { const r = $('fTipos').querySelector('input:checked') || $('fTipos').querySelector('input'); r.focus(); return; } const b = $(c.dataset.campo + 'Btn'); if (b) b.click(); }, 500);
 });
 
 function pintarPrev(r) {
@@ -378,11 +412,12 @@ $('prevRoot').addEventListener('click', ev => {
 
 function dibujar() {
     $('fTipo').value = e.tipo; $('fTamano').value = e.tamano; $('fFirmeza').value = e.firmeza; $('fMax').value = e.max;
-    selectsPropios.forEach(x => x.sync());
+    selectsPropios.forEach(x => x.sync()); pintarTipos();
     Cat.escribirUrl({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza, max: e.max || '' });
+    Cat.guardarBusqueda({ tamano: e.tamano, tipo: e.tipo, firmeza: e.firmeza ? [e.firmeza] : [], max: e.max || 0 });
     const r = Cat.filtrar(filtros());
     $('fResumen').innerHTML = r.length
-        ? '<strong>' + r.length + (r.length === 1 ? ' modelo' : ' modelos') + '</strong> coinciden, desde <strong>' + Cat.fmt(Cat.minimo(r)) + '</strong>'
+        ? '<strong>' + r.length + (r.length === 1 ? ' modelo' : ' modelos') + '</strong> ' + (r.length === 1 ? 'coincide' : 'coinciden') + ', desde <strong>' + Cat.fmt(Cat.minimo(r)) + '</strong>'
         : '<strong>Ningún modelo</strong> coincide con esta frase';
     $('fVer').href = Cat.hrefLineas(HY.RUTA, paramsLineas());
     $('fVer').textContent = r.length ? 'Ver los ' + r.length + (r.length === 1 ? ' modelo' : ' modelos') : 'Ver el tamaño sin filtros';

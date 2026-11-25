@@ -25,7 +25,9 @@ const nombre = q.get('modelo') || 'New style 6', tipoUrl = q.get('tipo') || 'col
 const item = Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano && (!lineaP || i.linea === lineaP))
     || Cat.items().find(i => i.nombre === nombre && i.tipo.url === tipoUrl && i.tamano === tamano);
 const main = document.getElementById('main');
-const shell = Shell.montar({ ruta: HY.RUTA, actual: 'pdp', migas: [['Camas y Colchones', HY.RUTA + 'guia.html'],
+// La ficha actualiza el tipo y el tamaño de la búsqueda (el 74 % de los saltos entre fichas son cambios de medida); firmeza y presupuesto se mantienen
+if (item) Cat.guardarBusqueda({ tamano: item.tamano, tipo: item.tipo.url });
+const shell = Shell.montar({ ruta: HY.RUTA, actual: 'pdp', guiaConBusqueda: true, migas: [['Camas y Colchones', HY.RUTA + 'guia.html'],
     ['Modelos', Cat.listaGuardada(HY.RUTA, Cat.hrefLineas(HY.RUTA, { tamano, tipo: tipoUrl }))], [item ? item.nombreCompleto : 'Producto']] });
 
 if (!item) {
@@ -122,52 +124,58 @@ function iniciar() {
     const grupoLargo = tit => medidas.length > 1 ? '<div class="fa-grupo"><h3>' + tit + '</h3><div class="fa-seg" id="segMedida"></div></div>' : '';
     const grupoBaseCama = baseElegible ? '<div class="fa-grupo"><h3>Base</h3><div class="fa-seg" id="segBase"></div></div>' : (claves.length ? '<p class="ux-meta" style="margin-top:14px">Base ' + claves[0] + '</p>' : '');
 
+    // El tamaño va primero (74 % de los saltos entre fichas de camas y colchones son cambios de medida; ≈1 % cambios de tipo,
+    // GA4 22-03 a 20-06-2026). El tipo queda como una línea secundaria al final de la selección.
+    const otrosTipos = href => tipos.length > 1 ? '<p class="hy-otros-tipos">También disponible como: ' + tipos.filter(t => t.id !== item.id).map(t => '<a href="' + href(t) + '">' + t.tipo.nombre + ' · ' + Cat.fmt(t.precio) + '</a>').join('<span aria-hidden="true"> · </span>') + '</p>' : '';
+
     function seccionA() {
-        const tipoL = tipos.length > 1 ? '<div class="fa-grupo"><h3>Tipo</h3><div class="fa-seg">' + tipos.map(t => '<a class="fa-op" href="' + hrefF(t) + '"' + (t.id === item.id ? ' aria-current="true" onclick="return false"' : '') + '><span>' + t.tipo.nombre + '</span><b>' + Cat.fmt(t.precio) + '</b></a>').join('') + '</div></div>' : '';
         const tamL = '<div class="fa-grupo"><h3>Tamaño</h3><div class="fa-seg">' + tamanos.map(t => '<a class="fa-op" href="' + hrefF(t) + '"' + (t.id === item.id ? ' aria-current="true" onclick="return false"' : '') + '><span>' + t.tamanoLabel + '</span><small>' + HY.dim(t.dimensiones) + '</small><b>' + Cat.fmt(t.precio) + '</b></a>').join('') + '</div></div>';
         const baseL = basesTam.length ? '<div class="fa-grupo" id="fBaseG"><div class="fa-gh"><h3>Base <small>(opcional)</small></h3></div><details class="hy-porque"><summary>¿Por qué agregar una base?</summary><p>' + PORQUE_BASE + '</p></details>' +
             '<div class="fa-tira" id="fBaseC" role="radiogroup" aria-label="Base para el colchón">' + tarjetaBase(null, 'fa-card') + basesTam.map(b => tarjetaBase(b, 'fa-card')).join('') + '</div>' +
             '<p class="ux-meta" id="fBaseNota" hidden>Las bases disponibles son para colchones de 200 cm de largo. Elige ese largo para verlas.</p></div>' : '';
-        return nav([['resumen-d', 'Resumen'], ['medidas', 'Arma tu compra'], ['firmeza', 'Firmeza'], ['preguntas', 'Más información']]) +
-        '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2><dl class="fa-hechos">' + hechos.map(h => '<div><dt>' + h[0] + '</dt><dd>' + h[1] + '</dd></div>').join('') + '</dl>' + pitch + '</section>' +
-        '<section class="ux-bloque" id="medidas"><div class="hy-h2"><h2>Arma tu compra</h2>' + medirLink + '</div>' + tipoL + tamL + grupoLargo('Largo') + grupoBaseCama + baseL +
-          '<div class="fa-nota" id="fNota" role="group" aria-label="Resumen de tu compra" aria-live="polite"></div></section>' + firmezaSec;
+        return nav([['medidas', 'Arma tu compra'], ['resumen-d', 'Resumen'], ['firmeza', 'Firmeza'], ['preguntas', 'Más información']]) +
+        '<section class="ux-bloque" id="medidas"><div class="hy-h2"><h2>Arma tu compra</h2>' + medirLink + '</div>' + tamL + grupoLargo('Largo') + grupoBaseCama + baseL + otrosTipos(hrefF) +
+          '<div class="fa-nota" id="fNota" role="group" aria-label="Resumen de tu compra" aria-live="polite"></div></section>' +
+        '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2><dl class="fa-hechos">' + hechos.map(h => '<div><dt>' + h[0] + '</dt><dd>' + h[1] + '</dd></div>').join('') + '</dl>' + pitch + '</section>' + firmezaSec;
     }
 
     function seccionB() {
         const todos = Cat.items().filter(x => x.nombre === item.nombre && x.linea === item.linea);
         const cols = Cat.TIPOS.filter(t => todos.some(x => x.tipoKey === t.key));
         const filas = Cat.TAMANOS.filter(tm => todos.some(x => x.tamano === tm.id));
+        // las columnas de los otros tipos quedan plegadas: se ven con "Comparar precios con otros tipos"
+        const otra = t => t.key === item.tipoKey ? '' : ' fb-otro';
         const celda = (tm, t) => { const x = todos.find(y => y.tipoKey === t.key && y.tamano === tm.id);
-            if (!x) return '<td class="fb-no"><span aria-hidden="true">—</span><span class="sr-only">No disponible</span></td>';
+            if (!x) return '<td class="fb-no' + otra(t) + '"><span aria-hidden="true">—</span><span class="sr-only">No disponible</span></td>';
             const act = x.id === item.id;
-            return '<td' + (act ? ' class="fb-act"' : '') + '><a href="' + hrefF(x) + '"' + (act ? ' aria-current="true" onclick="return false"' : '') + ' aria-label="' + t.nombre + ', ' + tm.label + ', ' + Cat.fmt(x.precio) + (act ? ' (estás viendo este)' : '') + '">' + Cat.fmt(x.precio) + '</a></td>'; };
-        const tabla = '<div class="fb-tabla-w" role="region" aria-label="Precios por tamaño y tipo" tabindex="0"><table class="fb-tabla"><caption class="sr-only">Precios de ' + Cat.esc(item.nombre) + ' por tamaño y tipo. Elige una celda para ver ese producto.</caption>' +
-            '<thead><tr><th scope="col">Tamaño</th>' + cols.map(t => '<th scope="col"' + (t.key === item.tipoKey ? ' class="fb-col"' : '') + '>' + t.nombre + '</th>').join('') + '</tr></thead><tbody>' +
-            filas.map(tm => '<tr><th scope="row"' + (tm.id === item.tamano ? ' class="fb-col"' : '') + '>' + tm.label + '<small>' + HY.dim(tm.dimensiones) + '</small></th>' + cols.map(t => celda(tm, t)).join('') + '</tr>').join('') + '</tbody></table></div>';
+            return '<td class="' + (act ? 'fb-act' : '') + otra(t) + '"><a href="' + hrefF(x) + '"' + (act ? ' aria-current="true" onclick="return false"' : '') + ' aria-label="' + t.nombre + ', ' + tm.label + ', ' + Cat.fmt(x.precio) + (act ? ' (estás viendo este)' : '') + '">' + Cat.fmt(x.precio) + '</a></td>'; };
+        const tabla = '<div class="fb-tabla-w" role="region" aria-label="Precios por tamaño" tabindex="0"><table class="fb-tabla" id="fbTabla"><caption class="sr-only">Precios de ' + Cat.esc(item.nombre) + ' por tamaño. Elige una celda para ver ese producto.</caption>' +
+            '<thead><tr><th scope="col">Tamaño</th>' + cols.map(t => '<th scope="col" class="' + (t.key === item.tipoKey ? 'fb-col' : '') + otra(t) + '">' + t.nombre + '</th>').join('') + '</tr></thead><tbody>' +
+            filas.map(tm => '<tr><th scope="row"' + (tm.id === item.tamano ? ' class="fb-col"' : '') + '>' + tm.label + '<small>' + HY.dim(tm.dimensiones) + '</small></th>' + cols.map(t => celda(tm, t)).join('') + '</tr>').join('') + '</tbody></table></div>' +
+            (cols.length > 1 ? '<button type="button" class="ux-link fb-comp" id="fbComp" aria-expanded="false" aria-controls="fbTabla">Comparar precios con otros tipos</button>' : '');
         const baseL = basesTam.length ? '<div class="fb-base" id="fbBase"><button type="button" class="fb-base-btn" id="fbBaseBtn" aria-expanded="false" aria-controls="fbBaseGrid"><span><strong>Agregar una base</strong><small>Opcional</small></span><span class="fb-base-sel" id="fbBaseSel">Sin base</span>' + ICO_FLECHA + '</button>' +
             '<div id="fbBaseGrid" hidden><p class="fb-why">' + PORQUE_BASE + '</p><div class="fb-grid" id="fbBaseG" role="radiogroup" aria-label="Base para el colchón">' + tarjetaBase(null, 'fb-tile') + basesTam.map(b => tarjetaBase(b, 'fb-tile')).join('') + '</div></div>' +
             '<p class="ux-meta" id="fbBaseNota" hidden>Las bases disponibles son para colchones de 200 cm de largo. Elige ese largo para verlas.</p></div>' : '';
-        return nav([['resumen-d', 'Resumen'], ['medidas', 'Elegir tipo y tamaño'], ['preguntas', 'Más información']]) +
+        return nav([['medidas', 'Elige tu tamaño'], ['resumen-d', 'Resumen'], ['preguntas', 'Más información']]) +
+        '<section class="ux-bloque" id="medidas"><div class="hy-h2"><h2>Elige tu tamaño</h2>' + medirLink + '</div>' + tabla + grupoLargo('Largo') + grupoBaseCama + baseL +
+          '<p class="fb-sel" id="fbSel" aria-live="polite"></p></section>' +
         '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2><div class="fb-res"><dl class="fa-hechos fb-h2">' + hechos.slice(0, 2).map(h => '<div><dt>' + h[0] + '</dt><dd>' + h[1] + '</dd></div>').join('') + '</dl>' +
-          '<div class="fb-esc">' + HY.escala('Firmeza', item.firmezaN) + HY.escala('Adaptación', item.adaptacion) + '</div></div>' + pitch + '</section>' +
-        '<section class="ux-bloque" id="medidas"><div class="hy-h2"><h2>Elegir tipo y tamaño</h2>' + medirLink + '</div>' + tabla + grupoLargo('Largo') + grupoBaseCama + baseL +
-          '<p class="fb-sel" id="fbSel" aria-live="polite"></p></section>';
+          '<div class="fb-esc">' + HY.escala('Firmeza', item.firmezaN) + HY.escala('Adaptación', item.adaptacion) + '</div></div>' + pitch + '</section>';
     }
 
-    function seccionActual() { return         '<nav class="ux-nav ux-vidrio" id="secNav" aria-label="Secciones de la ficha"><a href="#resumen-d">Resumen</a><a href="#medidas">Medidas y precios</a><a href="#firmeza">Firmeza</a><a href="#preguntas">Más información</a></nav>' +
-
-        '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2>' +
-          '<dl class="ux-hechos"><div><dt>Línea</dt><dd>' + item.lineaCorta + '</dd></div><div><dt>Tipo</dt><dd>' + item.tipo.nombre + '</dd></div><div><dt>Firmeza</dt><dd>' + Cat.palabraFirmeza(item.firmezaN).replace(/^./, c => c.toUpperCase()) + '</dd></div><div><dt>Adaptación</dt><dd>' + Cat.palabraAdapt(item.adaptacion).replace(/^./, c => c.toUpperCase()) + '</dd></div></dl>' +
-          (esNS6C ? '<p class="hy-pitch">Un descanso que se adapta a ti, no al revés. Cada resorte Pocket Advance responde de forma independiente a la forma y el peso de tu cuerpo, entregando el soporte justo donde lo necesitas.</p>' : '') +
-          (tipos.length > 1 ? '<h3 style="font-size:24px;margin:22px 0 10px">Este modelo en otros tipos</h3><div class="ux-filas">' + tipos.map(t => t.id === item.id ? fila('a', 'aria-current="true" href="' + Cat.hrefPdp(HY.RUTA, t) + '" onclick="return false"', '', t.tipo.nombre, 'Estás viendo este', Cat.fmt(t.precio)) : fila('a', 'href="' + Cat.hrefPdp(HY.RUTA, t) + '"', '', t.tipo.nombre, 'Ver este tipo', Cat.fmt(t.precio))).join('') + '</div>' : '') +
-        '</section>' +
+    function seccionActual() { return         '<nav class="ux-nav ux-vidrio" id="secNav" aria-label="Secciones de la ficha"><a href="#medidas">Medidas y precios</a><a href="#resumen-d">Resumen</a><a href="#firmeza">Firmeza</a><a href="#preguntas">Más información</a></nav>' +
 
         '<section class="ux-bloque" id="medidas"><div class="hy-h2"><h2>Medidas y precios</h2>' + (item.tipoKey === 'colchon' ? '<button type="button" class="ux-link" id="medirBtn">Cómo medir tu colchón</button>' : '') + '</div><div class="ux-filas">' +
           tamanos.map(t => t.id === item.id ? fila('a', 'aria-current="true" href="' + Cat.hrefPdp(HY.RUTA, t) + '" onclick="return false"', '', t.tamanoLabel, HY.dim(t.dimensiones), Cat.fmt(t.precio)) : fila('a', 'href="' + Cat.hrefPdp(HY.RUTA, t) + '"', '', t.tamanoLabel, HY.dim(t.dimensiones), Cat.fmt(t.precio))).join('') + '</div>' +
           (medidas.length > 1 ? '<h3 style="font-size:24px;margin:22px 0 10px">Largo</h3><div class="ux-filas" id="segMedida"></div>' : '') +
           (baseElegible ? '<h3 style="font-size:24px;margin:22px 0 10px">Base</h3><div class="ux-filas" id="segBase"></div>' : (claves.length ? '<p class="ux-meta" style="margin-top:14px">Base ' + claves[0] + '</p>' : '')) +
           (basesTam.length ? '<h3 style="font-size:24px;margin:22px 0 4px">Complementa con una base</h3><details class="hy-porque"><summary>¿Por qué agregar una base?</summary><p>Usar base entrega el soporte y la altura adecuados, y mejora la ventilación para un descanso más duradero.</p></details><div class="ux-filas" id="segBaseC" style="margin-top:10px"></div>' : '') +
+          otrosTipos(t => Cat.hrefPdp(HY.RUTA, t)) +
+        '</section>' +
+
+        '<section class="ux-bloque" id="resumen-d"><h2>Resumen</h2>' +
+          '<dl class="ux-hechos"><div><dt>Línea</dt><dd>' + item.lineaCorta + '</dd></div><div><dt>Tipo</dt><dd>' + item.tipo.nombre + '</dd></div><div><dt>Firmeza</dt><dd>' + Cat.palabraFirmeza(item.firmezaN).replace(/^./, c => c.toUpperCase()) + '</dd></div><div><dt>Adaptación</dt><dd>' + Cat.palabraAdapt(item.adaptacion).replace(/^./, c => c.toUpperCase()) + '</dd></div></dl>' +
+          (esNS6C ? '<p class="hy-pitch">Un descanso que se adapta a ti, no al revés. Cada resorte Pocket Advance responde de forma independiente a la forma y el peso de tu cuerpo, entregando el soporte justo donde lo necesitas.</p>' : '') +
         '</section>' +
 
         '<section class="ux-bloque" id="firmeza"><h2>Firmeza y adaptación</h2><div class="ux-vv-b">' + HY.escala('Firmeza', item.firmezaN) + HY.escala('Adaptación', item.adaptacion) + '</div></section>'; }
@@ -245,6 +253,7 @@ function iniciar() {
         const b = ev.target.closest('[data-base]'); if (b) { base = b.dataset.base; pintar(); }
         const bc = ev.target.closest('[data-basec]'); if (bc) { baseC = bc.dataset.basec || null; pintar(); }
         if (ev.target.closest('#medirBtn')) $('medirDlg').showModal();
+        const fc = ev.target.closest('#fbComp'); if (fc) { const abre = !$('fbTabla').classList.contains('fb-todos'); $('fbTabla').classList.toggle('fb-todos', abre); fc.setAttribute('aria-expanded', abre); fc.textContent = abre ? 'Ocultar otros tipos' : 'Comparar precios con otros tipos'; }
         const fb = ev.target.closest('#fbBaseBtn'); if (fb) { const ab = $('fbBaseGrid').hidden; $('fbBaseGrid').hidden = !ab; fb.setAttribute('aria-expanded', ab); }
         const t = ev.target.closest('[data-img]'); if (t) { imgIdx = parseInt(t.dataset.img, 10); pintar(); }
     });

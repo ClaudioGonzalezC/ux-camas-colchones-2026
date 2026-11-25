@@ -233,7 +233,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.1; lett
     .ux-puertas { grid-template-columns: 1fr; } .ux-hero-in { padding-top: 40px; }
     .ux-filtros { gap: 10px; padding: 10px 12px; } .ux-f-fin { margin-left: 0; width: 100%; justify-content: space-between; } .ux-filtros .ux-sel { min-width: 130px; }
     .ux-confianza { grid-template-columns: 1fr; } .ux-tipos { overflow-x: auto; } .ux-hechos { grid-template-columns: 1fr 1fr; }
-    .ux-pdp-precio strong { font-size: 36px; } .ux-compra { left: 8px; right: 8px; bottom: 8px; padding: 8px 10px; gap: 10px; } .ux-compra .v-btn { min-width: 0; padding: 12px 14px; } .ux-compra-p { font-size: 20px; } .ux-compra-n { display: none; }
+    .ux-pdp-precio strong { font-size: 36px; } .ux-compra { left: 8px; right: 8px; bottom: 8px; padding: 8px 10px; gap: 10px; } .ux-compra .v-btn { min-width: 0; padding: 12px 14px; } .ux-compra-p { font-size: 20px; } .ux-compra { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; column-gap: 10px; row-gap: 4px; } .ux-compra-n { grid-column: 1 / -1; } .ux-compra-n strong { display: none; } .ux-compra-n span { display: block; font-size: 12.5px; font-weight: 600; color: var(--pri); }
     .ux-carrusel { grid-auto-columns: 70%; } .ux-quiz-top, .ux-pasos, .ux-quiz-c { padding-left: 16px; padding-right: 16px; }
     .ux-bandeja { left: 8px; right: 8px; bottom: 8px; } .ux-aviso { bottom: 84px; }
 }
@@ -612,3 +612,49 @@ select option { color: var(--pri); background: #fff; font-weight: 500; }
 .ux-gal-p { position: relative; } .ux-gal-v { position: absolute; inset: 0; background: #000; } .ux-gal-v iframe { width: 100%; height: 100%; border: 0; }
 .ux-gal-play { display: grid; place-items: center; gap: 2px; width: 100%; height: 100%; align-content: center; background: var(--suave); } .ux-gal-play small { font-size: 12px; font-weight: 600; color: var(--pri); }
 .ux-gal-m button:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
+
+/* Ficha: el tamaño va primero; el tipo queda como línea secundaria y la tabla de la opción B muestra solo el tipo actual hasta que se pide comparar */
+.hy-otros-tipos { margin: 18px 0 0; font-size: 14.5px; color: var(--t2); line-height: 1.6; } .hy-otros-tipos a { color: var(--acc-osc); font-weight: 600; text-underline-offset: 3px; }
+.fb-tabla:not(.fb-todos) .fb-otro { display: none; }
+.fb-comp { margin-top: 6px; min-height: 40px; font-size: 14.5px; }
+
+/* Guía: "¿Qué buscas?" con opciones visibles (antes una lista desplegable) y los otros tipos de cama, que llevan a rosen.cl */
+.hyB-tipo { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+.hyB-tipo legend { padding: 0; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--acc-osc); }
+.hyB-tipos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.hyB-t { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: 10px; min-height: 72px; padding: 8px 12px 8px 8px; border: 1px solid var(--borde); background: #fff; cursor: pointer; transition: border-color .15s, background-color .15s; }
+.hyB-t input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.hyB-t img, .hyB-t-ico { width: 56px; height: 56px; object-fit: contain; background: #F2F2F2; }
+.hyB-t-ico { display: grid; place-items: center; color: var(--acc-osc); }
+.hyB-t strong { display: block; font-size: 15px; line-height: 1.2; color: var(--pri); }
+.hyB-t small { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.3; color: var(--t2); }
+.hyB-t:hover { border-color: var(--acc); }
+.hyB-t:has(input:checked) { border-color: var(--pri); box-shadow: inset 0 0 0 1px var(--pri); background: var(--acc-tenue); }
+.hyB-t:has(input:focus-visible) { outline: 3px solid var(--acc); outline-offset: 2px; }
+.hyB-t:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+.hyB-otros { margin-top: 12px; display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
+.hyB-otros-t { font-size: 13px; font-weight: 600; color: var(--t2); }
+.hyB-otros-l { display: flex; flex-wrap: wrap; gap: 8px; }
+.hyB-otro { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 12px 4px 4px; border: 1px solid var(--suave); background: #fff; color: var(--pri); font-size: 13.5px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.hyB-otro img { width: 34px; height: 34px; object-fit: contain; background: #F2F2F2; }
+.hyB-otro:hover { border-color: var(--acc); } .hyB-otro:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
+.hyB-campos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .hyB-tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+    .hyB-campos { grid-template-columns: 1fr; }
+    .hyB-t { grid-template-columns: 44px minmax(0, 1fr); gap: 8px; min-height: 60px; padding: 6px 8px 6px 6px; } .hyB-t img, .hyB-t-ico { width: 44px; height: 44px; }
+    .hyB-t strong { font-size: 14px; } .hyB-t small { display: none; }
+    .hyB-otros { display: block; } .hyB-otros-t { display: block; margin-bottom: 6px; }
+    .hyB-otros-l { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x proximity; } .hyB-otro { flex: 0 0 auto; scroll-snap-align: start; }
+}
+
+/* Tarjetas en móvil: "Comparar" y "Vista rápida" bajo el precio en vez de sobre la foto */
+.hy-acc-m { display: none; }
+@media (max-width: 640px) {
+    .ux-card-img .hy-comp, .ux-card-img .ux-comparar, .ux-card-img .ux-vista { display: none; }
+    .hy-acc-m { display: flex; flex-direction: column; gap: 4px; margin-top: auto; padding-top: 10px; position: relative; z-index: 3; }
+    .hy-acc-vista { min-height: 40px; padding: 0 8px; border: 1px solid var(--pri); background: #fff; color: var(--pri); font: 600 13px var(--sans); }
+    .hy-acc-vista:active { background: var(--pri); color: #fff; }
+    .hy-acc-comp { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; font-size: 13px; font-weight: 600; color: var(--pri); cursor: pointer; }
+    .hy-acc-comp input { width: 18px; height: 18px; margin: 0; accent-color: var(--pri); }
+}

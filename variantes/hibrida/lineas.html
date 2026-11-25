@@ -74,7 +74,7 @@ const $ = id => document.getElementById(id);
 const u = Cat.leerUrl();
 const est = { tamano: Cat.TAMANOS.some(t => t.id === u.tamano) ? u.tamano : '2-plazas', tipo: u.tipo, firmeza: u.firmeza, linea: u.linea.filter(l => Cat.LINEAS.includes(l)), min: u.min, max: u.max,
     orden: ['relevancia', 'menor', 'mayor', 'descuento', 'az'].includes(u.orden) ? u.orden : 'relevancia' };
-const carro = Shell.montar({ ruta: HY.RUTA, actual: 'lineas', migas: [['Camas y Colchones', HY.RUTA + 'guia.html'], ['Modelos']] });
+const carro = Shell.montar({ ruta: HY.RUTA, actual: 'lineas', guiaConBusqueda: true, migas: [['Camas y Colchones', HY.RUTA + 'guia.html'], ['Modelos']] });
 const f = extra => Cat.filtrar(Object.assign({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min, max: est.max }, extra || {}));
 const nombreTam = () => Cat.TAMANOS.find(t => t.id === est.tamano).label;
 let lista = [];
@@ -138,6 +138,7 @@ function dibujar() {
     lista = Cat.ordenar(f(), est.orden);
     Cat.escribirUrl({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, linea: est.linea, min: est.min || '', max: est.max || '', orden: est.orden });
     setTimeout(Cat.recordarLista, 0);
+    Cat.guardarBusqueda({ tamano: est.tamano, tipo: est.tipo, firmeza: est.firmeza, max: est.max || 0 });
     $('orden').value = est.orden; selectsPropios.forEach(x => x.sync());
     $('hyRes').textContent = (est.tipo ? Cat.tipoPorUrl(est.tipo).plural : 'Camas y colchones') + ' · ' + nombreTam();
     document.title = $('hyRes').textContent + ' | Rosen (opción 3)';
@@ -206,7 +207,7 @@ function bandeja() {
     $('bandeja').hidden = !l.length; document.body.style.paddingBottom = l.length ? '96px' : '';
     $('bandejaItems').innerHTML = l.map(i => '<span class="ux-mini"><img src="' + i.imagen + '" alt="">' + Cat.esc(i.nombreCompleto) + '<button type="button" data-quitar-c="' + i.id + '" aria-label="Quitar ' + Cat.esc(i.nombreCompleto) + ' de la comparación">×</button></span>').join('');
     $('bandejaTxt').textContent = l.length < 2 ? 'Elige al menos 2' : ''; $('bandejaVer').disabled = l.length < 2;
-    document.querySelectorAll('.ux-card').forEach(c => { const on = Cat.comparador.tiene(c.dataset.id); c.classList.toggle('en-comparador', on); const cb = c.querySelector('[data-comparar]'); if (cb) cb.checked = on; });
+    document.querySelectorAll('.ux-card').forEach(c => { const on = Cat.comparador.tiene(c.dataset.id); c.classList.toggle('en-comparador', on); c.querySelectorAll('[data-comparar]').forEach(cb => { cb.checked = on; }); });
 }
 document.addEventListener('comparador:cambio', bandeja);
 $('bandejaItems').addEventListener('click', ev => { const b = ev.target.closest('[data-quitar-c]'); if (b) Cat.comparador.quitar(b.dataset.quitarC); });

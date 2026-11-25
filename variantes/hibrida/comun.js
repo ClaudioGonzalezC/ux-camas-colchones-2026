@@ -20,6 +20,11 @@ const HY = (() => {
     // Tarjeta completa, a la manera de la del prototipo original: valoración, línea y modelo, tipo, base, tamaño, firmeza, barras,
     // precio, diferencia con el más económico y botón "Ver producto".
     // opciones: { comparar, vista, tambien, minPrecio (el precio más bajo de la lista, para mostrar la diferencia), extra }
+    // En móvil (hasta 640 px) "Comparar" y "Vista rápida" van bajo el precio, para no tapar la foto (tapaban ≈40 % en una tarjeta de 163 px);
+    // en pantallas más grandes siguen sobre la foto. El CSS muestra una u otra copia.
+    const accionesAbajo = (i, o, on) => (o.comparar || o.vista) ? '<div class="hy-acc-m">' +
+        (o.vista ? '<button type="button" class="hy-acc-vista" data-vista="' + i.id + '">Vista rápida</button>' : '') +
+        (o.comparar ? '<label class="hy-acc-comp"><input type="checkbox" data-comparar="' + i.id + '"' + (on ? ' checked' : '') + '> Comparar</label>' : '') + '</div>' : '';
     function tarjetaCompleta(i, o) {
         o = o || {};
         const on = Cat.comparador.tiene(i.id);
@@ -43,7 +48,7 @@ const HY = (() => {
             '<div class="hy-fila"><span class="hy-fila-t">Firmeza</span><span class="hy-chip">' + i.firmeza + '</span></div>' +
             '<div class="hy-barras">' + barra('Firmeza', i.firmezaN) + barra('Adaptación', i.adaptacion) + '</div>' +
             '<p class="ux-precio" data-precio="' + p.precio + '">' + Cat.fmt(p.precio) + (dto ? '<s>' + Cat.fmt(p.normal) + '</s>' : '') + '</p>' + delta +
-            '<a class="v-btn v-btn-primario hy-cta" href="' + Cat.esc(href) + '">Ver producto</a>' +
+            '<a class="v-btn v-btn-primario hy-cta" href="' + Cat.esc(href) + '">Ver producto</a>' + accionesAbajo(i, o, on) +
             (o.tambien ? tambien(i) : '') + (o.extra || '') + '</div></article>';
     }
 
@@ -70,7 +75,7 @@ const HY = (() => {
             '<div class="hy-val">' + estrellas(i.calificacion) + '<span>' + i.resenas.toLocaleString('es-CL') + ' reseñas</span></div>' +
             '<span class="ux-linea">' + i.linea + '</span>' +
             '<h3><a href="' + Cat.esc(href) + '">' + Cat.esc(i.nombreCompleto) + '</a></h3>' +
-            '<p class="ux-precio">' + (variable ? '<small>Desde</small> ' : '') + Cat.fmt(precio) + (dto ? '<s>' + Cat.fmt(normal) + '</s>' : '') + '</p>' +
+            '<p class="ux-precio">' + (variable ? '<small>Desde</small> ' : '') + Cat.fmt(precio) + (dto ? '<s>' + Cat.fmt(normal) + '</s>' : '') + '</p>' + accionesAbajo(i, o, on) +
             (o.tambien && tambien(i) ? tambien(i) : '') + (o.extra || '') + '</div></article>';
     }
     const tarjeta = (i, o) => (CARD === 'completa' ? tarjetaCompleta : tarjetaLimpia)(i, o);

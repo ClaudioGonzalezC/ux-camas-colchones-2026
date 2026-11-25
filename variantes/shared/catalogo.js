@@ -210,6 +210,24 @@ const Cat = (() => {
         const a = document.querySelector('.v-nav a[aria-current="page"]');
         if (a && /lineas\.html/.test(location.pathname)) a.setAttribute('href', location.pathname + location.search);
     }
+    // La búsqueda actual (tipo, tamaño, firmeza, presupuesto): la actualizan la Guía, Modelos y la ficha, y los enlaces a la Guía la llevan.
+    // El 25,7 % de quienes ven Líneas vuelve a la Guía en 30 minutos (GA4, 22-03 a 20-06-2026): al volver, la Guía retoma lo elegido.
+    function busquedaGuardada() { try { return JSON.parse(sessionStorage.getItem(clave('rosenVarBusqueda'))) || null; } catch (e) { return null; } }
+    function hrefGuia(ruta) {
+        const b = busquedaGuardada(); if (!b) return ruta + 'guia.html';
+        const q = new URLSearchParams();
+        if (b.tamano) q.set('tamano', b.tamano);
+        if (b.tipo) q.set('tipo', b.tipo);
+        if (b.firmeza && b.firmeza.length === 1) q.set('firmeza', b.firmeza[0]);   // la Guía admite una sola firmeza
+        if (b.max) q.set('max', b.max);                                                // un tope que la Guía no ofrece se lee como "sin tope"
+        const s = q.toString();
+        return ruta + 'guia.html' + (s ? '?' + s : '');
+    }
+    function guardarBusqueda(parcial) {
+        const b = Object.assign(busquedaGuardada() || {}, parcial);
+        try { sessionStorage.setItem(clave('rosenVarBusqueda'), JSON.stringify(b)); } catch (e) {}
+        document.querySelectorAll('a[data-guia]').forEach(a => a.setAttribute('href', hrefGuia(a.dataset.guia)));
+    }
     function listaGuardada(ruta, alternativa) {
         try { const u = sessionStorage.getItem(clave('rosenVarLista')); if (u && u.indexOf(ruta) >= 0) return u.replace(/^\//, ''); } catch (e) {}
         return alternativa || hrefLineas(ruta, { tamano: '2-plazas' });
@@ -218,5 +236,5 @@ const Cat = (() => {
     const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     return { TIPOS, TAMANOS, LINEAS, LINEA_CORTA, TEXTO_LINEA, FIRMEZAS, tipoPorKey, tipoPorUrl, fmt, slug, esc, items, porId, filtrar, minimo, maximo, ordenar,
-        hrefPdp, hrefLineas, recordarLista, listaGuardada, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
+        hrefPdp, hrefLineas, recordarLista, listaGuardada, hrefGuia, guardarBusqueda, otrosTamanos, otrosTipos, alternativas, palabraFirmeza, palabraAdapt, descripcion, comparador, carro, leerUrl, escribirUrl };
 })();
