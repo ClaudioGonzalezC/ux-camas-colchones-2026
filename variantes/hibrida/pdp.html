@@ -64,7 +64,7 @@ function iniciar() {
         const b = base && item.base[base] && item.base[base].imagen; return [b || item.imagen].concat(HY.fotos(item).slice(1));
     };
     const VIDEO_NS6 = 'https://player.vimeo.com/video/1012402342?autoplay=1&loop=1&muted=1';
-    const ICO_PLAY = '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1C1917"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>';
+    const ICO_PLAY = '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#000"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>';
     const precio = () => {
         if (item.tipoKey === 'colchon' && v.tamanos) return v.tamanos[medida];
         if (baseElegible && item.base[base]) return { precio: item.base[base].precio, precioNormal: item.base[base].precioNormal || item.base[base].precio };

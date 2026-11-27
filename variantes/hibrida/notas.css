@@ -1,14 +1,14 @@
-/* Capa "Por qué" (notas con datos) de la v2. Usa los colores del prototipo (estilos.css). */
+/* Capa "Por qué" (notas con datos) de la v2. Usa los colores del prototipo (estilos.css); grises y rojo del manual de marca. */
 .nt-datos { --nt-c: #166534; }
 .nt-parcial { --nt-c: #854D0E; }
-.nt-sinrespaldo { --nt-c: #57534E; }
-.nt-sindato { --nt-c: #57534E; }
-.nt-contra { --nt-c: #B91C1C; }
+.nt-sinrespaldo { --nt-c: #5A686A; }
+.nt-sindato { --nt-c: #5A686A; }
+.nt-contra { --nt-c: #C12637; }
 
 /* Pestaña lateral */
 .nt-tab { position: fixed; right: 0; top: 50%; z-index: 390; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl;
     padding: 16px 9px; border: 0; border-radius: 0 8px 8px 0; background: var(--pri); color: #fff; font: 600 13px/1 var(--sans); letter-spacing: .02em;
-    cursor: pointer; box-shadow: 0 6px 18px -6px rgba(28, 25, 23, .6); }
+    cursor: pointer; box-shadow: 0 6px 18px -6px rgba(0, 0, 0, .6); }
 .nt-tab:hover { background: var(--acc-osc); }
 .nt-tab:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
 
@@ -16,15 +16,15 @@
 .nt-capa { position: fixed; inset: 0; z-index: 280; pointer-events: none; }
 .nt-m { position: absolute; top: 0; left: 0; pointer-events: auto; min-width: 34px; height: 24px; padding: 0 7px; border: 2px solid #fff; border-radius: 12px;
     background: var(--nt-c); color: #fff; font: 700 11.5px/20px var(--sans); text-align: center; cursor: pointer;
-    box-shadow: 0 2px 6px rgba(28, 25, 23, .45); transition: box-shadow .15s; }
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .45); transition: box-shadow .15s; }
 .nt-m.nt-sindato { background: #fff; color: var(--pri); border: 2px dashed var(--nt-c); line-height: 20px; }
-.nt-m:hover, .nt-m.nt-activa { box-shadow: 0 0 0 3px var(--acc), 0 2px 6px rgba(28, 25, 23, .45); }
+.nt-m:hover, .nt-m.nt-activa { box-shadow: 0 0 0 3px var(--acc), 0 2px 6px rgba(0, 0, 0, .45); }
 .nt-m:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
 .nt-foco { outline: 2px dashed var(--acc) !important; outline-offset: 4px; }
 
 /* Panel */
 .nt-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 400; width: min(400px, 100vw); display: flex; flex-direction: column;
-    background: #fff; border-left: 1px solid var(--borde); box-shadow: -20px 0 50px -30px rgba(28, 25, 23, .6); font-family: var(--sans); color: var(--pri); }
+    background: #fff; border-left: 1px solid var(--borde); box-shadow: -20px 0 50px -30px rgba(0, 0, 0, .6); font-family: var(--sans); color: var(--pri); }
 .nt-panel[hidden] { display: none; }
 .nt-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid var(--borde); }
 .nt-pag { margin: 0 0 2px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--acc-osc); }
@@ -71,7 +71,7 @@
 @media (max-width: 640px) {
     .nt-tab { padding: 14px 7px; font-size: 12.5px; }
     .nt-panel { top: auto; left: 0; width: auto; height: 76vh; border-left: 0; border-top: 1px solid var(--borde); border-radius: 14px 14px 0 0;
-        box-shadow: 0 -20px 50px -24px rgba(28, 25, 23, .6); }
+        box-shadow: 0 -20px 50px -24px rgba(0, 0, 0, .6); }
     .nt-cab { padding: 14px 16px 10px; }
     .nt-cab h2 { font-size: 18px; }
     .nt-cuerpo { padding: 14px 16px 18px; }
